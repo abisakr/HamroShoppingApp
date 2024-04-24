@@ -23,9 +23,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-    <Folder Include="Models\Products\" />
-    <Folder Include="RepoPattern\Products\DTO\" />
+    <Folder Include="Helper\" />
+    <Folder Include="RepoPattern\Order\DTO\" />
+    <Folder Include="RepoPattern\Rating\DTO\" />
+    <Folder Include="RepoPattern\User\DTO\" />
+    <Folder Include="RepoPattern\Product\DTO\" />
+    <Folder Include="RepoPattern\OrderDetail\DTO\" />
+    <Folder Include="RepoPattern\Category\DTO\" />
+    <Folder Include="RepoPattern\Cart\DTO\" />
   </ItemGroup>
 
 </Project>
