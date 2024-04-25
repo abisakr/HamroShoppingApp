@@ -23,7 +23,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Helper\" />
     <Folder Include="RepoPattern\Order\DTO\" />
     <Folder Include="RepoPattern\Rating\DTO\" />
     <Folder Include="RepoPattern\User\DTO\" />
