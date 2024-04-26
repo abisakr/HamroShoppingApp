@@ -19,7 +19,7 @@ namespace HamroShoppingApp.Models.Product
         public string DeliveryStatus { get; set; }
         public int? ProductRating { get; set; }
         public int? TotalProductRated { get; set; }
-        public IFormFile Photo { get; set; }
+        public string PhotoPath { get; set; }
 
         public AppCategory Category { get; set; }
         public ICollection<AppRating> Ratings { get; set; }

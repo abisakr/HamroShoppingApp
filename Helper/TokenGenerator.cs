@@ -15,7 +15,7 @@ namespace HamroShoppingApp.Helper
             _config = config;
         }
 
-        private string GenerateToken(ApplicationUser user)
+        public string GenerateToken(ApplicationUser user)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Authentication:Key"]));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
