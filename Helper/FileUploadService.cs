@@ -1,15 +1,9 @@
-﻿namespace HamroShoppingApp.Helper
+﻿using System.Net.Http.Headers;
+
+namespace HamroShoppingApp.Helper
 {
     public class FileUploadService
     {
-
-        private readonly IWebHostEnvironment _webHostEnvironment;
-
-        public FileUploadService(IWebHostEnvironment webHostEnvironment)
-        {
-            _webHostEnvironment = webHostEnvironment;
-        }
-
         public async Task<string> UploadFile(IFormFile file)
         {
             if (file == null || file.Length == 0)
@@ -19,31 +13,35 @@
 
             try
             {
-                // Generate a unique file name
-                var fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-                var filePath = Path.Combine(_webHostEnvironment.WebRootPath, "uploads", fileName);
-
-                // Save the file to the server
-                using (var stream = new FileStream(filePath, FileMode.Create))
+                var folderName = Path.Combine("Resources", "Images");
+                var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+                var db = "";
+                if (file.Length > 0)
                 {
-                    await file.CopyToAsync(stream);
+                    var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+                    var fullPath = Path.Combine(pathToSave, fileName);
+                    var dbPath = Path.Combine(folderName, fileName);
+                    db = dbPath;
+                    using (var stream = new FileStream(fullPath, FileMode.Create))
+                    {
+                        await file.CopyToAsync(stream);
+                    }
                 }
-
-                // Return the file path
-                return Path.Combine("uploads", fileName);
+                return db;
             }
+
             catch (Exception ex)
             {
                 // Handle the exception
                 throw new Exception("Error occurred while uploading file.", ex);
             }
         }
+
         public void DeleteFile(string filePath)
         {
-            string fullPath = Path.Combine(_webHostEnvironment.WebRootPath, filePath);
-            if (File.Exists(fullPath))
+            if (File.Exists(filePath))
             {
-                File.Delete(fullPath);
+                File.Delete(filePath);
             }
         }
     }

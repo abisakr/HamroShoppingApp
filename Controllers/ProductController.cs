@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using HamroShoppingApp.RepoPattern.Product;
+using Microsoft.AspNetCore.Mvc;
 
 namespace HamroShoppingApp.Controllers
 {
@@ -6,9 +7,13 @@ namespace HamroShoppingApp.Controllers
     [ApiController]
     public class ProductController : ControllerBase
     {
-        public ProductController()
-        {
+        private readonly IProductRepository _productRepository;
 
+        public ProductController(IProductRepository productRepository)
+        {
+            _productRepository = productRepository;
         }
+
+
     }
 }

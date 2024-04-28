@@ -36,8 +36,8 @@ namespace HamroShoppingApp.Controllers
             }
         }
 
-        [HttpPut("editCategory")]
-        public async Task<IActionResult> EditCategory(int id, CategoryStoreDto categoryDto)
+        [HttpPut("editCategory/{id}")]
+        public async Task<IActionResult> EditCategory(int id, [FromForm] CategoryStoreDto categoryDto)
         {
             try
             {
@@ -56,7 +56,7 @@ namespace HamroShoppingApp.Controllers
             }
         }
 
-        [HttpDelete("deleteCategory")]
+        [HttpDelete("deleteCategory/{id}")]
         public async Task<IActionResult> DeleteCategory(int id)
         {
             try
