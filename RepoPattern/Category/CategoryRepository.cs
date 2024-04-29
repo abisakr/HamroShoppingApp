@@ -115,6 +115,7 @@ namespace HamroShoppingApp.RepoPattern.Category
                 {
                     return result.Select(category => new CategoryGetDto
                     {
+                        Id = category.Id,
                         CategoryName = category.CategoryName,
                         PhotoPath = category.PhotoPath
                     });
