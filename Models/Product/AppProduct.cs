@@ -17,7 +17,7 @@ namespace HamroShoppingApp.Models.Product
         public int StockSold { get; set; }
         public string Description { get; set; }
         public string DeliveryStatus { get; set; }
-        public int? ProductRating { get; set; }
+        public double? ProductRating { get; set; }
         public int? TotalProductRated { get; set; }
         public string PhotoPath { get; set; }
 

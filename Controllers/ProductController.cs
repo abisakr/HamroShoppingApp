@@ -119,5 +119,25 @@ namespace HamroShoppingApp.Controllers
                 return StatusCode(500, "An error occurred while processing your request.");
             }
         }
+
+        [HttpGet("getProductByCategoryId{id}")]
+        public async Task<IActionResult> GetProductByCategoryId(int id)
+        {
+            try
+            {
+                var result = await _productRepository.GetProductByCategoryId(id);
+                if (result != null)
+                {
+                    return Ok(result);
+                }
+                return NotFound();
+
+            }
+
+            catch (Exception)
+            {
+                return StatusCode(500, "An error occurred while processing your request.");
+            }
+        }
     }
 }

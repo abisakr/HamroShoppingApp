@@ -94,7 +94,7 @@ namespace HamroShoppingApp.RepoPattern.Category
                     {
                         return "Category Edited SuccessFully";
                     }
-                    return "Failed To Edited Category";
+                    return "Failed To Edit Category";
                 }
                 return "Category NotFound";
 

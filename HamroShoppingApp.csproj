@@ -24,10 +24,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="RepoPattern\Order\DTO\" />
-    <Folder Include="RepoPattern\Rating\DTO\" />
-    <Folder Include="RepoPattern\OrderDetail\DTO\" />
-    <Folder Include="RepoPattern\Cart\DTO\" />
     <Folder Include="Resources\Images\" />
   </ItemGroup>
 
