@@ -130,6 +130,7 @@ namespace HamroShoppingApp.RepoPattern.Cart
         {
             try
             {
+                //string userId = httpContext.Request.Headers["UserId"].FirstOrDefault(); // Assuming UserId is the header name
 
                 string userId = "8c23792b-3f0b-42af-97a5-ba96604bd33c";//get userId from request header
                 if (userId != null)

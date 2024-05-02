@@ -126,19 +126,24 @@ namespace HamroShoppingApp.RepoPattern.Product
             try
             {
                 var result = await _dbContext.ProductTbl.Include(p => p.Category).ToListAsync();
-                if (result != null)
+
+                if (result.Count() > 0)
                 {
-                    return result.Select(category => new ProductGetDto
+                    return result.Select(product => new ProductGetDto
                     {
-                        CategoryName = category.Category.CategoryName,
-                        ProductName = category.ProductName,
-                        Price = category.Price,
-                        Discount = category.Discount,
-                        StockQuantity = category.StockQuantity,
-                        StockSold = category.StockSold,
-                        Description = category.Description,
-                        DeliveryStatus = category.DeliveryStatus,
-                        PhotoPath = category.PhotoPath
+                        Id = product.Id,
+                        CategoryName = product.Category.CategoryName,
+                        ProductName = product.ProductName,
+                        Price = product.Price,
+                        Discount = product.Discount,
+                        StockQuantity = product.StockQuantity,
+                        StockSold = product.StockSold,
+                        Description = product.Description,
+                        TotalProductRated = product.TotalProductRated,
+                        ProductRating = product.ProductRating,
+                        DeliveryStatus = product.DeliveryStatus,
+                        PhotoPath = product.PhotoPath
+
                     });
                 }
                 return Enumerable.Empty<ProductGetDto>();
@@ -164,6 +169,7 @@ namespace HamroShoppingApp.RepoPattern.Product
                     {
                         return new ProductGetDto
                         {
+                            Id = product.Id,
                             CategoryName = product.Category.CategoryName,
                             ProductName = product.ProductName,
                             Price = product.Price,
@@ -171,6 +177,8 @@ namespace HamroShoppingApp.RepoPattern.Product
                             StockQuantity = product.StockQuantity,
                             StockSold = product.StockSold,
                             Description = product.Description,
+                            TotalProductRated = product.TotalProductRated,
+                            ProductRating = product.ProductRating,
                             DeliveryStatus = product.DeliveryStatus,
                             PhotoPath = product.PhotoPath
                         };
@@ -194,10 +202,11 @@ namespace HamroShoppingApp.RepoPattern.Product
                     var product = await _dbContext.ProductTbl.Include(a => a.Category)
                         .Where(p => p.CategoryId == id).ToListAsync();
 
-                    if (product != null)
+                    if (product.Count() > 0)
                     {
                         var result = product.Select(product => new ProductGetDto
                         {
+                            Id = product.Id,
                             CategoryName = product.Category.CategoryName,
                             ProductName = product.ProductName,
                             Price = product.Price,
@@ -205,6 +214,8 @@ namespace HamroShoppingApp.RepoPattern.Product
                             StockQuantity = product.StockQuantity,
                             StockSold = product.StockSold,
                             Description = product.Description,
+                            TotalProductRated = product.TotalProductRated,
+                            ProductRating = product.ProductRating,
                             DeliveryStatus = product.DeliveryStatus,
                             PhotoPath = product.PhotoPath
                         });
@@ -222,6 +233,5 @@ namespace HamroShoppingApp.RepoPattern.Product
             }
         }
 
-        //get products by category id or acc to individual category     
     }
 }

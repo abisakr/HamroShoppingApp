@@ -22,9 +22,11 @@ namespace HamroShoppingApp.RepoPattern.Rating
         {
             try
             {
+                string userId = "8c23792b-3f0b-42af-97a5-ba96604bd33c";
+                bool res = false;
                 var rating = new AppRating
                 {
-                    UserId = ratingStoreDto.UserId, //get user id from request header
+                    UserId = userId, //get user id from request header
                     ProductId = ratingStoreDto.ProductId,
                     UserRating = ratingStoreDto.UserRating,
                     Review = ratingStoreDto.Review
@@ -33,10 +35,13 @@ namespace HamroShoppingApp.RepoPattern.Rating
                 await _dbContext.RatingTbl.AddAsync(rating);
                 var result = await _dbContext.SaveChangesAsync();
                 if (ratingStoreDto.UserRating > 0)
-                    await _averageRatingApp.UpdateTotalRating(ratingStoreDto.ProductId);
+                {
+                    bool updateResult = await _averageRatingApp.UpdateTotalRating(ratingStoreDto.ProductId);
+                    res = updateResult;
+                }
 
 
-                if (result > 0)
+                if (result > 0 && res)
                 {
                     return "Successfully Saved";
                 }

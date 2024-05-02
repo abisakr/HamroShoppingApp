@@ -11,7 +11,7 @@ namespace HamroShoppingApp.Helper
         {
             _dbContext = dbContext;
         }
-        public async Task UpdateTotalRating(int productId)
+        public async Task<bool> UpdateTotalRating(int productId)
         {
             var reviews = await _dbContext.RatingTbl
                 .Where(a => a.ProductId == productId).Select(a => a.UserRating)
@@ -26,9 +26,18 @@ namespace HamroShoppingApp.Helper
                 {
                     product.ProductRating = averageRating * 2;
                     product.TotalProductRated = reviews.Count() + 1;
-                    await _dbContext.SaveChangesAsync();
+                    var result = await _dbContext.SaveChangesAsync();
+                    if (result > 0)
+                    {
+                        return true;
+
+                    }
+                    else
+                        return false;
                 }
             }
+            return false;
+
         }
     }
 }
