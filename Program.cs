@@ -15,7 +15,16 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
-
+builder.Services.Configure<IdentityOptions>(options =>
+{
+    // Password settings.
+    options.Password.RequireDigit = false;
+    options.Password.RequireLowercase = true;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequireUppercase = false;
+    options.Password.RequiredLength = 4;
+    options.Password.RequiredUniqueChars = 0;
+});
 // Register Services to for JWT token
 builder.Services.AddAuthentication(options =>
 {
@@ -61,6 +70,16 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
        .AddEntityFrameworkStores<ApplicationDbContext>()
        .AddDefaultTokenProviders();
+
+builder.Services.AddCors(options =>  // CORS configuration
+{
+    options.AddPolicy("AllowAll", builder =>
+    {
+        builder.AllowAnyOrigin()
+               .AllowAnyMethod()
+               .AllowAnyHeader();
+    });
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -71,6 +90,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors("AllowAll");  // Enable CORS with the specified policy
 
 //for storing the files or photos
 app.UseStaticFiles();
@@ -79,6 +99,7 @@ app.UseStaticFiles(new StaticFileOptions()
     FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"Resources")),
     RequestPath = new PathString("/Resources")
 });
+
 app.UseAuthentication();
 app.UseAuthorization();
 IConfiguration configuration = app.Configuration;
