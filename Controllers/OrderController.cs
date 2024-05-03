@@ -1,9 +1,11 @@
 ﻿using HamroShoppingApp.RepoPattern.Order;
 using HamroShoppingApp.RepoPattern.Order.DTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HamroShoppingApp.Controllers
 {
+    [Authorize(AuthenticationSchemes = "Bearer")]
     [Route("api/[controller]")]
     [ApiController]
     public class OrderController : ControllerBase
@@ -36,11 +38,13 @@ namespace HamroShoppingApp.Controllers
         }
 
         [HttpGet("getOrdersByUserId")]
-        public async Task<IActionResult> GetOrdersByUserId()
+        public async Task<IActionResult> GetOrdersByUserId(HttpContext httpContext)
         {
             try
             {
-                var result = await _orderRepository.GetOrdersByUserId();
+                string userId = "8c23792b-3f0b-42af-97a5-ba96604bd33c";
+                //string userId = httpContext.Request.Headers["UserId"].FirstOrDefault(); // Assuming UserId is the header name
+                var result = await _orderRepository.GetOrdersByUserId(userId);
                 if (result != null)
                 {
                     return Ok(result);

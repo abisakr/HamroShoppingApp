@@ -233,5 +233,41 @@ namespace HamroShoppingApp.RepoPattern.Product
             }
         }
 
+        public async Task<IEnumerable<ProductGetDto>> Search(string name)
+        {
+            try
+            {
+                var result = await _dbContext.ProductTbl.Include(p => p.Category)
+                              .Where(p => p.ProductName.StartsWith(name))
+                              .ToListAsync();
+
+                if (result.Count() > 0)
+                {
+                    return result.Select(product => new ProductGetDto
+                    {
+                        Id = product.Id,
+                        CategoryName = product.Category.CategoryName,
+                        ProductName = product.ProductName,
+                        Price = product.Price,
+                        Discount = product.Discount,
+                        StockQuantity = product.StockQuantity,
+                        StockSold = product.StockSold,
+                        Description = product.Description,
+                        TotalProductRated = product.TotalProductRated,
+                        ProductRating = product.ProductRating,
+                        DeliveryStatus = product.DeliveryStatus,
+                        PhotoPath = product.PhotoPath
+
+                    });
+                }
+                return Enumerable.Empty<ProductGetDto>();
+            }
+
+            catch (Exception ex)
+            {
+                throw new Exception("An error occurred while fetching Products.", ex);
+            }
+        }
+
     }
 }

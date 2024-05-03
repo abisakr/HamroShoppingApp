@@ -10,5 +10,7 @@ namespace HamroShoppingApp.RepoPattern.Product
         public Task<IEnumerable<ProductGetDto>> GetAllProducts();
         public Task<ProductGetDto> GetProductById(int id);
         public Task<IEnumerable<ProductGetDto>> GetProductByCategoryId(int id);
+        public Task<IEnumerable<ProductGetDto>> Search(string name);
+
     }
 }

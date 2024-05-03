@@ -1,5 +1,6 @@
 ﻿using HamroShoppingApp.RepoPattern.Product;
 using HamroShoppingApp.RepoPattern.Product.DTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HamroShoppingApp.Controllers
@@ -15,7 +16,7 @@ namespace HamroShoppingApp.Controllers
             _productRepository = productRepository;
         }
 
-
+        [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPost("createProduct")]
         public async Task<IActionResult> CreateProduct([FromForm] ProductStoreDto productStoreDto)
         {
@@ -36,6 +37,7 @@ namespace HamroShoppingApp.Controllers
             }
         }
 
+        [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPut("editProduct/{id}")]
         public async Task<IActionResult> EditProduct(int id, [FromForm] ProductStoreDto productStoreDto)
         {
@@ -56,6 +58,7 @@ namespace HamroShoppingApp.Controllers
             }
         }
 
+        [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpDelete("deleteProduct/{id}")]
         public async Task<IActionResult> DeleteProduct(int id)
         {
@@ -139,5 +142,28 @@ namespace HamroShoppingApp.Controllers
                 return StatusCode(500, "An error occurred while processing your request.");
             }
         }
+
+        [HttpGet("getAllSearchedProducts")]
+        public async Task<IActionResult> Search(string name)
+        {
+            try
+            {
+                var result = await _productRepository.Search(name);
+                if (result != null && result.Any())
+                {
+                    return Ok(result);
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+
+            catch (Exception)
+            {
+                return StatusCode(500, "An error occurred while processing your request.");
+            }
+        }
+
     }
 }

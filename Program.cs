@@ -16,36 +16,48 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+// Register Services to for JWT token
+builder.Services.AddAuthentication(options =>
 {
-    options.TokenValidationParameters = new TokenValidationParameters
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(o =>
+{
+    o.TokenValidationParameters = new TokenValidationParameters
     {
+        ValidIssuer = builder.Configuration["Jwt:Issuer"],
+        ValidAudience = builder.Configuration["Jwt:Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"])),
         ValidateIssuer = true,
         ValidateAudience = true,
-        ValidateLifetime = true,
-        ValidIssuer = builder.Configuration["Authentication:Issuer"],
-        ValidAudience = builder.Configuration["Authentication:Audience"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Authentication:SecurityKey"]))
+        ValidateLifetime = false,
+        ValidateIssuerSigningKey = true
     };
 });
+builder.Services.AddAuthorization();
+// Add configuration from appsettings.json
+builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+    .AddEnvironmentVariables();
+// Register services for dependency injection
+builder.Services.AddScoped<TokenGenerator>(); // Service for generating tokens
+builder.Services.AddScoped<FileUploadService>(); // Service for handling file uploads
+builder.Services.AddScoped<AverageRatingApp>(); // Service for calculating average ratings
+builder.Services.AddScoped<IUserAccountRepository, UserAccountRepository>(); // Repository for user account management
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>(); // Repository for category management
+builder.Services.AddScoped<IProductRepository, ProductRepository>(); // Repository for product management
+builder.Services.AddScoped<ICartRepository, CartRepository>(); // Repository for cart management
+builder.Services.AddScoped<IRatingRepository, RatingRepository>(); // Repository for rating management
+builder.Services.AddScoped<IOrderRepository, OrderRepository>(); // Repository for order management
 
-builder.Services.AddScoped<TokenGenerator>();
-builder.Services.AddScoped<FileUploadService>();
-builder.Services.AddScoped<AverageRatingApp>();
-builder.Services.AddScoped<IUserAccountRepository, UserAccountRepository>();
-builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
-builder.Services.AddScoped<IProductRepository, ProductRepository>();
-builder.Services.AddScoped<ICartRepository, CartRepository>();
-builder.Services.AddScoped<IRatingRepository, RatingRepository>();
-builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+//for database connection
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
+//for managing identity with dbcontext
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
        .AddEntityFrameworkStores<ApplicationDbContext>()
        .AddDefaultTokenProviders();
@@ -59,6 +71,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
 //for storing the files or photos
 app.UseStaticFiles();
 app.UseStaticFiles(new StaticFileOptions()
@@ -68,7 +81,9 @@ app.UseStaticFiles(new StaticFileOptions()
 });
 app.UseAuthentication();
 app.UseAuthorization();
-
+IConfiguration configuration = app.Configuration;
+IWebHostEnvironment environment = app.Environment;
 app.MapControllers();
+
 
 app.Run();

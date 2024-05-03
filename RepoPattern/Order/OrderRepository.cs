@@ -56,12 +56,11 @@ namespace HamroShoppingApp.RepoPattern.Order
 
         }
 
-        public async Task<IEnumerable<OrderGetDto>> GetOrdersByUserId()
+        public async Task<IEnumerable<OrderGetDto>> GetOrdersByUserId(string userId)
         {
             try
             {
 
-                string userId = "8c23792b-3f0b-42af-97a5-ba96604bd33c";//get userId from request header
                 if (userId != null)
                 {
                     var result = await _dbContext.OrderDetailTbl.Include(p => p.Product)

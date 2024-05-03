@@ -1,9 +1,11 @@
 ﻿using HamroShoppingApp.RepoPattern.Cart;
 using HamroShoppingApp.RepoPattern.Cart.DTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HamroShoppingApp.Controllers
 {
+    [Authorize(AuthenticationSchemes = "Bearer")]
     [Route("api/[controller]")]
     [ApiController]
     public class CartController : ControllerBase
@@ -99,11 +101,13 @@ namespace HamroShoppingApp.Controllers
         }
 
         [HttpGet("getCartsByUserId")]
-        public async Task<IActionResult> GetCartsByUserId()
+        public async Task<IActionResult> GetCartsByUserId(HttpContext httpContext)
         {
             try
             {
-                var result = await _cartRepository.GetCartsByUserId();
+                string userId = "8c23792b-3f0b-42af-97a5-ba96604bd33c";
+                //string userId = httpContext.Request.Headers["UserId"].FirstOrDefault(); // Assuming UserId is the header name
+                var result = await _cartRepository.GetCartsByUserId(userId);
                 if (result != null)
                 {
                     return Ok(result);

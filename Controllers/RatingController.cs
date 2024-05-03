@@ -1,5 +1,6 @@
 ﻿using HamroShoppingApp.RepoPattern.Rating;
 using HamroShoppingApp.RepoPattern.Rating.DTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HamroShoppingApp.Controllers
@@ -15,7 +16,7 @@ namespace HamroShoppingApp.Controllers
             _ratingRepository = ratingRepository;
         }
 
-
+        [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPost("createRating")]
         public async Task<IActionResult> CreateRating([FromBody] RatingStoreDto ratingStoreDto)
         {
@@ -36,6 +37,7 @@ namespace HamroShoppingApp.Controllers
             }
         }
 
+        [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPut("editRating/{id}")]
         public async Task<IActionResult> EditRating(int id, [FromBody] RatingStoreDto ratingStoreDto)
         {
@@ -56,6 +58,7 @@ namespace HamroShoppingApp.Controllers
             }
         }
 
+        [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpDelete("deleteRating/{id}")]
         public async Task<IActionResult> DeleteRating(int id)
         {
@@ -98,12 +101,15 @@ namespace HamroShoppingApp.Controllers
             }
         }
 
+        [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpGet("getRatingByUserIdProductId{id}")]
-        public async Task<IActionResult> GetProductByCategoryId(int id)
+        public async Task<IActionResult> GetRatingByUserIdProductId(HttpContext httpContext, int id)
         {
             try
             {
-                var result = await _ratingRepository.GetRatingByUserIdProductId(id);
+                string userId = "8c23792b-3f0b-42af-97a5-ba96604bd33c";//get userId from request header
+                //   string userId = httpContext.Request.Headers["UserId"].FirstOrDefault();
+                var result = await _ratingRepository.GetRatingByUserIdProductId(userId, id);
                 if (result != null)
                 {
                     return Ok(result);

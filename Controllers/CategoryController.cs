@@ -1,5 +1,6 @@
 ﻿using HamroShoppingApp.RepoPattern.Category;
 using HamroShoppingApp.RepoPattern.Category.DTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HamroShoppingApp.Controllers
@@ -15,7 +16,7 @@ namespace HamroShoppingApp.Controllers
             _categoryRepository = categoryRepository;
         }
 
-
+        [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPost("createCategory")]
         public async Task<IActionResult> CreateCategory([FromForm] CategoryStoreDto categoryDto)
         {
@@ -36,6 +37,7 @@ namespace HamroShoppingApp.Controllers
             }
         }
 
+        [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPut("editCategory/{id}")]
         public async Task<IActionResult> EditCategory(int id, [FromForm] CategoryStoreDto categoryDto)
         {
@@ -56,6 +58,7 @@ namespace HamroShoppingApp.Controllers
             }
         }
 
+        [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpDelete("deleteCategory/{id}")]
         public async Task<IActionResult> DeleteCategory(int id)
         {
