@@ -16,7 +16,7 @@ namespace HamroShoppingApp.Controllers
             _categoryRepository = categoryRepository;
         }
 
-        [Authorize(AuthenticationSchemes = "Bearer")]
+        //    [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPost("createCategory")]
         public async Task<IActionResult> CreateCategory([FromForm] CategoryStoreDto categoryDto)
         {
@@ -58,7 +58,7 @@ namespace HamroShoppingApp.Controllers
             }
         }
 
-        [Authorize(AuthenticationSchemes = "Bearer")]
+        //  [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpDelete("deleteCategory/{id}")]
         public async Task<IActionResult> DeleteCategory(int id)
         {

@@ -21,7 +21,8 @@ namespace HamroShoppingApp.RepoPattern.Category
         {
             try
             {
-                var filePath = await _fileUploadService.UploadFile(categoryDto.Photo);
+                string folderPath = "categories/";
+                var filePath = await _fileUploadService.UploadFile(folderPath, categoryDto.Photo);
                 var category = new AppCategory
                 {
                     CategoryName = categoryDto.CategoryName,
@@ -81,11 +82,11 @@ namespace HamroShoppingApp.RepoPattern.Category
 
             try
             {
+                string folderPath = "categories/";
                 var catetgory = await _dbContext.CategoryTbl.FindAsync(id);
                 if (catetgory != null)
                 {
-                    var filePath = await _fileUploadService.UploadFile(categoryDto.Photo);
-
+                    var filePath = await _fileUploadService.UploadFile(folderPath, categoryDto.Photo);
                     catetgory.CategoryName = categoryDto.CategoryName;
                     catetgory.PhotoPath = filePath;
                     _dbContext.CategoryTbl.Update(catetgory);

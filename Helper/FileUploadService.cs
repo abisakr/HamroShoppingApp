@@ -1,10 +1,14 @@
-﻿using System.Net.Http.Headers;
-
-namespace HamroShoppingApp.Helper
+﻿namespace HamroShoppingApp.Helper
 {
     public class FileUploadService
     {
-        public async Task<string> UploadFile(IFormFile file)
+        private readonly IWebHostEnvironment _webHostEnvironment;
+
+        public FileUploadService(IWebHostEnvironment webHostEnvironment)
+        {
+            _webHostEnvironment = webHostEnvironment;
+        }
+        public async Task<string> UploadFile(string folderPath, IFormFile file)
         {
             if (file == null || file.Length == 0)
             {
@@ -13,21 +17,17 @@ namespace HamroShoppingApp.Helper
 
             try
             {
-                var folderName = Path.Combine("Resources", "Images");
-                var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
-                var db = "";
-                if (file.Length > 0)
+                if (file != null && file.Length > 0)
                 {
-                    var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
-                    var fullPath = Path.Combine(pathToSave, fileName);
-                    var dbPath = Path.Combine(folderName, fileName);
-                    db = dbPath;
-                    using (var stream = new FileStream(fullPath, FileMode.Create))
-                    {
-                        await file.CopyToAsync(stream);
-                    }
+                    folderPath += Guid.NewGuid().ToString() + "_" + file.FileName;
+
+                    string serverFolder = Path.Combine(_webHostEnvironment.WebRootPath, folderPath);
+
+                    await file.CopyToAsync(new FileStream(serverFolder, FileMode.Create));
+
+                    return "/" + folderPath;
                 }
-                return db;
+                return null;
             }
 
             catch (Exception ex)
@@ -36,6 +36,7 @@ namespace HamroShoppingApp.Helper
                 throw new Exception("Error occurred while uploading file.", ex);
             }
         }
+
 
         public void DeleteFile(string filePath)
         {

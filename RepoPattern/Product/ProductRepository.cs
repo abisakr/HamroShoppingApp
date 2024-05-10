@@ -21,7 +21,8 @@ namespace HamroShoppingApp.RepoPattern.Product
         {
             try
             {
-                var filePath = await _fileUploadService.UploadFile(productStoreDto.Photo);
+                string folderPath = "products/";
+                var filePath = await _fileUploadService.UploadFile(folderPath, productStoreDto.Photo);
                 var product = new AppProduct
                 {
                     CategoryId = productStoreDto.CategoryId,
@@ -88,10 +89,11 @@ namespace HamroShoppingApp.RepoPattern.Product
 
             try
             {
+                string folderPath = "products/";
                 var product = await _dbContext.ProductTbl.FindAsync(id);
                 if (product != null)
                 {
-                    var filePath = await _fileUploadService.UploadFile(productStoreDto.Photo);
+                    var filePath = await _fileUploadService.UploadFile(folderPath, productStoreDto.Photo);
 
                     product.CategoryId = productStoreDto.CategoryId;
                     product.ProductName = productStoreDto.ProductName;

@@ -16,7 +16,7 @@ namespace HamroShoppingApp.Controllers
             _productRepository = productRepository;
         }
 
-        [Authorize(AuthenticationSchemes = "Bearer")]
+        //   [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPost("createProduct")]
         public async Task<IActionResult> CreateProduct([FromForm] ProductStoreDto productStoreDto)
         {
@@ -58,7 +58,7 @@ namespace HamroShoppingApp.Controllers
             }
         }
 
-        [Authorize(AuthenticationSchemes = "Bearer")]
+        //    [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpDelete("deleteProduct/{id}")]
         public async Task<IActionResult> DeleteProduct(int id)
         {
