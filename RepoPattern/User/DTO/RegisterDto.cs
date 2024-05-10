@@ -11,6 +11,10 @@ namespace HamroShoppingApp.RepoPattern.User.DTO
         [Required]
         public string Address { get; set; }
         [Required]
+        public string City { get; set; }
+        [Required]
+        public string Country { get; set; }
+        [Required]
         public string Password { get; set; }
     }
 }

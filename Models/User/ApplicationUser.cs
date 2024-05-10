@@ -9,6 +9,8 @@ namespace HamroShoppingApp.Models.User
     {
         public string FullName { get; set; }
         public string Address { get; set; }
+        public string City { get; set; }
+        public string Country { get; set; }
 
         public ICollection<AppRating> Ratings { get; set; }
         public ICollection<AppCart> Carts { get; set; }

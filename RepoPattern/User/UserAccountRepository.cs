@@ -46,7 +46,10 @@ namespace HamroShoppingApp.RepoPattern.User
                     FullName = registerDto.FullName,
                     PhoneNumber = registerDto.PhoneNo,
                     Address = registerDto.Address,
-                    UserName = registerDto.PhoneNo
+                    UserName = registerDto.PhoneNo,
+                    City = registerDto.City,
+                    Country = registerDto.Country
+
                 };
                 var result = await _userManager.CreateAsync(user, registerDto.Password);
                 if (result.Succeeded)
