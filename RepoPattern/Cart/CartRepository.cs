@@ -21,7 +21,7 @@ namespace HamroShoppingApp.RepoPattern.Cart
                 {
                     UserId = cartStoreDto.UserId, //get user id from request header
                     ProductId = cartStoreDto.ProductId,
-                    Quantity = cartStoreDto.Quantity,
+                    Quantity = 1,
                     TotalCarts = totalCarts.Count() + 1
                 };
 
@@ -73,16 +73,14 @@ namespace HamroShoppingApp.RepoPattern.Cart
             }
         }
 
-        public async Task<string> EditCart(int id, CartStoreDto cartStoreDto)
+        public async Task<string> EditCart(int id, CartEditDto cartEditDto)
         {
             try
             {
                 var cart = await _dbContext.CartTbl.FindAsync(id);
                 if (cart != null)
                 {
-                    cart.ProductId = cart.ProductId;
-                    cart.Quantity = cartStoreDto.Quantity;
-                    cart.TotalCarts = cart.TotalCarts;
+                    cart.Quantity = cartEditDto.Quantity;
                     _dbContext.CartTbl.Update(cart);
                     var result = await _dbContext.SaveChangesAsync();
                     if (result > 0)
@@ -132,7 +130,7 @@ namespace HamroShoppingApp.RepoPattern.Cart
             {
                 if (userId != null)
                 {
-                    var result = await _dbContext.CartTbl
+                    var result = await _dbContext.CartTbl.Include(a => a.Product)
                         .Where(p => p.UserId == userId).ToListAsync();
 
                     if (result != null)
@@ -142,8 +140,11 @@ namespace HamroShoppingApp.RepoPattern.Cart
                             Id = cart.Id,
                             UserId = cart.UserId,
                             ProductId = cart.ProductId,
+                            ProductPhoto = cart.Product.PhotoPath,
                             Quantity = cart.Quantity,
-                            TotalCarts = cart.TotalCarts
+                            TotalCarts = cart.TotalCarts,
+                            Price = cart.Product.Price
+TotalPrice = cart.Product.Price * cart.Quantity
                         });
                     }
                     return null;

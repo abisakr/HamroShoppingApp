@@ -1,11 +1,10 @@
 ﻿using HamroShoppingApp.RepoPattern.Cart;
 using HamroShoppingApp.RepoPattern.Cart.DTO;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HamroShoppingApp.Controllers
 {
-    [Authorize(AuthenticationSchemes = "Bearer")]
+    //  [Authorize(AuthenticationSchemes = "Bearer")]
     [Route("api/[controller]")]
     [ApiController]
     public class CartController : ControllerBase
@@ -39,11 +38,11 @@ namespace HamroShoppingApp.Controllers
         }
 
         [HttpPut("editCart/{id}")]
-        public async Task<IActionResult> EditCart(int id, [FromBody] CartStoreDto cartStoreDto)
+        public async Task<IActionResult> EditCart(int id, [FromBody] CartEditDto cartEditDto)
         {
             try
             {
-                var result = await _cartRepository.EditCart(id, cartStoreDto);
+                var result = await _cartRepository.EditCart(id, cartEditDto);
 
                 if (result == "Cart Edited SuccessFully")
                 {
@@ -101,12 +100,12 @@ namespace HamroShoppingApp.Controllers
         }
 
         [HttpGet("getCartsByUserId")]
-        public async Task<IActionResult> GetCartsByUserId(HttpContext httpContext)
+        public async Task<IActionResult> GetCartsByUserId()
         {
             try
             {
                 string userId = "8c23792b-3f0b-42af-97a5-ba96604bd33c";
-                //string userId = httpContext.Request.Headers["UserId"].FirstOrDefault(); // Assuming UserId is the header name
+                //  string userId = httpContext.Request.Headers["UserId"].FirstOrDefault(); // Assuming UserId is the header name
                 var result = await _cartRepository.GetCartsByUserId(userId);
                 if (result != null)
                 {
