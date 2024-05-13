@@ -104,8 +104,7 @@ namespace HamroShoppingApp.Controllers
         {
             try
             {
-                string userId = "8c23792b-3f0b-42af-97a5-ba96604bd33c";
-                //  string userId = httpContext.Request.Headers["UserId"].FirstOrDefault(); // Assuming UserId is the header name
+                string userId = Request.Headers["UserId"].FirstOrDefault(); // Assuming UserId is the header name
                 var result = await _cartRepository.GetCartsByUserId(userId);
                 if (result != null)
                 {

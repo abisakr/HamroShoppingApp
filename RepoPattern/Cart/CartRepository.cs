@@ -16,16 +16,27 @@ namespace HamroShoppingApp.RepoPattern.Cart
         {
             try
             {
-                var totalCarts = _dbContext.CartTbl.Where(a => a.UserId == cartStoreDto.UserId);
-                var cart = new AppCart
-                {
-                    UserId = cartStoreDto.UserId, //get user id from request header
-                    ProductId = cartStoreDto.ProductId,
-                    Quantity = 1,
-                    TotalCarts = totalCarts.Count() + 1
-                };
+                // Check if the cart already exists for the user and product
+                var existingCart = _dbContext.CartTbl.FirstOrDefault(a => a.UserId == cartStoreDto.UserId && a.ProductId == cartStoreDto.ProductId);
 
-                await _dbContext.CartTbl.AddAsync(cart);
+                if (existingCart != null)
+                {
+                    // If cart exists, increment the quantity by 1
+                    existingCart.Quantity++;
+                }
+                else
+                {
+                    // If cart doesn't exist, create a new cart entry with quantity 1
+                    var cart = new AppCart
+                    {
+                        UserId = cartStoreDto.UserId, //get user id from request header
+                        ProductId = cartStoreDto.ProductId,
+                        Quantity = 1
+                    };
+
+                    await _dbContext.CartTbl.AddAsync(cart);
+                }
+
                 var result = await _dbContext.SaveChangesAsync();
 
                 if (result > 0)
@@ -37,13 +48,12 @@ namespace HamroShoppingApp.RepoPattern.Cart
                     return "Failed to save Cart";
                 }
             }
-
             catch (Exception ex)
             {
                 throw new Exception("An error occurred while Creating Cart.", ex);
             }
-
         }
+
 
         public async Task<string> DeleteCart(int id)
         {
@@ -110,7 +120,7 @@ namespace HamroShoppingApp.RepoPattern.Cart
                     {
                         Id = cart.Id,
                         UserId = cart.UserId,
-                        ProductId = cart.ProductId,
+                        ProductName = cart.Product.ProductName,
                         Quantity = cart.Quantity,
                         TotalCarts = cart.TotalCarts
                     });
@@ -130,8 +140,8 @@ namespace HamroShoppingApp.RepoPattern.Cart
             {
                 if (userId != null)
                 {
-                    var result = await _dbContext.CartTbl.Include(a => a.Product)
-                        .Where(p => p.UserId == userId).ToListAsync();
+                    var result = await _dbContext.CartTbl.Include(cart => cart.Product)
+                        .Where(cart => cart.UserId == userId).ToListAsync();
 
                     if (result != null)
                     {
@@ -139,12 +149,12 @@ namespace HamroShoppingApp.RepoPattern.Cart
                         {
                             Id = cart.Id,
                             UserId = cart.UserId,
-                            ProductId = cart.ProductId,
+                            ProductName = cart.Product.ProductName,
                             ProductPhoto = cart.Product.PhotoPath,
                             Quantity = cart.Quantity,
                             TotalCarts = cart.TotalCarts,
-                            Price = cart.Product.Price
-TotalPrice = cart.Product.Price * cart.Quantity
+                            Price = cart.Product.Price,
+                            TotalPrice = cart.Product.Price * cart.Quantity
                         });
                     }
                     return null;
