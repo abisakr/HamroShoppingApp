@@ -25,7 +25,6 @@
 
   <ItemGroup>
     <Folder Include="ReactJs\" />
-    <Folder Include="Resources\Images\" />
     <Folder Include="wwwroot\products\" />
   </ItemGroup>
 
