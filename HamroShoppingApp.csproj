@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -24,8 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ReactJs\" />
-    <Folder Include="wwwroot\products\" />
+	  <Folder Include="wwwroot\products\" />
   </ItemGroup>
 
 </Project>

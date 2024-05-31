@@ -12,11 +12,11 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-
 var builder = WebApplication.CreateBuilder(args);
+
+// Identity options
 builder.Services.Configure<IdentityOptions>(options =>
 {
-    // Password settings.
     options.Password.RequireDigit = false;
     options.Password.RequireLowercase = true;
     options.Password.RequireNonAlphanumeric = false;
@@ -24,7 +24,8 @@ builder.Services.Configure<IdentityOptions>(options =>
     options.Password.RequiredLength = 4;
     options.Password.RequiredUniqueChars = 0;
 });
-// Register Services to for JWT token
+
+// JWT token settings
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -44,33 +45,37 @@ builder.Services.AddAuthentication(options =>
     };
 });
 builder.Services.AddAuthorization();
+
 // Add configuration from appsettings.json
 builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
     .AddEnvironmentVariables();
+
 // Register services for dependency injection
-builder.Services.AddScoped<TokenGenerator>(); // Service for generating tokens
-builder.Services.AddScoped<FileUploadService>(); // Service for handling file uploads
-builder.Services.AddScoped<AverageRatingApp>(); // Service for calculating average ratings
-builder.Services.AddScoped<IUserAccountRepository, UserAccountRepository>(); // Repository for user account management
-builder.Services.AddScoped<ICategoryRepository, CategoryRepository>(); // Repository for category management
-builder.Services.AddScoped<IProductRepository, ProductRepository>(); // Repository for product management
-builder.Services.AddScoped<ICartRepository, CartRepository>(); // Repository for cart management
-builder.Services.AddScoped<IRatingRepository, RatingRepository>(); // Repository for rating management
-builder.Services.AddScoped<IOrderRepository, OrderRepository>(); // Repository for order management
+builder.Services.AddScoped<TokenGenerator>();
+builder.Services.AddScoped<FileUploadService>();
+builder.Services.AddScoped<AverageRatingApp>();
+builder.Services.AddScoped<IUserAccountRepository, UserAccountRepository>();
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<ICartRepository, CartRepository>();
+builder.Services.AddScoped<IRatingRepository, RatingRepository>();
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-//for database connection
+
+// Database connection
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-//for managing identity with dbcontext
+
+// Identity with DbContext
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
        .AddEntityFrameworkStores<ApplicationDbContext>()
        .AddDefaultTokenProviders();
 
-builder.Services.AddCors(options =>  // CORS configuration
+// CORS configuration
+builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", builder =>
     {
@@ -79,6 +84,7 @@ builder.Services.AddCors(options =>  // CORS configuration
                .AllowAnyHeader();
     });
 });
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -89,13 +95,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseCors("AllowAll");  // Enable CORS with the specified policy
-
-//for storing the files or photos
-app.UseStaticFiles();
+app.UseStaticFiles();  // Ensure this is included
+app.UseCors("AllowAll");
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
-
-
 app.Run();
