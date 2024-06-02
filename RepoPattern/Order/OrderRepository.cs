@@ -15,11 +15,10 @@ namespace HamroShoppingApp.RepoPattern.Order
             _dbContext = dbContext;
         }
 
-        public async Task<string> PlaceOrder(OrderPlaceDto orderPlaceDto)
+        public async Task<string> PlaceOrder(OrderPlaceDto orderPlaceDto, string userId)
         {
             try
             {
-                string userId = "8c23792b-3f0b-42af-97a5-ba96604bd33c";
                 var order = new AppOrder
                 {
                     UserId = userId

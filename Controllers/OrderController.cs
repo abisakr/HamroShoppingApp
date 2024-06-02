@@ -22,7 +22,8 @@ namespace HamroShoppingApp.Controllers
         {
             try
             {
-                var result = await _orderRepository.PlaceOrder(orderPlaceDto);
+                string userId = Request.Headers["UserId"].FirstOrDefault();
+                var result = await _orderRepository.PlaceOrder(orderPlaceDto, userId);
 
                 if (result == "Successfully Saved")
                 {
