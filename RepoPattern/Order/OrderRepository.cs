@@ -15,44 +15,51 @@ namespace HamroShoppingApp.RepoPattern.Order
             _dbContext = dbContext;
         }
 
-        public async Task<string> PlaceOrder(OrderPlaceDto orderPlaceDto, string userId)
+        public async Task<string> PlaceOrder(IEnumerable<OrderPlaceDto> orderPlaceDtos, string userId)
         {
             try
             {
                 var order = new AppOrder
                 {
                     UserId = userId
+
                 };
 
                 await _dbContext.OrderTbl.AddAsync(order);
                 var result = await _dbContext.SaveChangesAsync();
 
-                var orderDetails = new AppOrderDetail
+                if (result > 0)
                 {
-                    OrderId = order.Id,
-                    ProductId = orderPlaceDto.ProductId,
-                    Quantity = orderPlaceDto.Quantity,
-                    UnitPrice = orderPlaceDto.UnitPrice,
-                    OrderStatus = "Ordered"
-                };
-                await _dbContext.OrderDetailTbl.AddAsync(orderDetails);
-                var orderResult = await _dbContext.SaveChangesAsync();
+                    foreach (var orderPlaceDto in orderPlaceDtos)
+                    {
+                        var orderDetails = new AppOrderDetail
+                        {
+                            OrderId = order.Id,
+                            ProductId = orderPlaceDto.ProductId,
+                            Quantity = orderPlaceDto.Quantity,
+                            UnitPrice = orderPlaceDto.UnitPrice,
+                            OrderStatus = "Ordered"
+                            //OrderDate = DateTime.UtcNow, 
 
-                if (orderResult > 0 && result > 0)
-                {
-                    return "Successfully Saved";
+                        };
+
+                        await _dbContext.OrderDetailTbl.AddAsync(orderDetails);
+                    }
+
+                    var orderResult = await _dbContext.SaveChangesAsync();
+
+                    if (orderResult > 0)
+                    {
+                        return "Successfully Saved";
+                    }
                 }
-                else
-                {
-                    return "Failed to save Order";
-                }
+
+                return "Failed to save Order";
             }
-
             catch (Exception ex)
             {
                 throw new Exception("An error occurred while Placing Order.", ex);
             }
-
         }
 
         public async Task<IEnumerable<OrderGetDto>> GetOrdersByUserId(string userId)

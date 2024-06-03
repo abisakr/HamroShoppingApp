@@ -22,7 +22,7 @@ namespace HamroShoppingApp.RepoPattern.Rating
         {
             try
             {
-                string userId = "8c23792b-3f0b-42af-97a5-ba96604bd33c";
+                string userId = "19f08c05-9760-402c-9ea6-775ce55afd72";
                 bool res = false;
                 var rating = new AppRating
                 {

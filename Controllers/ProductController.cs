@@ -101,7 +101,7 @@ namespace HamroShoppingApp.Controllers
             }
         }
 
-        [HttpGet("getProductById{id}")]
+        [HttpGet("getProductById/{id}")]
         public async Task<IActionResult> GetProductById(int id)
         {
             try

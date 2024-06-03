@@ -17,7 +17,7 @@ const response= await fetch("https://localhost:7223/api/UserAccount/login",{
 const token= await response.text();
 if (response.ok) {
     localStorage.setItem("token",token); // Assume the token is returned under the key 'token'
-    navigate('/successful');
+    navigate('/cart');
     alert('Login successful');
 
 } else {

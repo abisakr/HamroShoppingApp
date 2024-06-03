@@ -9,5 +9,6 @@ namespace HamroShoppingApp.RepoPattern.Cart
         public Task<string> DeleteCart(int id);
         public Task<IEnumerable<CartGetDto>> GetCartsByUserId(string userId);
         public Task<IEnumerable<CartGetDto>> GetAllCarts();
+        public Task<string> DeleteCartByUserId(string userId);
     }
 }

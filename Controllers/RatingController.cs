@@ -16,12 +16,13 @@ namespace HamroShoppingApp.Controllers
             _ratingRepository = ratingRepository;
         }
 
-        [Authorize(AuthenticationSchemes = "Bearer")]
+        //   [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPost("createRating")]
         public async Task<IActionResult> CreateRating([FromBody] RatingStoreDto ratingStoreDto)
         {
             try
             {
+                //  string userId = Request.Headers["UserId"].FirstOrDefault();
                 var result = await _ratingRepository.CreateRating(ratingStoreDto);
 
                 if (result == "Successfully Saved")

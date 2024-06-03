@@ -11,6 +11,7 @@ const Home = () => {
         const DataFetch = async () => {
             try {
                 const response = await fetch("https://localhost:7223/api/Product/getAllProducts");
+                
                 if (!response.ok) {
                     throw new Error('Failed to fetch data');
                 }
@@ -42,13 +43,16 @@ const Home = () => {
 
             const data = await wData.text();
            alert(data)
-            navigate("/successful");
+            navigate("/cart");
         } else {
             // Redirect the user to login and then to cart after login
-            navigate("/login", { state: { from: "/successful" } });
+            navigate("/login", { state: { from: "/cart" } });
         }
     };
 
+    const handleBuyProduct =async (id) => {
+        navigate(`/product/${id}`);
+    };
     return (
         <>
             <table>
@@ -61,6 +65,7 @@ const Home = () => {
                         <th>StockQuantity</th>
                         <th>Description</th>
                         <th>Photo</th>
+                        <th>Rating</th>
                         <th>Buy Item?</th>
                         <th>Cart Item?</th>
                     </tr>
@@ -75,7 +80,8 @@ const Home = () => {
                             <td>{product.stockQuantity}</td>
                             <td>{product.description}</td>
                             <td><img src={`http://localhost:7223${product.photoPath}`} alt={product.productName} /></td>
-                            <td><button onClick={() => handleAddToCart(product.id)}> Buy Now</button></td>
+                            <td>{product.productRating === null ? "No rating yet" : product.productRating}</td>
+                            <td><button onClick={() => handleBuyProduct(product.id)}> Buy Now</button></td>
                             <td><button onClick={() => handleAddToCart(product.id)}> Add To Cart</button></td>
                         </tr>
                     )}

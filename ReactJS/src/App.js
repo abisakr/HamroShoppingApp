@@ -1,12 +1,12 @@
 import React from "react";
 import Home from "./Components/Home";
-import Contact from "./Components/Contact";
 import Nav from "./Components/Nav";
 import {Route, Routes} from "react-router-dom";
 import Register from "./Components/Register";
 import Login from "./Components/Login";
-import Successful from "./Components/Successful";
+import MyCart from "./Components/MyCart";
 import RequireAuth from "./Components/RequireAuth";
+import OrderedProductDetail from "./Components/OrderedProductDetail";
 const App=()=>{
 return(
 <>
@@ -14,9 +14,9 @@ return(
 <Routes>
 <Route exact path="/" element={<Home/>}/>
 <Route exact path="/register" element={<Register/>}/>
-<Route  path="/contact" element={<Contact/>}/>
 <Route  path="/login" element={<Login/>}/>
-<Route  path="/successful" element={<RequireAuth><Successful /></RequireAuth> }/>
+<Route  path="/product/:id" element={<OrderedProductDetail/>}/>
+<Route  path="/cart" element={<RequireAuth><MyCart /></RequireAuth> }/>
 </Routes>
 </>
    );

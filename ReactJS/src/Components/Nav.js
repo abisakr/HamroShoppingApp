@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
+import GoogleSignIn from "./GoogleSignin";
+
 
 const Nav = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -19,11 +21,13 @@ const Nav = () => {
             <NavLink to="/">Home</NavLink>
             {!isLoggedIn ? (
                <>
+               <>
             <NavLink to="/register">Register</NavLink>
                 <NavLink to="/login">Login</NavLink></>
+                <GoogleSignIn /></>
             ) : (
                 <>
-                    <NavLink to="/successful">My Carts</NavLink>
+                    <NavLink to="/cart">My Carts</NavLink>
                     <NavLink to="/" onClick={handleLogout}>Logout</NavLink>
                 </>
             )}

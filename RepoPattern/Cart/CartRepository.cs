@@ -149,6 +149,7 @@ namespace HamroShoppingApp.RepoPattern.Cart
                         {
                             Id = cart.Id,
                             UserId = cart.UserId,
+                            ProductId = cart.ProductId,
                             ProductName = cart.Product.ProductName,
                             ProductPhoto = cart.Product.PhotoPath,
                             Quantity = cart.Quantity,
@@ -164,6 +165,37 @@ namespace HamroShoppingApp.RepoPattern.Cart
             catch (Exception ex)
             {
                 throw new Exception("An error occurred while fetching Products.", ex);
+            }
+        }
+        public async Task<string> DeleteCartByUserId(string userId)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(userId))
+                {
+                    return "Invalid user ID.";
+                }
+
+                var cartItems = await _dbContext.CartTbl.Include(cart => cart.Product)
+                    .Where(cart => cart.UserId == userId).ToListAsync();
+
+                if (cartItems == null || !cartItems.Any())
+                {
+                    return "No cart items found for this user.";
+                }
+
+                _dbContext.CartTbl.RemoveRange(cartItems);
+                var result = await _dbContext.SaveChangesAsync();
+
+                if (result > 0)
+                {
+                    return "Cart deleted successfully.";
+                }
+                return "Failed to delete cart.";
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("An error occurred while deleting the cart.", ex);
             }
         }
 
