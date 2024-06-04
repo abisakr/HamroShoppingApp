@@ -108,8 +108,7 @@ const OrderedProductDetail = () => {
         <tbody>
           <tr key={product.id}>
             <td>{product.productName}</td>
-            <td><img src={product.productPhoto} alt="pic" /></td>
-            <td>
+            <td><img src={`data:image/jpeg;base64,${product.photoPath}`} alt={product.productName} />
               <button onClick={() => handleQuantityChange(product.quantity - 1)}><RemoveIcon /></button>
               <span>{product.quantity}</span>
               <button onClick={() => handleQuantityChange(product.quantity + 1)}><AddIcon /></button>

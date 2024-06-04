@@ -1,5 +1,4 @@
 ﻿using HamroShoppingApp.DataContext;
-using HamroShoppingApp.Helper;
 using HamroShoppingApp.Models.Category;
 using HamroShoppingApp.RepoPattern.Category.DTO;
 using Microsoft.EntityFrameworkCore;
@@ -9,27 +8,39 @@ namespace HamroShoppingApp.RepoPattern.Category
     public class CategoryRepository : ICategoryRepository
     {
         private readonly ApplicationDbContext _dbContext;
-        private readonly FileUploadService _fileUploadService;
 
-        public CategoryRepository(ApplicationDbContext dbContext, FileUploadService fileUploadService)
+        public CategoryRepository(ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
-            _fileUploadService = fileUploadService;
         }
 
         public async Task<string> CreateCategory(CategoryStoreDto categoryDto)
         {
             try
             {
-                string folderPath = "categories/";
-                var filePath = await _fileUploadService.UploadFile(folderPath, categoryDto.Photo);
-                var category = new AppCategory
-                {
-                    CategoryName = categoryDto.CategoryName,
-                    PhotoPath = filePath
-                };
 
-                await _dbContext.CategoryTbl.AddAsync(category);
+                if (categoryDto.Photo == null || categoryDto.Photo.Length == 0)
+                {
+                    return "No image file uploaded";
+                }
+
+                using (var stream = categoryDto.Photo.OpenReadStream())
+                {
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        await stream.CopyToAsync(memoryStream);
+                        var category = new AppCategory
+                        {
+                            CategoryName = categoryDto.CategoryName,
+                            PhotoPath = memoryStream.ToArray()
+                        };
+                        await _dbContext.CategoryTbl.AddAsync(category);
+
+                    }
+                }
+
+
+
                 var result = await _dbContext.SaveChangesAsync();
 
                 if (result > 0)
@@ -41,10 +52,9 @@ namespace HamroShoppingApp.RepoPattern.Category
                     return "Failed to save category";
                 }
             }
-
             catch (Exception ex)
             {
-                throw new Exception("An error occurred while Creating categories.", ex);
+                throw new Exception("An error occurred while creating categories.", ex);
             }
         }
 
@@ -57,7 +67,6 @@ namespace HamroShoppingApp.RepoPattern.Category
                     var category = await _dbContext.CategoryTbl.FindAsync(id);
                     if (category != null)
                     {
-                        _fileUploadService.DeleteFile(category.PhotoPath);
                         _dbContext.CategoryTbl.Remove(category);
                         var result = await _dbContext.SaveChangesAsync();
                         if (result > 0)
@@ -82,14 +91,20 @@ namespace HamroShoppingApp.RepoPattern.Category
 
             try
             {
-                string folderPath = "categories/";
                 var catetgory = await _dbContext.CategoryTbl.FindAsync(id);
                 if (catetgory != null)
                 {
-                    var filePath = await _fileUploadService.UploadFile(folderPath, categoryDto.Photo);
-                    catetgory.CategoryName = categoryDto.CategoryName;
-                    catetgory.PhotoPath = filePath;
-                    _dbContext.CategoryTbl.Update(catetgory);
+                    using (var stream = categoryDto.Photo.OpenReadStream())
+                    {
+                        using (var memoryStream = new MemoryStream())
+                        {
+                            await stream.CopyToAsync(memoryStream);
+                            catetgory.CategoryName = categoryDto.CategoryName;
+                            catetgory.PhotoPath = memoryStream.ToArray();
+                            _dbContext.CategoryTbl.Update(catetgory);
+                        }
+                    }
+
                     var result = await _dbContext.SaveChangesAsync();
                     if (result > 0)
                     {
@@ -118,7 +133,7 @@ namespace HamroShoppingApp.RepoPattern.Category
                     {
                         Id = category.Id,
                         CategoryName = category.CategoryName,
-                        PhotoPath = category.PhotoPath
+                        PhotoPath = Convert.ToBase64String(category.PhotoPath)
                     });
                 }
                 return Enumerable.Empty<CategoryGetDto>();

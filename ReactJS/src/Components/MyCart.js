@@ -139,7 +139,6 @@ const MyCart = () => {
               <th>Photo</th>
               <th>Quantity</th>
               <th>Price</th>
-              <th>Actions</th>
               <th>Delete</th>
             </tr>
           </thead>
@@ -147,7 +146,9 @@ const MyCart = () => {
             {mycarts.map((cart) =>         
               <tr key={cart.id}>
                 <td>{cart.productName}</td>
-                <td><img src={cart.productPhoto} alt="pic" /></td>
+
+                <td><img src={`data:image/jpeg;base64,${cart.productPhoto}`} alt={cart.productName} /></td>
+     
                 <td>
                   <button onClick={() => handleQuantityChange(cart.id, cart.quantity - 1)}><RemoveIcon/></button>
                   <span>{cart.quantity}</span>

@@ -79,7 +79,8 @@ const Home = () => {
                             <td>{product.discount}</td>
                             <td>{product.stockQuantity}</td>
                             <td>{product.description}</td>
-                            <td><img src={`http://localhost:7223${product.photoPath}`} alt={product.productName} /></td>
+                            <td><img src={`data:image/jpeg;base64,${product.photoPath}`} alt={product.productName} /></td>
+
                             <td>{product.productRating === null ? "No rating yet" : product.productRating}</td>
                             <td><button onClick={() => handleBuyProduct(product.id)}> Buy Now</button></td>
                             <td><button onClick={() => handleAddToCart(product.id)}> Add To Cart</button></td>

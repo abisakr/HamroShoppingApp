@@ -151,7 +151,7 @@ namespace HamroShoppingApp.RepoPattern.Cart
                             UserId = cart.UserId,
                             ProductId = cart.ProductId,
                             ProductName = cart.Product.ProductName,
-                            ProductPhoto = cart.Product.PhotoPath,
+                            ProductPhoto = Convert.ToBase64String(cart.Product.PhotoPath),
                             Quantity = cart.Quantity,
                             TotalCarts = cart.TotalCarts,
                             Price = cart.Product.Price,

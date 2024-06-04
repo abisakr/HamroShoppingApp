@@ -8,7 +8,7 @@ namespace HamroShoppingApp.Models.Category
         [Key]
         public int Id { get; set; }
         public string CategoryName { get; set; }
-        public string PhotoPath { get; set; }
+        public byte[] PhotoPath { get; set; }
 
         public ICollection<AppProduct> Products { get; set; }
 

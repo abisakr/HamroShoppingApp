@@ -56,7 +56,6 @@ builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnC
 
 // Register services for dependency injection
 builder.Services.AddScoped<TokenGenerator>();
-builder.Services.AddScoped<FileUploadService>();
 builder.Services.AddScoped<AverageRatingApp>();
 builder.Services.AddScoped<IUserAccountRepository, UserAccountRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
