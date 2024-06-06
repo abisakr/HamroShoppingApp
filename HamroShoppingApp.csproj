@@ -27,7 +27,6 @@
 
   <ItemGroup>
 	  <Folder Include="ReactJS\" />
-	  <Folder Include="wwwroot\products\" />
   </ItemGroup>
 
 </Project>
