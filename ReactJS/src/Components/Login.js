@@ -7,7 +7,7 @@ const [password,setpassword]=useState('');
 const navigate = useNavigate();
 
     const  HandleData=async (newData)=>{
-        newData.preventDefault();    
+    newData.preventDefault();    
 const response= await fetch("https://localhost:7223/api/UserAccount/login",{
     method:'POST',
     headers:{'Content-Type':'application/json'},

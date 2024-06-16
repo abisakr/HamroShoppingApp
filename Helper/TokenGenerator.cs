@@ -55,7 +55,7 @@ namespace HamroShoppingApp.Helper
                 new Claim(ClaimTypes.NameIdentifier,Id),
                 new Claim(ClaimTypes.Name,FullName)
                });
-            var expires = DateTime.UtcNow.AddMinutes(100);
+            var expires = DateTime.UtcNow.AddHours(3);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = subject,

@@ -15,7 +15,6 @@ namespace HamroShoppingApp.Controllers
         {
             _categoryRepository = categoryRepository;
         }
-
         //    [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPost("createCategory")]
         public async Task<IActionResult> CreateCategory([FromForm] CategoryStoreDto categoryDto)

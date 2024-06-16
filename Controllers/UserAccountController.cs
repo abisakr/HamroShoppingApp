@@ -24,59 +24,60 @@ namespace HamroShoppingApp.Controllers
             _configuration = configuration;
             _tokenGenerator = tokenGenerator;
         }
-        [HttpPost("login-google")]
-        public async Task<IActionResult> GoogleLogin([FromBody] string tokenId)
+        public class GoogleLoginRequestDto
         {
+            public string Token { get; set; }
+        }
+
+
+        [HttpPost("google")]
+        public async Task<IActionResult> GoogleLogin([FromBody] GoogleLoginRequestDto request)
+        {
+            if (string.IsNullOrEmpty(request.Token))
+            {
+                return BadRequest("Token is required.");
+            }
+
             try
             {
-                var payload = await VerifyGoogleToken(tokenId);
-                if (payload == null)
-                {
-                    return Unauthorized("Invalid Google token.");
-                }
-
+                var payload = await GoogleJsonWebSignature.ValidateAsync(request.Token);
                 var user = await _userManager.FindByEmailAsync(payload.Email);
                 if (user == null)
                 {
                     user = new ApplicationUser
                     {
-                        UserName = payload.Email,
+                        UserName = "9867926116",
                         Email = payload.Email,
-                        FullName = payload.Name,
+                        Address = "Butwal",
+                        City = "Butwal",
+                        Country = "Nepal",
+                        FullName = "Someone",
+                        PhoneNumber = "9867926116"
                     };
                     var result = await _userManager.CreateAsync(user);
                     if (!result.Succeeded)
                     {
-                        return BadRequest("User registration failed.");
+                        return BadRequest("Failed to create user.");
                     }
                 }
 
-                var token = _tokenGenerator.GenerateToken(user.Id, user.FullName);
-                return Ok(new { Token = token });
+                // Use the GenerateToken method to create the JWT token
+                var jwtToken = _tokenGenerator.GenerateToken(user.Id, user.FullName);
+
+                return Ok(new
+                {
+                    token = jwtToken,
+                    expiration = DateTime.UtcNow.AddHours(3) // Ensure this matches the expiration in GenerateToken
+                });
             }
             catch (Exception ex)
             {
-                return StatusCode(500, "An error occurred while processing your request: " + ex.Message);
+                // Log exception
+                return BadRequest($"Error validating Google token: {ex.Message}");
             }
         }
 
-        private async Task<GoogleJsonWebSignature.Payload> VerifyGoogleToken(string tokenId)
-        {
-            try
-            {
-                var settings = new GoogleJsonWebSignature.ValidationSettings()
-                {
-                    Audience = new List<string>() { _configuration["Authentication:Google:ClientId"] }
-                };
 
-                var payload = await GoogleJsonWebSignature.ValidateAsync(tokenId, settings);
-                return payload;
-            }
-            catch
-            {
-                return null;
-            }
-        }
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginDto loginDto)
         {

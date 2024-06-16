@@ -4,6 +4,7 @@ namespace HamroShoppingApp.RepoPattern.User.DTO
 {
     public class RegisterDto
     {
+        public string? Token { get; set; }
         [Required]
         public string FullName { get; set; }
         [Required]
