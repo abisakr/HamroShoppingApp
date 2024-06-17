@@ -1,6 +1,5 @@
 ﻿using HamroShoppingApp.RepoPattern.Product;
 using HamroShoppingApp.RepoPattern.Product.DTO;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HamroShoppingApp.Controllers
@@ -37,7 +36,7 @@ namespace HamroShoppingApp.Controllers
             }
         }
 
-        [Authorize(AuthenticationSchemes = "Bearer")]
+        //  [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPut("editProduct/{id}")]
         public async Task<IActionResult> EditProduct(int id, [FromForm] ProductStoreDto productStoreDto)
         {

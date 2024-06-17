@@ -11,38 +11,64 @@ const MyCart = () => {
   const [totalPrice, setTotalPrice] = useState(0);
   const navigate = useNavigate();
 
+  const getToken = () => {
+    const tokenString = localStorage.getItem('token');
+    if (!tokenString) return null;
+    try {
+      const parsedToken = JSON.parse(tokenString);
+      return parsedToken.token;
+    } catch (error) {
+      console.error('Failed to parse token:', error);
+      return null;
+    }
+  };
+
+  const getUserIdFromToken = (token) => {
+    try {
+      const decodedToken = jwtDecode(token);
+      return decodedToken.nameid;
+    } catch (error) {
+      console.error('Failed to decode token:', error);
+      return null;
+    }
+  };
+
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (!token) {
+    const jwtToken = getToken();
+    if (!jwtToken) {
       navigate("/login");
       return;
     }
 
-    const CartData = async () => {
-      try {
-        const decodedToken = jwtDecode(token);
-        const userId = decodedToken.nameid;
+    const userId = getUserIdFromToken(jwtToken);
+    if (!userId) {
+      navigate("/login");
+      return;
+    }
 
-        const wData = await fetch("https://localhost:7223/api/Cart/getCartsByUserId", {
+    const fetchCartData = async () => {
+      try {
+        const response = await fetch(`https://localhost:7223/api/Cart/getCartsByUserId`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${jwtToken}`,
             'UserId': userId
-          },
+          }
         });
 
-        if (!wData.ok) {
+        if (!response.ok) {
           throw new Error('Failed to fetch data');
         }
 
-        const data = await wData.json();
+        const data = await response.json();
         setMycarts(data);
       } catch (error) {
         console.error('Failed to fetch data:', error);
       }
-    }
+    };
 
-    CartData();
+    fetchCartData();
   }, [navigate]);
 
   useEffect(() => {
@@ -51,16 +77,20 @@ const MyCart = () => {
   }, [mycarts]);
 
   const handleQuantityChange = async (id, newQuantity) => {
+    const jwtToken = getToken();
+    if (!jwtToken) return;
+
     try {
-      const wData = await fetch(`https://localhost:7223/api/Cart/editCart/${id}`, {
+      const response = await fetch(`https://localhost:7223/api/Cart/editCart/${id}`, {
         method: 'PUT',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${jwtToken}`
         },
         body: JSON.stringify({ quantity: newQuantity })
       });
 
-      if (!wData.ok) {
+      if (!response.ok) {
         throw new Error('Failed to update quantity');
       }
 
@@ -68,16 +98,23 @@ const MyCart = () => {
     } catch (error) {
       console.error('Failed to update quantity:', error);
     }
-  }
+  };
 
-  const DeleteCart = async (id) => {
+  const handleDeleteCart = async (id) => {
+    const jwtToken = getToken();
+    if (!jwtToken) return;
+
     try {
-      const wData = await fetch(`https://localhost:7223/api/Cart/deleteCart/${id}`, {
+      const response = await fetch(`https://localhost:7223/api/Cart/deleteCart/${id}`, {
         method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${jwtToken}`
+        }
       });
 
-      const data = await wData.text();
-      if (!wData.ok) {
+      const data = await response.text();
+      if (!response.ok) {
         alert(data);
       } else {
         alert(data);
@@ -86,48 +123,51 @@ const MyCart = () => {
     } catch (error) {
       console.error('Failed to delete data:', error);
     }
-  }
+  };
 
-  const PlaceCartsOrder = async () => {
-    const token = localStorage.getItem('token');
-    if (!token) {
+  const handlePlaceOrder = async () => {
+    const jwtToken = getToken();
+    if (!jwtToken) {
+      navigate("/login");
+      return;
+    }
+
+    const userId = getUserIdFromToken(jwtToken);
+    if (!userId) {
       navigate("/login");
       return;
     }
 
     try {
-      const decodedToken = jwtDecode(token);
-      const userId = decodedToken.nameid;
-
       const products = mycarts.map(cart => ({
         productId: cart.productId,
         quantity: cart.quantity,
         unitPrice: cart.price
       }));
 
-      const wData = await fetch(`https://localhost:7223/api/Order/createCartOrder`, {
+      const response = await fetch(`https://localhost:7223/api/Order/createCartOrder`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
+          'Authorization': `Bearer ${jwtToken}`,
           'UserId': userId
         },
         body: JSON.stringify(products)
       });
 
-      const data = await wData.text();
-      if (!wData.ok) {
+      const data = await response.text();
+      if (!response.ok) {
         alert(data);
       } else {
         alert(data);
         setMycarts([]);
         setTotalPrice(0);
-      navigate('/');
+        navigate('/');
       }
     } catch (error) {
       console.error('Failed to place order:', error);
     }
-  }
+  };
 
   return (
     <RequireAuth>
@@ -143,20 +183,18 @@ const MyCart = () => {
             </tr>
           </thead>
           <tbody>
-            {mycarts.map((cart) =>         
+            {mycarts.map((cart) =>
               <tr key={cart.id}>
                 <td>{cart.productName}</td>
-
                 <td><img src={`data:image/jpeg;base64,${cart.productPhoto}`} alt={cart.productName} /></td>
-     
                 <td>
-                  <button onClick={() => handleQuantityChange(cart.id, cart.quantity - 1)}><RemoveIcon/></button>
+                  <button onClick={() => handleQuantityChange(cart.id, cart.quantity - 1)}><RemoveIcon /></button>
                   <span>{cart.quantity}</span>
-                  <button onClick={() => handleQuantityChange(cart.id, cart.quantity + 1)}><AddIcon/></button>
+                  <button onClick={() => handleQuantityChange(cart.id, cart.quantity + 1)}><AddIcon /></button>
                 </td>
                 <td>{cart.price}</td>
                 <td>
-                  <button onClick={() => DeleteCart(cart.id)}><ClearIcon/></button>
+                  <button onClick={() => handleDeleteCart(cart.id)}><ClearIcon /></button>
                 </td>
               </tr>
             )}
@@ -164,10 +202,9 @@ const MyCart = () => {
               <td colSpan="4">Total Price :</td>
               <td>{totalPrice}</td>
             </tr>
-        <button onClick={PlaceCartsOrder}>Order</button>
+            <button onClick={handlePlaceOrder}>Order</button>
           </tbody>
         </table>
-    
         <Link to="/">Back</Link>
       </>
     </RequireAuth>

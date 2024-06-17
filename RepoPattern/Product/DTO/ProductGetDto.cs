@@ -14,5 +14,6 @@
         public double? ProductRating { get; set; }
         public int? TotalProductRated { get; set; }
         public string PhotoPath { get; set; }
+
     }
 }

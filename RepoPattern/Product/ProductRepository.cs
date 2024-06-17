@@ -152,7 +152,8 @@ namespace HamroShoppingApp.RepoPattern.Product
                         TotalProductRated = product.TotalProductRated,
                         ProductRating = product.ProductRating,
                         DeliveryStatus = product.DeliveryStatus,
-                        PhotoPath = Convert.ToBase64String(product.PhotoPath)
+                        PhotoPath = Convert.ToBase64String(product.PhotoPath),
+
 
                     });
                 }
