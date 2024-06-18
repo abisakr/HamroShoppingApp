@@ -1,6 +1,7 @@
 ﻿using HamroShoppingApp.RepoPattern.Cart;
 using HamroShoppingApp.RepoPattern.Order;
 using HamroShoppingApp.RepoPattern.Order.DTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HamroShoppingApp.Controllers
