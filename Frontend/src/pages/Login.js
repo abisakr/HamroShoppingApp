@@ -3,7 +3,6 @@ import loginIcons from '../assest/signin.gif'
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
 import { Link, useNavigate } from 'react-router-dom';
-// import SummaryApi from '../common';
 import { toast } from 'react-toastify';
 import Context from '../context';
 
@@ -36,16 +35,19 @@ const Login = () => {
             body: JSON.stringify({ PhoneNoAsUser: data.phone, password: data.password })
         })
         const dataApi = await dataResponse.json()
-
+        console.log("toks",dataApi.token)
         if(dataApi.success){
             toast.success("Welcome !!")
-            localStorage.setItem("token",dataApi);
+            alert("Welcome User !!")
+            localStorage.setItem('token', dataApi.token);
             navigate('/')
             fetchUserDetails()
             fetchUserAddToCart()
         }
 
         if(dataApi.error){
+            alert(dataApi.message)
+
             toast.error(dataApi.message)
         }
 

@@ -181,6 +181,7 @@ namespace HamroShoppingApp.RepoPattern.Product
                         return new ProductGetDto
                         {
                             Id = product.Id,
+                            CategoryId = product.CategoryId,
                             CategoryName = product.Category.CategoryName,
                             ProductName = product.ProductName,
                             Price = product.Price,

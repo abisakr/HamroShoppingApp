@@ -95,7 +95,7 @@ const MyCart = () => {
       }
 
       setMycarts(prevCarts => prevCarts.map(cart => cart.id === id ? { ...cart, quantity: newQuantity } : cart));
-    } catch (error) {
+     } catch (error) {
       console.error('Failed to update quantity:', error);
     }
   };

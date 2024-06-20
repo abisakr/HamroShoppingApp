@@ -15,6 +15,8 @@ namespace HamroShoppingApp.Controllers
             _productRepository = productRepository;
         }
 
+        //products on the basis of categories
+
         //   [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPost("createProduct")]
         public async Task<IActionResult> CreateProduct([FromForm] ProductStoreDto productStoreDto)
@@ -122,12 +124,12 @@ namespace HamroShoppingApp.Controllers
             }
         }
 
-        [HttpGet("getProductByCategoryId{id}")]
-        public async Task<IActionResult> GetProductByCategoryId(int id)
+        [HttpGet("getProductByCategoryId/{categoryId}")]
+        public async Task<IActionResult> GetProductByCategoryId(int categoryId)
         {
             try
             {
-                var result = await _productRepository.GetProductByCategoryId(id);
+                var result = await _productRepository.GetProductByCategoryId(categoryId);
                 if (result != null)
                 {
                     return Ok(result);
@@ -164,5 +166,13 @@ namespace HamroShoppingApp.Controllers
             }
         }
 
+        //[HttpGet("category/{categoryName}")]
+        //public async Task<List<Product>> GetProductsByCategoryAsync(string categoryName)
+        //{
+        //    return await _context.Products
+        //                         .Include(p => p.Category)
+        //                         .Where(p => p.Category.Name == categoryName)
+        //                         .ToListAsync();
+        //}
     }
 }
