@@ -21,26 +21,36 @@ const Header = () => {
   const URLSearch = new URLSearchParams(searchInput?.search)
   const searchQuery = URLSearch.getAll("q")
   const [search,setSearch] = useState(searchQuery)
+  const token = localStorage.getItem('token');
 
-  const handleLogout = async() => {
-    const fetchData = await fetch(SummaryApi.logout_user.url,{
-      method : SummaryApi.logout_user.method,
-      credentials : 'include'
-    })
+  // const handleLogout = async() => {
+  //   const fetchData = await fetch(SummaryApi.logout_user.url,{
+  //     method : SummaryApi.logout_user.method,
+  //     credentials : 'include'
+  //   })
 
-    const data = await fetchData.json()
+  //   const data = await fetchData.json()
 
-    if(data.success){
-      toast.success(data.message)
-      dispatch(setUserDetails(null))
-      navigate("/")
-    }
+  //   if(data.success){
+  //     toast.success(data.message)
+  //     dispatch(setUserDetails(null))
+  //     navigate("/")
+  //   }
 
-    if(data.error){
-      toast.error(data.message)
-    }
+  //   if(data.error){
+  //     toast.error(data.message)
+  //   }
 
-  }
+  // }
+  const handleLogout = async () => {
+    // Clear the token from local storage
+    localStorage.removeItem("token");
+    // Show success message
+    toast.success("You have been logged out successfully");
+    // Navigate to the home page
+    navigate("/");
+};
+
 
   const handleSearch = (e)=>{
     const { value } = e.target
@@ -75,7 +85,7 @@ const Header = () => {
                 <div className='relative flex justify-center'>
 
                   {
-                    user?._id && (
+                    token && (
                       <div className='text-3xl cursor-pointer relative flex justify-center' onClick={()=>setMenuDisplay(preve => !preve)}>
                         {
                           user?.profilePic ? (
@@ -107,7 +117,7 @@ const Header = () => {
                 </div>
 
                   {
-                     user?._id && (
+                    token && (
                       <Link to={"/cart"} className='text-2xl relative'>
                           <span><FaShoppingCart/></span>
       
@@ -122,7 +132,7 @@ const Header = () => {
 
                 <div>
                   {
-                    user?._id  ? (
+                    token  ? (
                       <button onClick={handleLogout} className='px-3 py-1 rounded-full text-white bg-red-600 hover:bg-red-700'>Logout</button>
                     )
                     : (

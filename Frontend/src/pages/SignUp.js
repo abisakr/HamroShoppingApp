@@ -58,10 +58,10 @@ const SignUp = () => {
             body:JSON.stringify({fullName: data.fullName,password:data.password,PhoneNo:data.phone,address:data.address,city:data.city,country:data.country})
         })
 
-          const dataApi = await dataResponse.json()
+          const dataApi = await dataResponse.text()
 
-          if(dataApi.success){
-            toast.success(dataApi.message)
+          if(dataResponse.ok){
+            toast.success("Registration Successful.")
             navigate("/login")
           }
 

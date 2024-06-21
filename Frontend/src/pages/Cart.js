@@ -4,13 +4,17 @@ import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import Context from '../context';
 import displayINRCurrency from '../helpers/displayCurrency';
+import { toast } from 'react-toastify'
 
 const Cart = () => {
   const [cartData, setCartData] = useState([]);
   const [loading, setLoading] = useState(false);
   const context = useContext(Context);
   const loadingCart = new Array(4).fill(null);
-  const jwtToken = "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI4OWMwOGZmMC0zYWI1LTQ5MjktOTdhOC02ZWQ3NDQ1ODI4YWIiLCJuYW1lIjoiQWJpc2thciIsIm5iZiI6MTcxODg5MTc0OSwiZXhwIjoxNzE4OTAyNTQ5LCJpYXQiOjE3MTg4OTE3NDksImlzcyI6Iklzc3VlciIsImF1ZCI6IkF1ZGllbmNlIn0.hWIsRnow1Fp9lvxt3HhkUd_t49rRDt1N8PbMC1pvOgNMHmyeoaRHmk0qLk8Gf8qa6cxGPl70K-wZlbOip5w9pA";
+
+  const token = localStorage.getItem('token');
+  const parsedToken = token ? JSON.parse(token) : null;
+  const jwtToken = parsedToken ? parsedToken.token : null;
   const navigate = useNavigate();
 
   // Decode the JWT token to get the user ID
@@ -45,7 +49,7 @@ const Cart = () => {
   // Initial fetch of cart data on component mount
   useEffect(() => {
     setLoading(true);
-    fetchCartData();
+  fetchCartData();
   }, []);
 
   // Function to increase quantity of a product in cart
@@ -109,7 +113,8 @@ const Cart = () => {
       if (!response.ok) {
         alert(responseData);
       } else {
-        alert(responseData);
+        toast.success(responseData)
+
         fetchCartData(); // Refresh cart data after successful deletion
         context.fetchUserAddToCart(); // Update user's cart in global context if necessary
       }
@@ -139,9 +144,9 @@ const Cart = () => {
 
       const responseData = await response.text();
       if (!response.ok) {
-        alert(responseData);
+        toast.error(responseData)
       } else {
-        alert(responseData);
+        toast.success("Order Placed.")
         setCartData([]); // Clear cart data after successful order placement
         navigate('/cart');
       }

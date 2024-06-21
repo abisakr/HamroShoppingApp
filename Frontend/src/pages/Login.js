@@ -34,12 +34,11 @@ const Login = () => {
             headers:{'Content-Type':'application/json'},
             body: JSON.stringify({ PhoneNoAsUser: data.phone, password: data.password })
         })
-        const dataApi = await dataResponse.json()
+        const dataApi= await dataResponse.text();
         console.log("toks",dataApi.token)
-        if(dataApi.success){
-            toast.success("Welcome !!")
-            alert("Welcome User !!")
-            localStorage.setItem('token', dataApi.token);
+        if(dataResponse.ok){
+            toast.success("Welcome!!")
+            localStorage.setItem('token', dataApi);
             navigate('/')
             fetchUserDetails()
             fetchUserAddToCart()

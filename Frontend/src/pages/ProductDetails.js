@@ -32,7 +32,6 @@ const ProductDetails = () => {
     try {
       const response = await fetch(`https://localhost:7223/api/Product/getProductById/${id}`);
       const dataResponse = await response.json();
-      console.log("API Response:", dataResponse);
 
       setLoading(false);
       if (dataResponse && dataResponse.id) {
@@ -183,7 +182,7 @@ const ProductDetails = () => {
       </div>
 
       <div>
-        <CategroyWiseProductDisplay title={"Other similar products"} categoryId={1} />
+        <CategroyWiseProductDisplay title={"Other similar products"} categoryId={data?.categoryId} />
       </div>
     </div>
   );

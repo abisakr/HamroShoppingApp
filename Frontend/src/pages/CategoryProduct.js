@@ -10,7 +10,8 @@ const CategoryProduct = () => {
     const [loading,setLoading] = useState(false)
     const location = useLocation()
     const urlSearch = new URLSearchParams(location.search)
-    const urlCategoryListinArray = urlSearch.getAll("category")
+     const urlCategoryListinArray = urlSearch.getAll("category")
+    const categoryId = urlSearch.get("category")
 
     const urlCategoryListObject = {}
     urlCategoryListinArray.forEach(el =>{
@@ -22,20 +23,44 @@ const CategoryProduct = () => {
 
     const [sortBy,setSortBy] = useState("")
 
-    const fetchData = async()=>{
-      const response = await fetch(SummaryApi.filterProduct.url,{
-        method : SummaryApi.filterProduct.method,
-        headers : {
-          "content-type" : "application/json"
-        },
-        body : JSON.stringify({
-          category : filterCategoryList
-        })
-      })
+    // const fetchData = async()=>{
+    //   const response = await fetch(SummaryApi.filterProduct.url,{
+    //     method : SummaryApi.filterProduct.method,
+    //     headers : {
+    //       "content-type" : "application/json"
+    //     },
+    //     body : JSON.stringify({
+    //       category : filterCategoryList
+    //     })
+    //   })
 
-      const dataResponse = await response.json()
-      setData(dataResponse?.data || [])
-    }
+    //   const dataResponse = await response.json()
+    //   setData(dataResponse?.data || [])
+    // }
+    const fetchData = async(categoryId) =>{
+        setLoading(true)
+        try {
+        const response = await fetch(`https://localhost:7223/api/Product/getProductByCategoryId/${categoryId}`);
+        if (!response.ok) {
+            throw new Error('Failed to fetch  data');
+          }
+        const categoryProduct = await response.json();
+        setData(categoryProduct)
+          }
+       
+       catch (error) {
+       console.error("Error fetching data:", error)
+  } 
+  finally {
+    setLoading(false)
+  }
+}
+
+useEffect(() => {
+  if (categoryId) {
+      fetchData(categoryId)
+  }
+}, [categoryId])
 
     const handleSelectCategory = (e) =>{
       const {name , value, checked} =  e.target
