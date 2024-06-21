@@ -1,12 +1,12 @@
-const displayINRCurrency = (num) => {
-    const formatter = new Intl.NumberFormat('en-IN',{
-        style : "currency",
-        currency : 'INR',
-        minimumFractionDigits : 2
-    })
+const displayNPRCurrency = (num) => {
+    const formatter = new Intl.NumberFormat('en-NP', {
+        style: 'currency',
+        currency: 'NPR',
+        currencyDisplay: 'symbol',
+        minimumFractionDigits: 2
+    });
 
-    return formatter.format(num)
-
+    return formatter.format(num).replace(/NPR/g, 'Rs.'); // Replace NPR with Rs. for English representation
 }
 
-export default displayINRCurrency
+export default displayNPRCurrency;
