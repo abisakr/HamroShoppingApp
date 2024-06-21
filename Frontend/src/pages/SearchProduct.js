@@ -25,6 +25,7 @@ const SearchProduct = () => {
                 // Ensure dataResponse.data is initialized as an array
                 const responseData = Array.isArray(dataResponse) ? dataResponse : (dataResponse.data || []);
                 setData(responseData);
+                
             } else {
                 console.error("API request failed:", dataResponse);
             }

@@ -1,28 +1,33 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { MdDelete } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
-import { jwtDecode } from "jwt-decode";
+import {jwtDecode} from "jwt-decode";
 import Context from '../context';
 import displayINRCurrency from '../helpers/displayCurrency';
-import { toast } from 'react-toastify'
+import { toast } from 'react-toastify';
 
 const Cart = () => {
   const [cartData, setCartData] = useState([]);
   const [loading, setLoading] = useState(false);
   const context = useContext(Context);
   const loadingCart = new Array(4).fill(null);
+  const navigate = useNavigate();
 
   const token = localStorage.getItem('token');
   const parsedToken = token ? JSON.parse(token) : null;
   const jwtToken = parsedToken ? parsedToken.token : null;
-  const navigate = useNavigate();
 
   // Decode the JWT token to get the user ID
-  const decodedToken = jwtDecode(jwtToken);
-  const userId = decodedToken.nameid;
+  const decodedToken = jwtToken ? jwtDecode(jwtToken) : null;
+  const userId = decodedToken ? decodedToken.nameid : null;
 
   // Function to fetch cart data
   const fetchCartData = async () => {
+    if (!jwtToken || !userId) {
+      console.error('Missing JWT token or user ID');
+      return;
+    }
+
     try {
       const response = await fetch(`https://localhost:7223/api/Cart/getCartsByUserId`, {
         method: 'GET',
@@ -38,6 +43,7 @@ const Cart = () => {
       }
 
       const responseData = await response.json();
+      console.log('API response:', responseData); // Log the entire response
       setCartData(responseData);
     } catch (error) {
       console.error('Failed to fetch cart data:', error);
@@ -49,7 +55,7 @@ const Cart = () => {
   // Initial fetch of cart data on component mount
   useEffect(() => {
     setLoading(true);
-  fetchCartData();
+    fetchCartData();
   }, []);
 
   // Function to increase quantity of a product in cart
@@ -90,8 +96,10 @@ const Cart = () => {
         const responseData = await response.json();
         if (!responseData.ok) {
           throw new Error('Failed to update quantity');
+        }else{
+          fetchCartData(); // Refresh cart data after successful update
+
         }
-        fetchCartData(); // Refresh cart data after successful update
       } catch (error) {
         console.error('Failed to update quantity:', error);
       }
@@ -113,8 +121,7 @@ const Cart = () => {
       if (!response.ok) {
         alert(responseData);
       } else {
-        toast.success(responseData)
-
+        toast.success(responseData);
         fetchCartData(); // Refresh cart data after successful deletion
         context.fetchUserAddToCart(); // Update user's cart in global context if necessary
       }
@@ -144,9 +151,9 @@ const Cart = () => {
 
       const responseData = await response.text();
       if (!response.ok) {
-        toast.error(responseData)
+        toast.error(responseData);
       } else {
-        toast.success("Order Placed.")
+        toast.success("Order Placed.");
         setCartData([]); // Clear cart data after successful order placement
         navigate('/cart');
       }
