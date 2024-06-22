@@ -1,9 +1,8 @@
 import React, { useState } from 'react'
 import { MdModeEditOutline } from "react-icons/md";
-import AdminEditProduct from './AdminEditProduct';
-import displayINRCurrency from '../helpers/displayCurrency';
+import AdminEditCategory from './AdminEditCategory';
 
-const AdminProductCard = ({
+const AdminCategoryCard = ({
     data,
     fetchdata
 }) => {
@@ -15,21 +14,12 @@ const AdminProductCard = ({
             <div className='w-32 h-32 flex justify-center items-center'>
               <img src={`data:image/jpeg;base64,${data.photoPath}`} className='mx-auto object-fill h-full'/>   
             </div> 
-            <h1 className='text-ellipsis line-clamp-2'>{data.productName}</h1>
+            <h1 className='text-ellipsis line-clamp-2 capitalize'>{data.categoryName}</h1>
 
             <div>
-
-                <p className='font-semibold'>
-                  {
-                    displayINRCurrency(data.price)
-                  }
-        
-                </p>
-
                 <div className='w-fit ml-auto p-2 bg-green-100 hover:bg-green-600 rounded-full hover:text-white cursor-pointer' onClick={()=>setEditProduct(true)}>
                     <MdModeEditOutline/>
                 </div>
-
             </div>
 
           
@@ -37,7 +27,7 @@ const AdminProductCard = ({
         
         {
           editProduct && (
-            <AdminEditProduct productData={data} onClose={()=>setEditProduct(false)} fetchdata={fetchdata}/>
+            <AdminEditCategory productData={data} onClose={()=>setEditProduct(false)} fetchdata={fetchdata}/>
           )
         }
     
@@ -45,4 +35,4 @@ const AdminProductCard = ({
   )
 }
 
-export default AdminProductCard
+export default AdminCategoryCard

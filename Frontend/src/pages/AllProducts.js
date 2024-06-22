@@ -1,20 +1,22 @@
 import React, { useEffect, useState } from 'react'
 import UploadProduct from '../components/UploadProduct'
-import SummaryApi from '../common'
 import AdminProductCard from '../components/AdminProductCard'
 
 const AllProducts = () => {
   const [openUploadProduct,setOpenUploadProduct] = useState(false)
   const [allProduct,setAllProduct] = useState([])
 
-  const fetchAllProduct = async() =>{
-    const response = await fetch(SummaryApi.allProduct.url)
-    const dataResponse = await response.json()
+  
+  const fetchAllProduct = async () => {
+    try {
+      const response = await fetch("https://localhost:7223/api/Product/getAllProducts");
+      const dataResponse = await response.json();
+      setAllProduct(dataResponse);
+    } catch (error) {
+      console.error('Error fetching data:', error.message);
+    } 
+  };
 
-    console.log("product data",dataResponse)
-
-    setAllProduct(dataResponse?.data || [])
-  }
 
   useEffect(()=>{
     fetchAllProduct()
@@ -22,8 +24,10 @@ const AllProducts = () => {
   
   return (
     <div>
+    
         <div className='bg-white py-2 px-4 flex justify-between items-center'>
             <h2 className='font-bold text-lg'>All Product</h2>
+            
             <button  className='border-2 border-red-600 text-red-600 hover:bg-red-600 hover:text-white transition-all py-1 px-3 rounded-full ' onClick={()=>setOpenUploadProduct(true)}>Upload Product</button>
         </div>
 
