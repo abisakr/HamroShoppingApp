@@ -437,7 +437,8 @@ const Cart = () => {
         fetchCartData(); // Refresh cart data after successful deletion
         context.fetchUserAddToCart(); // Update user's cart in global context if necessary
       }
-    } catch (error) {
+    } 
+    catch (error) {
       console.error('Failed to delete product from cart:', error);
     }
   };
