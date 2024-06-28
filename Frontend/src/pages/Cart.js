@@ -443,7 +443,7 @@ const Cart = () => {
   };
 
   // Function to handle placing an order and redirect to eSewa
-  const handlePlaceOrder = async () => {
+    const handlePlaceOrder = async () => {
     try {
       const products = cartData.map(cart => ({
         productId: cart.productId,
