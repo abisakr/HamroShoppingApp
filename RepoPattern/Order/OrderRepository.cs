@@ -94,5 +94,37 @@ namespace HamroShoppingApp.RepoPattern.Order
                 throw new Exception("An error occurred while fetching Orders.", ex);
             }
         }
+
+        public async Task<IEnumerable<OrderGetDto>> GetAllOrder()
+{
+    try
+    {
+        var result = await _dbContext.OrderDetailTbl
+            .Include(od => od.Order)
+                .ThenInclude(o => o.User)
+            .Include(od => od.Product)
+                .ThenInclude(p => p.Category) // Assuming Category is a navigation property of Product
+            .ToListAsync();
+
+        if (result != null)
+        {
+            return result.Select(orderDetail => new OrderGetDto
+            {
+                Id = orderDetail.Id,
+                ProductName = orderDetail.Product.ProductName, // Assuming Name is a property of Product
+               FullName  = orderDetail.Order.User.FullName, // Assuming Name is a property of User
+                CategoryName = orderDetail.Product.Category.CategoryName // Assuming Name is a property of Category
+            });
+        }
+
+        return Enumerable.Empty<OrderGetDto>(); // Return an empty enumerable if result is null or empty
+    }
+    catch (Exception ex)
+    {
+        // Log the exception if necessary
+        throw;
+    }
+}
+
     }
 }

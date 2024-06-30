@@ -12,6 +12,7 @@ import ProductDetails from '../pages/ProductDetails'
 import Cart from '../pages/Cart'
 import SearchProduct from '../pages/SearchProduct'
 import AllCategories from '../pages/AllCategories'
+import Orders from '../pages/Orders'
 const router = createBrowserRouter([
     {
         path : "/",
@@ -63,7 +64,11 @@ const router = createBrowserRouter([
                     }, {
                         path : "all-categories",
                         element : <AllCategories/>
-                    }
+                    } ,
+                    {
+                        path : "orders",
+                        element : <Orders/>
+                    },
                 ]
             },
         ]

@@ -92,5 +92,27 @@ namespace HamroShoppingApp.Controllers
             }
         }
 
+        [HttpGet("getAllOrder")]
+        public async Task<IActionResult> GetAllOrder ()
+        {
+            try
+            {
+                var result = await _orderRepository.GetAllOrder();
+                if (result != null && result.Any())
+                {
+                    return Ok(result);
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+
+            catch (Exception)
+            {
+                return StatusCode(500, "An error occurred while processing your request.");
+            }
+        }
+
     }
 }
