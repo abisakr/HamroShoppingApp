@@ -94,10 +94,10 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useEffect, useState } from 'react';
 import Context from './context';
+import { SignalRProvider } from './context/SignalRContext'; 
 import { useDispatch } from 'react-redux';
 import { setUserDetails } from './store/userSlice';
 import {jwtDecode} from 'jwt-decode'; // Correct the import here
-
 function App() {
   const dispatch = useDispatch();
   const [cartProductCount, setCartProductCount] = useState(0);
@@ -166,6 +166,7 @@ function App() {
 
   return (
     <>
+ <SignalRProvider>
       <Context.Provider value={{
         fetchUserDetails,
         cartProductCount,
@@ -174,10 +175,14 @@ function App() {
         <ToastContainer position='top-center' />
         <Header />
         <main className='min-h-[calc(100vh-120px)] pt-16'>
+        
           <Outlet />
+
         </main>
+        
         <Footer />
       </Context.Provider>
+      </SignalRProvider>
     </>
   );
 }

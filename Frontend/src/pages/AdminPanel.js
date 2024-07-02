@@ -3,9 +3,17 @@ import { useSelector } from 'react-redux'
 import { FaRegCircleUser } from "react-icons/fa6";
 import { Link, Outlet, useNavigate } from 'react-router-dom';
 import ROLE from '../common/role';
+import { useSignalR } from '../context/SignalRContext';
+import { toast } from 'react-toastify';
 
 const AdminPanel = () => {
     const user = useSelector(state => state?.user?.user)
+    const { notifications } = useSignalR();
+    
+    {notifications.map((notification, index) => (
+        toast.success(notification.message)
+        // <li key={index}>{`${notification.user}: ${notification.message}`}</li>
+    ))}
    // const navigate = useNavigate()
 
 

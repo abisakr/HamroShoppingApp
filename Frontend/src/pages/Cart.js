@@ -8,6 +8,7 @@ import displayINRCurrency from '../helpers/displayCurrency';
 import { toast } from 'react-toastify';
 import CryptoJS from 'crypto-js';
 import { v4 as uuidv4 } from 'uuid';
+import { useSignalR } from '../context/SignalRContext';
 
 const Cart = () => {
   const [cartData, setCartData] = useState([]);
@@ -15,6 +16,7 @@ const Cart = () => {
   const context = useContext(Context);
   const loadingCart = new Array(4).fill(null);
   const navigate = useNavigate();
+  const { sendNotification, notifications } = useSignalR();
 
   const token = localStorage.getItem('token');
   const parsedToken = token ? JSON.parse(token) : null;
@@ -166,6 +168,7 @@ const Cart = () => {
       if (!response.ok) {
         toast.error(responseData);
       } else {
+        sendNotification("Costumer", " Order Alert !! ");
         setCartData([]); // Clear cart data after successful order placement
         navigate('/cart');
 
