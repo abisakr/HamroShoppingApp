@@ -111,9 +111,15 @@ namespace HamroShoppingApp.RepoPattern.Order
             return result.Select(orderDetail => new OrderGetDto
             {
                 Id = orderDetail.Id,
-                ProductName = orderDetail.Product.ProductName, // Assuming Name is a property of Product
+              photoPath=Convert.ToBase64String(orderDetail.Product.PhotoPath) ,
+             ProductName = orderDetail.Product.ProductName, // Assuming Name is a property of Product
                FullName  = orderDetail.Order.User.FullName, // Assuming Name is a property of User
-                CategoryName = orderDetail.Product.Category.CategoryName // Assuming Name is a property of Category
+                CategoryName = orderDetail.Product.Category.CategoryName, // Assuming Name is a property of Category
+                Address=orderDetail.Order.User.Address,
+                PhoneNumber=orderDetail.Order.User.PhoneNumber,
+                Quantity = orderDetail.Quantity,
+                TotalPrice = orderDetail.TotalPrice,
+
             });
         }
 

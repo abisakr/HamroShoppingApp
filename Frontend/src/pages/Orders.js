@@ -1,14 +1,28 @@
 import React, { useEffect, useState } from 'react'
 import AdminOrderCard from '../components/AdminOrderCard'
 import UploadCategory from '../components/UploadCategory' 
+import {jwtDecode} from "jwt-decode";
 
 const Orders = () => {
   const [openUploadCategory,setOpenUploadCategory] = useState(false)
   const [allProduct,setAllProduct] = useState([])
+  const token = localStorage.getItem('token');
+  const parsedToken = token ? JSON.parse(token) : null;
+  const jwtToken = parsedToken ? parsedToken.token : null;
 
+  // Decode the JWT token to get the user ID
+  const decodedToken = jwtToken ? jwtDecode(jwtToken) : null;
+  const userId = decodedToken ? decodedToken.nameid : null;
   const fetchAllCategories = async () => {
     try {
-        const response = await fetch("https://localhost:7223/api/Category/getAllCategory");
+        const response = await fetch("https://localhost:7223/api/Order/getAllOrder", {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${jwtToken}`,
+            'UserId': userId
+          }
+        });
       const dataResponse = await response.json();
       setAllProduct(dataResponse);
     } catch (error) {

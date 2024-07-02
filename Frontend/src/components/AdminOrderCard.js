@@ -16,11 +16,12 @@ const AdminOrderCard = ({
             </div> 
             <h1 className='text-ellipsis line-clamp-2 capitalize'>Category: {data.categoryName}</h1>
             <h1 className='text-ellipsis line-clamp-2 capitalize'>Product: {data.productName||"product"}</h1>
-            <h1 className='text-ellipsis line-clamp-2 capitalize'>Costumer Name: Abiskar</h1>
-            <h1 className='text-ellipsis line-clamp-2 capitalize'>Delivery Address: Butwal</h1>
-            <h1 className='text-ellipsis line-clamp-2 capitalize'>Phone Number: 9867926116</h1>
-            <h1 className='text-ellipsis line-clamp-2 capitalize'>Quantity: 1</h1>
-
+            <h1 className='text-ellipsis line-clamp-2 capitalize'>Costumer Name: {data.fullName}</h1>
+            <h1 className='text-ellipsis line-clamp-2 capitalize'>Delivery Address: {data.address}</h1>
+            <h1 className='text-ellipsis line-clamp-2 capitalize'>Phone Number: {data.phoneNumber}</h1>
+            <h1 className='text-ellipsis line-clamp-2 capitalize'>Quantity: {data.quantity}</h1>
+            <h1 className='text-ellipsis line-clamp-2 capitalize'>TotalPrice: {data.totalPrice}</h1>
+            
             <div>
                 <div className='w-fit ml-auto p-2 bg-green-100 hover:bg-green-600 rounded-full hover:text-white cursor-pointer' onClick={()=>setEditProduct(true)}>
                     <MdModeEditOutline/>
