@@ -48,7 +48,7 @@ namespace HamroShoppingApp.Controllers
                     {
                         UserName = "9867926116",
                         Email = payload.Email,
-                        Address = "Devinagar",
+                        Address = "Butwal",
                         City = "Butwal",
                         Country = "Nepal",
                         FullName = "Someone",
