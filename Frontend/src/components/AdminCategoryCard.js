@@ -27,7 +27,7 @@ const AdminCategoryCard = ({
         
         {
           editProduct && (
-            <AdminEditCategory productData={data} onClose={()=>setEditProduct(false)} fetchdata={fetchdata}/>
+            <AdminEditCategory productData={data} onClose={() =>setEditProduct(false)} fetchdata={fetchdata}/>
           )
         }
     
