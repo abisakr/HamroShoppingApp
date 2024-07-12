@@ -52,7 +52,7 @@ namespace HamroShoppingApp.Controllers
 
             catch (Exception)
             {
-                return StatusCode(500, "An error occurred while processing your request.");
+                return StatusCode(500, "An Error occurred while processing your request.");
             }
         }
 
