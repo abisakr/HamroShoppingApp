@@ -20,7 +20,7 @@ const HorizontalCardProduct = ({ category, heading }) => {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const response = await fetch(`https://localhost:7223/api/Product/getProductsByCategoryId/${category}`);
+      const response = await fetch("https://localhost:7223/api/Product/getAllPopularProducts");
       const result = await response.json();
       setData(result);
     } catch (error) {

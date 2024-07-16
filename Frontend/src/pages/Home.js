@@ -118,7 +118,7 @@ const Home = () => {
       <BannerProduct />
 
       {horizontalCardCategories.map(category => (
-        <HorizontalCardProduct key={category.id} category={category.id} heading={`Top's ${category.categoryName}`} />
+        <HorizontalCardProduct key={category.id} category={category.id} heading={"Top Products"} />
       ))}
 
       {remainingCategories.map(category => (

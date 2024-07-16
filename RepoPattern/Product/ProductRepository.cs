@@ -281,5 +281,37 @@ namespace HamroShoppingApp.RepoPattern.Product
             }
         }
 
+        public async Task<IEnumerable<ProductGetDto>> GetAllPopularProducts()
+        {
+           try
+           {          
+            var product= await _dbContext.ProductTbl.Include(a=>a.Category).Where(a=>a.StockSold>=4).ToListAsync();
+            if (product.Count() > 0)
+                    {
+                        var result = product.Select(product => new ProductGetDto
+                        {
+                            Id = product.Id,
+                            CategoryName = product.Category.CategoryName,
+                            ProductName = product.ProductName,
+                            Price = product.Price,
+                            Discount = product.Discount,
+                            StockQuantity = product.StockQuantity,
+                            StockSold = product.StockSold,
+                            Description = product.Description,
+                            TotalProductRated = product.TotalProductRated,
+                            ProductRating = product.ProductRating,
+                            DeliveryStatus = product.DeliveryStatus,
+                            PhotoPath = Convert.ToBase64String(product.PhotoPath)
+                        });
+                        return result;
+                    }
+                    return null;
+           }
+           catch (Exception ex)
+           {
+            
+            throw new Exception("An error occurred while fetching Products.", ex);
+           }
+        }
     }
 }
