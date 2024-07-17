@@ -69,11 +69,11 @@ const HorizontalCardProduct = ({ category, heading }) => {
               <div className='bg-slate-200 h-full p-4 min-w-[120px] md:min-w-[145px]'>
                 <img src={`data:image/jpeg;base64,${product?.photoPath}`} alt="img" className='object-scale-down h-full hover:scale-110 transition-all' />
               </div>
-              <div className='p-4 grid'>
+              <div className='p-2 grid'>
                 <h2 className='font-medium text-base md:text-lg text-ellipsis line-clamp-1 text-black'>{product?.productName}</h2>
                 <p className='capitalize text-slate-500'>{product?.categoryName}</p>
-                <div className='flex gap-3'>
-                  <p className='text-red-600 font-medium'>{ displayINRCurrency(product?.price )- (product?.price * (product?.discount / 100)) }</p>
+                <div>
+                  <p className='text-red-600 font-medium'>{ displayINRCurrency(product?.price-100) }</p>
                   <p className='text-slate-500 line-through'>{ displayINRCurrency(product?.price) }</p>
                 </div>
                 <button className='text-sm bg-red-600 hover:bg-red-700 text-white px-3 py-0.5 rounded-full' onClick={(e) => handleAddToCart(e, product?.id)}>Add to Cart</button>
