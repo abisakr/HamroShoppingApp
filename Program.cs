@@ -1,5 +1,6 @@
 using HamroShoppingApp.DataContext;
 using HamroShoppingApp.Helper;
+using HamroShoppingApp.Middleware;
 using HamroShoppingApp.Models.User;
 using HamroShoppingApp.RepoPattern.Cart;
 using HamroShoppingApp.RepoPattern.Category;
@@ -104,7 +105,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting(); // Ensure UseRouting is called before UseAuthentication, UseAuthorization, and UseEndpoints

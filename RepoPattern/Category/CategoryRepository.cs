@@ -16,133 +16,63 @@ namespace HamroShoppingApp.RepoPattern.Category
 
         public async Task<string> CreateCategory(CategoryStoreDto categoryDto)
         {
-            try
+            if (categoryDto.Photo == null || categoryDto.Photo.Length == 0)
             {
-
-                if (categoryDto.Photo == null || categoryDto.Photo.Length == 0)
-                {
-                    return "No image file uploaded";
-                }
-
-                using (var stream = categoryDto.Photo.OpenReadStream())
-                {
-                    using (var memoryStream = new MemoryStream())
-                    {
-                        await stream.CopyToAsync(memoryStream);
-                        var category = new AppCategory
-                        {
-                            CategoryName = categoryDto.CategoryName,
-                            PhotoPath = memoryStream.ToArray()
-                        };
-                        await _dbContext.CategoryTbl.AddAsync(category);
-
-                    }
-                }
-
-
-
-                var result = await _dbContext.SaveChangesAsync();
-
-                if (result > 0)
-                {
-                    return "Successfully Saved";
-                }
-                else
-                {
-                    return "Failed to save category";
-                }
+                return "No image file uploaded";
             }
-            catch (Exception ex)
+
+            using (var stream = categoryDto.Photo.OpenReadStream())
+            using (var memoryStream = new MemoryStream())
             {
-                throw new Exception("An error occurred while creating categories.", ex);
+                await stream.CopyToAsync(memoryStream);
+                var category = new AppCategory
+                {
+                    CategoryName = categoryDto.CategoryName,
+                    PhotoPath = memoryStream.ToArray()
+                };
+                await _dbContext.CategoryTbl.AddAsync(category);
             }
+
+            return await _dbContext.SaveChangesAsync() > 0 ? "Successfully Saved" : "Failed to save category";
         }
 
         public async Task<string> DeleteCategory(int id)
         {
-            try
-            {
-                if (id > 0)
-                {
-                    var category = await _dbContext.CategoryTbl.FindAsync(id);
-                    if (category != null)
-                    {
-                        _dbContext.CategoryTbl.Remove(category);
-                        var result = await _dbContext.SaveChangesAsync();
-                        if (result > 0)
-                        {
-                            return "Category Deleted SuccessFully";
-                        }
-                        return "Failed To Delete Category";
-                    }
-                    return "Category NotFound";
-                }
-                return "Invalid Id";
-            }
+            if (id <= 0) return "Invalid Id";
 
-            catch (Exception ex)
-            {
-                throw new Exception("An error occurred while Deleting categories.", ex);
-            }
+            var category = await _dbContext.CategoryTbl.FindAsync(id);
+            if (category == null) return "Category Not Found";
+
+            _dbContext.CategoryTbl.Remove(category);
+            return await _dbContext.SaveChangesAsync() > 0 ? "Category Deleted Successfully" : "Failed To Delete Category";
         }
 
         public async Task<string> EditCategory(int id, CategoryStoreDto categoryDto)
         {
+            var category = await _dbContext.CategoryTbl.FindAsync(id);
+            if (category == null) return "Category Not Found";
 
-            try
+            using (var stream = categoryDto.Photo.OpenReadStream())
+            using (var memoryStream = new MemoryStream())
             {
-                var catetgory = await _dbContext.CategoryTbl.FindAsync(id);
-                if (catetgory != null)
-                {
-                    using (var stream = categoryDto.Photo.OpenReadStream())
-                    {
-                        using (var memoryStream = new MemoryStream())
-                        {
-                            await stream.CopyToAsync(memoryStream);
-                            catetgory.CategoryName = categoryDto.CategoryName;
-                            catetgory.PhotoPath = memoryStream.ToArray();
-                            _dbContext.CategoryTbl.Update(catetgory);
-                        }
-                    }
-
-                    var result = await _dbContext.SaveChangesAsync();
-                    if (result > 0)
-                    {
-                        return "Category Edited SuccessFully";
-                    }
-                    return "Failed To Edit Category";
-                }
-                return "Category NotFound";
-
+                await stream.CopyToAsync(memoryStream);
+                category.CategoryName = categoryDto.CategoryName;
+                category.PhotoPath = memoryStream.ToArray();
+                _dbContext.CategoryTbl.Update(category);
             }
-            catch (Exception ex)
-            {
 
-                throw new Exception("An error occurred while Editing categories.", ex);
-            }
+            return await _dbContext.SaveChangesAsync() > 0 ? "Category Edited Successfully" : "Failed To Edit Category";
         }
 
         public async Task<IEnumerable<CategoryGetDto>> GetAllCategory()
         {
-            try
+            var result = await _dbContext.CategoryTbl.ToListAsync();
+            return result.Select(category => new CategoryGetDto
             {
-                var result = await _dbContext.CategoryTbl.ToListAsync();
-                if (result != null)
-                {
-                    return result.Select(category => new CategoryGetDto
-                    {
-                        Id = category.Id,
-                        CategoryName = category.CategoryName,
-                        PhotoPath = Convert.ToBase64String(category.PhotoPath)
-                    });
-                }
-                return Enumerable.Empty<CategoryGetDto>();
-            }
-
-            catch (Exception ex)
-            {
-                throw new Exception("An error occurred while fetching categories.", ex);
-            }
+                Id = category.Id,
+                CategoryName = category.CategoryName,
+                PhotoPath = Convert.ToBase64String(category.PhotoPath)
+            }) ?? Enumerable.Empty<CategoryGetDto>();
         }
     }
 }

@@ -18,51 +18,29 @@ namespace HamroShoppingApp.RepoPattern.User
 
         public async Task<string> Login(LoginDto loginDto)
         {
-            try
+            var user = await _userManager.FindByNameAsync(loginDto.PhoneNoAsUser);
+            if (user == null || !await _userManager.CheckPasswordAsync(user, loginDto.Password))
             {
-                var user = await _userManager.FindByNameAsync(loginDto.PhoneNoAsUser);
-                var passwordCheck = await _userManager.CheckPasswordAsync(user, loginDto.Password);
-                if (user != null && passwordCheck)
-                {
-                    var token = _tokenGenerator.GenerateToken(user.Id, user.FullName);
-                    return token;
-                }
                 return string.Empty;
             }
 
-            catch (Exception ex)
-            {
-                throw new Exception("Error occurred while fetching user.", ex);
-            }
+            return _tokenGenerator.GenerateToken(user.Id, user.FullName);
         }
 
         public async Task<string> Register(RegisterDto registerDto)
         {
-            try
+            var user = new ApplicationUser
             {
-                var user = new ApplicationUser
-                {
+                FullName = registerDto.FullName,
+                PhoneNumber = registerDto.PhoneNo,
+                Address = registerDto.Address,
+                UserName = registerDto.PhoneNo,
+                City = registerDto.City,
+                Country = registerDto.Country
+            };
 
-                    FullName = registerDto.FullName,
-                    PhoneNumber = registerDto.PhoneNo,
-                    Address = registerDto.Address,
-                    UserName = registerDto.PhoneNo,
-                    City = registerDto.City,
-                    Country = registerDto.Country
-
-                };
-                var result = await _userManager.CreateAsync(user, registerDto.Password);
-                if (result.Succeeded)
-                {
-                    return "User registered successfully.";
-                }
-                return string.Empty;
-            }
-
-            catch (Exception ex)
-            {
-                throw new Exception("Error occurred while fetching user.", ex);
-            }
+            var result = await _userManager.CreateAsync(user, registerDto.Password);
+            return result.Succeeded ? "User registered successfully." : string.Empty;
         }
     }
 }

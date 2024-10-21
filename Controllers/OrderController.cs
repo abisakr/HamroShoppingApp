@@ -23,96 +23,58 @@ namespace HamroShoppingApp.Controllers
         [HttpPost("createCartOrder")]
         public async Task<IActionResult> PlaceCartOrder([FromBody] IEnumerable<OrderPlaceDto> orderPlaceDto)
         {
-            try
-            {
-                string userId = Request.Headers["UserId"].FirstOrDefault();
-                var result = await _orderRepository.PlaceOrder(orderPlaceDto, userId);
+            string userId = Request.Headers["UserId"].FirstOrDefault();
+            var result = await _orderRepository.PlaceOrder(orderPlaceDto, userId);
 
-                if (result == "Successfully Saved")
-                {
-                    var deleteResult = await _cartRepository.DeleteCartByUserId(userId);
-                    if (deleteResult == "Cart deleted successfully.")
-                    {
-                        return Ok(result);
-                    }
-                    else
-                    {
-                        return Ok($"Order placed but failed to clear cart: {deleteResult}");
-                    }
-                }
-                return BadRequest("Failed to place order.");
-            }
-            catch (Exception)
+            if (result == "Successfully Saved")
             {
-                return StatusCode(500, "An error occurred while processing your request.");
+                var deleteResult = await _cartRepository.DeleteCartByUserId(userId);
+                if (deleteResult == "Cart deleted successfully.")
+                {
+                    return Ok(result);
+                }
+                else
+                {
+                    return Ok($"Order placed but failed to clear cart: {deleteResult}");
+                }
             }
+            return BadRequest("Failed to place order.");
         }
+
         [HttpPost("createDirectOrder")]
         public async Task<IActionResult> PlaceDirectOrder([FromBody] IEnumerable<OrderPlaceDto> orderPlaceDto)
         {
-            try
-            {
-                string userId = Request.Headers["UserId"].FirstOrDefault();
-                var result = await _orderRepository.PlaceOrder(orderPlaceDto, userId);
+            string userId = Request.Headers["UserId"].FirstOrDefault();
+            var result = await _orderRepository.PlaceOrder(orderPlaceDto, userId);
 
-                if (result == "Successfully Saved")
-                {
-
-                    return Ok("Order placed");
-                }
-                return BadRequest("Failed to place order.");
-            }
-            catch (Exception)
+            if (result == "Successfully Saved")
             {
-                return StatusCode(500, "An error occurred while processing your request.");
+                return Ok("Order placed");
             }
+            return BadRequest("Failed to place order.");
         }
 
         [HttpGet("getOrdersByUserId")]
         public async Task<IActionResult> GetOrdersByUserId(HttpContext httpContext)
         {
-            try
+            string userId = "8c23792b-3f0b-42af-97a5-ba96604bd33c"; // Use a dynamic way to get userId
+            var result = await _orderRepository.GetOrdersByUserId(userId);
+            if (result != null)
             {
-                string userId = "8c23792b-3f0b-42af-97a5-ba96604bd33c";
-                //string userId = httpContext.Request.Headers["UserId"].FirstOrDefault(); // Assuming UserId is the header name
-                var result = await _orderRepository.GetOrdersByUserId(userId);
-                if (result != null)
-                {
-                    return Ok(result);
-                }
-                else
-                {
-                    return NotFound();
-                }
+                return Ok(result);
             }
-
-            catch (Exception)
-            {
-                return StatusCode(500, "An error occurred while processing your request.");
-            }
+            return NotFound();
         }
 
         [HttpGet("getAllOrder")]
-        public async Task<IActionResult> GetAllOrder ()
+        public async Task<IActionResult> GetAllOrder()
         {
-            try
+            var result = await _orderRepository.GetAllOrder();
+            if (result != null && result.Any())
             {
-                var result = await _orderRepository.GetAllOrder();
-                if (result != null && result.Any())
-                {
-                    return Ok(result);
-                }
-                else
-                {
-                    return NotFound();
-                }
+                return Ok(result);
             }
-
-            catch (Exception)
-            {
-                return StatusCode(500, "An error occurred while processing your request.");
-            }
+            return NotFound();
         }
-
     }
 }
