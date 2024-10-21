@@ -14,89 +14,52 @@ namespace HamroShoppingApp.Controllers
         {
             _categoryRepository = categoryRepository;
         }
-        //    [Authorize(AuthenticationSchemes = "Bearer")]
+
         [HttpPost("createCategory")]
         public async Task<IActionResult> CreateCategory([FromForm] CategoryStoreDto categoryDto)
         {
-            try
-            {
-                var result = await _categoryRepository.CreateCategory(categoryDto);
+            var result = await _categoryRepository.CreateCategory(categoryDto);
 
-                if (result == "Successfully Saved")
-                {
-                    return Ok(result);
-                }
-                return BadRequest("Failed to save category");
-            }
-
-            catch (Exception)
+            if (result == "Successfully Saved")
             {
-                return StatusCode(500, "An error occurred while processing your request.");
+                return Ok(result);
             }
+            return BadRequest("Failed to save category");
         }
 
-        // [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPut("editCategory/{id}")]
         public async Task<IActionResult> EditCategory(int id, [FromForm] CategoryStoreDto categoryDto)
         {
-            try
-            {
-                var result = await _categoryRepository.EditCategory(id, categoryDto);
+            var result = await _categoryRepository.EditCategory(id, categoryDto);
 
-                if (result == "Category Edited SuccessFully")
-                {
-                    return Ok(result);
-                }
-                return NotFound(result);
-            }
-
-            catch (Exception)
+            if (result == "Category Edited Successfully")
             {
-                return StatusCode(500, "An Error occurred while processing your request.");
+                return Ok(result);
             }
+            return NotFound(result);
         }
 
-        //  [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpDelete("deleteCategory/{id}")]
         public async Task<IActionResult> DeleteCategory(int id)
         {
-            try
-            {
-                var result = await _categoryRepository.DeleteCategory(id);
+            var result = await _categoryRepository.DeleteCategory(id);
 
-                if (result == "Category Deleted SuccessFully")
-                {
-                    return Ok(result);
-                }
-                return NotFound(result);
-            }
-
-            catch (Exception)
+            if (result == "Category Deleted Successfully")
             {
-                return StatusCode(500, "An error occurred while processing your request.");
+                return Ok(result);
             }
+            return NotFound(result);
         }
 
         [HttpGet("getAllCategory")]
         public async Task<IActionResult> GetAllCategory()
         {
-            try
+            var result = await _categoryRepository.GetAllCategory();
+            if (result != null && result.Any())
             {
-                var result = await _categoryRepository.GetAllCategory();
-                if (result != null && result.Any())
-                {
-                    return Ok(result);
-                }
-                else
-                {
-                    return NotFound();
-                }
+                return Ok(result);
             }
-
-            catch (Exception)
-            {
-                return StatusCode(500, "An Error occurred while processing your request");
-            }
+            return NotFound();
         }
     }
 }
