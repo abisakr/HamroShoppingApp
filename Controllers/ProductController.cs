@@ -57,12 +57,19 @@ namespace HamroShoppingApp.Controllers
         }
 
         [HttpGet("getAllProducts")]
-        public async Task<IActionResult> GetAllProducts()
+        public async Task<IActionResult> GetAllProducts(int pageNo, int pageSize)
         {
-            var result = await _productRepository.GetAllProducts();
+            var (result, totalItems) = await _productRepository.GetAllProducts(pageNo, pageSize);
             if (result != null && result.Any())
             {
-                return Ok(result);
+                return Ok(new
+                {
+                    TotalItems = totalItems,
+                    PageNo = pageNo,
+                    PageSize = pageSize,
+                    TotalPages = (int)Math.Ceiling((double)totalItems / pageSize),
+                    Result = result
+                });
             }
             return NotFound();
         }

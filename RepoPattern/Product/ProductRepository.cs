@@ -74,10 +74,17 @@ namespace HamroShoppingApp.RepoPattern.Product
             return await _dbContext.SaveChangesAsync() > 0 ? "Product Edited Successfully" : "Failed To Edit Product";
         }
 
-        public async Task<IEnumerable<ProductGetDto>> GetAllProducts()
+        public async Task<(IEnumerable<ProductGetDto>, int total)> GetAllProducts(int pageNo, int pageSize)
         {
-            var result = await _dbContext.ProductTbl.Include(p => p.Category).ToListAsync();
-            return result.Select(product => new ProductGetDto
+
+            var totalItems = await _dbContext.ProductTbl.Include(p => p.Category).CountAsync();
+            var pageLists = await _dbContext.ProductTbl
+                                     .Include(p => p.Category)
+                                     .OrderBy(p => p.Id)
+                                     .Skip((pageNo - 1) * pageSize)
+                                     .Take(pageSize)
+                                     .ToListAsync();
+            var result = pageLists.Select(product => new ProductGetDto
             {
                 Id = product.Id,
                 CategoryName = product.Category.CategoryName,
@@ -91,7 +98,9 @@ namespace HamroShoppingApp.RepoPattern.Product
                 ProductRating = product.ProductRating,
                 DeliveryStatus = product.DeliveryStatus,
                 PhotoPath = Convert.ToBase64String(product.PhotoPath),
-            }) ?? Enumerable.Empty<ProductGetDto>();
+
+            });
+            return (result, totalItems);
         }
 
         public async Task<ProductGetDto> GetProductById(int id)
