@@ -49,8 +49,7 @@ const Cart = () => {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${jwtToken}`,
-          'UserId': userId
+          'Authorization': `Bearer ${jwtToken}`
         }
       });
 

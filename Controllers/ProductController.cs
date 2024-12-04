@@ -110,8 +110,16 @@ namespace HamroShoppingApp.Controllers
             }
             return NotFound();
         }
-
-
+        [HttpGet("getShortedFilteredProduct")]
+        public async Task<IActionResult> GetShortedFilteredProduct(string? categoryName, string? order)
+        {
+            var result = await _productRepository.GetShortedFilteredProduct(categoryName, order);
+            if (result != null && result.Any())
+            {
+                return Ok(result);
+            }
+            return NotFound();
+        }
         //[HttpGet("category/{categoryName}")]
         //public async Task<List<Product>> GetProductsByCategoryAsync(string categoryName)
         //{

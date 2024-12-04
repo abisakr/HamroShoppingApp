@@ -104,13 +104,14 @@ useEffect(() => {
 
       setSortBy(value)
 
-      if(value === 'asc'){
-        setData(preve => preve.sort((a,b)=>a.sellingPrice - b.sellingPrice))
-      }
-
-      if(value === 'dsc'){
-        setData(preve => preve.sort((a,b)=>b.sellingPrice - a.sellingPrice))
-      }
+      try {
+        const response = await fetch("https://localhost:7223/api/Product/getShortedFilteredProduct?categoryName=cameras&order=dcs");
+        const dataResponse = await response.json();
+        setAllProduct(dataResponse);
+      } catch (error) {
+        console.error('Error fetching data:', error.message);
+      } 
+    };
     }
 
     useEffect(()=>{

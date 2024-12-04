@@ -131,6 +131,7 @@ namespace HamroShoppingApp.RepoPattern.Product
             return products.Select(product => new ProductGetDto
             {
                 Id = product.Id,
+                CategoryId = product.CategoryId,
                 CategoryName = product.Category.CategoryName,
                 ProductName = product.ProductName,
                 Price = product.Price,
@@ -155,6 +156,7 @@ namespace HamroShoppingApp.RepoPattern.Product
             {
                 Id = product.Id,
                 CategoryName = product.Category.CategoryName,
+                CategoryId = product.CategoryId,
                 ProductName = product.ProductName,
                 Price = product.Price,
                 Discount = product.Discount,
@@ -178,6 +180,7 @@ namespace HamroShoppingApp.RepoPattern.Product
             {
                 Id = product.Id,
                 CategoryName = product.Category.CategoryName,
+                CategoryId = product.CategoryId,
                 ProductName = product.ProductName,
                 Price = product.Price,
                 Discount = product.Discount,
@@ -189,6 +192,48 @@ namespace HamroShoppingApp.RepoPattern.Product
                 DeliveryStatus = product.DeliveryStatus,
                 PhotoPath = Convert.ToBase64String(product.PhotoPath)
             }) ?? null;
+        }
+
+        public async Task<IEnumerable<ProductGetDto>> GetShortedFilteredProduct(string categoryName, string order)
+        {
+            //pages ko category product ma xa 
+            IQueryable<AppProduct> query = _dbContext.ProductTbl.Include(a => a.Category);
+
+            if (!string.IsNullOrEmpty(categoryName))
+            {
+                query = query.Where(a => a.Category.CategoryName == categoryName);
+            }
+            if (string.IsNullOrEmpty(order) || order == "asc")
+            {
+                query = query.OrderBy(a => a.Price);
+            }
+            else if (order == "dsc")
+            {
+                query = query.OrderByDescending(a => a.Price); // Descending order
+            }
+            else
+            {
+                query = query.OrderBy(a => a.Price); // Default to ascending order for invalid input
+            }
+
+
+            var result = await query.ToListAsync();
+            return result.Select(product => new ProductGetDto
+            {
+                Id = product.Id,
+                CategoryName = product.Category.CategoryName,
+                CategoryId = product.CategoryId,
+                ProductName = product.ProductName,
+                Price = product.Price,
+                Discount = product.Discount,
+                StockQuantity = product.StockQuantity,
+                StockSold = product.StockSold,
+                Description = product.Description,
+                TotalProductRated = product.TotalProductRated,
+                ProductRating = product.ProductRating,
+                DeliveryStatus = product.DeliveryStatus,
+                PhotoPath = Convert.ToBase64String(product.PhotoPath)
+            }) ?? Enumerable.Empty<ProductGetDto>();
         }
     }
 }
