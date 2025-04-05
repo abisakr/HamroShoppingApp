@@ -15,45 +15,55 @@ namespace HamroShoppingApp.Controllers
             _productRepository = productRepository;
         }
 
-        // Products on the basis of categories
-
-        // [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPost("createProduct")]
         public async Task<IActionResult> CreateProduct([FromForm] ProductStoreDto productStoreDto)
         {
+            if (productStoreDto == null || productStoreDto.Photo == null || productStoreDto.Photo.Length == 0)
+            {
+                return BadRequest("Product data or photo is missing.");
+            }
+
             var result = await _productRepository.CreateProduct(productStoreDto);
 
-            if (result == "Successfully Saved")
+            if (result)
             {
-                return Ok(result);
+                return Ok("Product Created Successfully");
             }
-            return BadRequest("Failed to save Product");
+            return BadRequest("Failed to create product. Please check the input.");
         }
 
-        // [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPut("editProduct/{id}")]
         public async Task<IActionResult> EditProduct(int id, [FromForm] ProductStoreDto productStoreDto)
         {
+            if (id <= 0 || productStoreDto == null)
+            {
+                return BadRequest("Invalid data or product ID.");
+            }
+
             var result = await _productRepository.EditProduct(id, productStoreDto);
 
-            if (result == "Product Edited SuccessFully")
+            if (result)
             {
-                return Ok(result);
+                return Ok("Product updated successfully");
             }
-            return NotFound(result);
+            return NotFound("Product not found or failed to update.");
         }
 
-        // [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpDelete("deleteProduct/{id}")]
         public async Task<IActionResult> DeleteProduct(int id)
         {
+            if (id <= 0)
+            {
+                return BadRequest("Invalid product ID.");
+            }
+
             var result = await _productRepository.DeleteProduct(id);
 
-            if (result == "Product Deleted SuccessFully")
+            if (result)
             {
-                return Ok(result);
+                return Ok("Product deleted successfully");
             }
-            return NotFound(result);
+            return NotFound("Product not found or failed to delete.");
         }
 
         [HttpGet("getAllProducts")]
@@ -64,7 +74,7 @@ namespace HamroShoppingApp.Controllers
             {
                 return Ok(result);
             }
-            return NotFound();
+            return NotFound("No products found.");
         }
 
         [HttpGet("getAllPopularProducts")]
@@ -75,41 +85,57 @@ namespace HamroShoppingApp.Controllers
             {
                 return Ok(result);
             }
-            return NotFound();
+            return NotFound("No popular products found.");
         }
 
         [HttpGet("getProductById/{id}")]
         public async Task<IActionResult> GetProductById(int id)
         {
+            if (id <= 0)
+            {
+                return BadRequest("Invalid product ID.");
+            }
+
             var result = await _productRepository.GetProductById(id);
             if (result != null)
             {
                 return Ok(result);
             }
-            return NotFound();
+            return NotFound("Product not found.");
         }
 
         [HttpGet("getProductByCategoryId/{categoryId}")]
         public async Task<IActionResult> GetProductByCategoryId(int categoryId)
         {
+            if (categoryId <= 0)
+            {
+                return BadRequest("Invalid category ID.");
+            }
+
             var result = await _productRepository.GetProductByCategoryId(categoryId);
             if (result != null)
             {
                 return Ok(result);
             }
-            return NotFound();
+            return NotFound("Products not found for the given category.");
         }
 
         [HttpGet("getAllSearchedProducts")]
         public async Task<IActionResult> Search(string name)
         {
+            if (string.IsNullOrEmpty(name))
+            {
+                return BadRequest("Search term is required.");
+            }
+
             var result = await _productRepository.Search(name);
             if (result != null && result.Any())
             {
                 return Ok(result);
             }
-            return NotFound();
+            return NotFound("No products found matching the search term.");
         }
+
         [HttpGet("getShortedFilteredProduct")]
         public async Task<IActionResult> GetShortedFilteredProduct(string? categoryName, string? order)
         {
@@ -118,15 +144,7 @@ namespace HamroShoppingApp.Controllers
             {
                 return Ok(result);
             }
-            return NotFound();
+            return NotFound("No products found matching the filter criteria.");
         }
-        //[HttpGet("category/{categoryName}")]
-        //public async Task<List<Product>> GetProductsByCategoryAsync(string categoryName)
-        //{
-        //    return await _context.Products
-        //                         .Include(p => p.Category)
-        //                         .Where(p => p.Category.Name == categoryName)
-        //                         .ToListAsync();
-        //}
     }
 }

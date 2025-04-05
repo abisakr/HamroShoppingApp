@@ -69,35 +69,42 @@ namespace HamroShoppingApp.Controllers
             });
         }
 
-        [HttpPost("login")]
-        public async Task<IActionResult> Login(LoginDto loginDto)
-        {
-            if (loginDto != null)
-            {
-                var result = await _userAccountRepository.Login(loginDto);
-                if (string.IsNullOrEmpty(result))
-                {
-                    return BadRequest("Invalid username or password.");
-                }
-                return Ok(new { Token = result });
-            }
-            return BadRequest("Please Enter The Data");
-        }
+      [HttpPost("login")]
+public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
+{
+    if (!ModelState.IsValid)
+        return BadRequest(ModelState);
 
-        [HttpPost("register")]
-        public async Task<IActionResult> Register(RegisterDto registerDto)
-        {
-            if (registerDto != null)
-            {
-                var result = await _userAccountRepository.Register(registerDto);
-                if (string.IsNullOrEmpty(result))
-                {
-                    return BadRequest("Registration Failed.");
-                }
+    var result = await _userAccountRepository.Login(loginDto);
+    if (string.IsNullOrEmpty(result))
+    {
+        return BadRequest("Invalid username or password.");
+    }
 
-                return Ok(new { Message = result });
-            }
-            return BadRequest("Please Enter The Data");
-        }
+    return Ok(new { Token = result });
+}
+
+
+       [HttpPost("register")]
+public async Task<IActionResult> Register([FromBody] RegisterDto registerDto)
+{
+    // Validate the model
+    if (!ModelState.IsValid)
+    {
+        return BadRequest(ModelState); // Return validation errors
+    }
+
+    var result = await _userAccountRepository.Register(registerDto);
+
+    if (result)
+    {
+        return Ok(new { Message = "User Created Successfully" });
+    }
+    else
+    {
+        return BadRequest("User Creation Failed");
+    }
+}
+
     }
 }

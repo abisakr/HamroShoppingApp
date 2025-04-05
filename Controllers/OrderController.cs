@@ -1,4 +1,5 @@
-﻿using HamroShoppingApp.RepoPattern.Cart;
+﻿using System.Security.Claims;
+using HamroShoppingApp.RepoPattern.Cart;
 using HamroShoppingApp.RepoPattern.Order;
 using HamroShoppingApp.RepoPattern.Order.DTO;
 using Microsoft.AspNetCore.Authorization;
@@ -23,13 +24,21 @@ namespace HamroShoppingApp.Controllers
         [HttpPost("createCartOrder")]
         public async Task<IActionResult> PlaceCartOrder([FromBody] IEnumerable<OrderPlaceDto> orderPlaceDto)
         {
-            string userId = Request.Headers["UserId"].FirstOrDefault();
+            string? userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userId))
+            {
+                return BadRequest("Invalid user ID.");
+            }
+            else if (orderPlaceDto == null || !orderPlaceDto.Any())
+            {
+                return BadRequest("Order details are required.");
+            }
             var result = await _orderRepository.PlaceOrder(orderPlaceDto, userId);
 
-            if (result == "Successfully Saved")
+            if (result)
             {
                 var deleteResult = await _cartRepository.DeleteCartByUserId(userId);
-                if (deleteResult == "Cart deleted successfully.")
+                if (deleteResult )
                 {
                     return Ok(result);
                 }
@@ -44,10 +53,18 @@ namespace HamroShoppingApp.Controllers
         [HttpPost("createDirectOrder")]
         public async Task<IActionResult> PlaceDirectOrder([FromBody] IEnumerable<OrderPlaceDto> orderPlaceDto)
         {
-            string userId = Request.Headers["UserId"].FirstOrDefault();
+           string? userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userId))
+            {
+                return BadRequest("Invalid user ID.");
+            }
+            else if (orderPlaceDto == null || !orderPlaceDto.Any())
+            {
+                return BadRequest("Order details are required.");
+            }
             var result = await _orderRepository.PlaceOrder(orderPlaceDto, userId);
 
-            if (result == "Successfully Saved")
+            if (result)
             {
                 return Ok("Order placed");
             }
@@ -57,24 +74,30 @@ namespace HamroShoppingApp.Controllers
         [HttpGet("getOrdersByUserId")]
         public async Task<IActionResult> GetOrdersByUserId(HttpContext httpContext)
         {
-            string userId = "8c23792b-3f0b-42af-97a5-ba96604bd33c"; // Use a dynamic way to get userId
+            string userId = "8c23792b-3f0b-42af-97a5-ba96604bd33c"; 
+            // Use a dynamic way to get userId
+            // string? userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            // if (string.IsNullOrEmpty(userId))
+            // {
+            //     return BadRequest("Invalid user ID.");
+            // }
             var result = await _orderRepository.GetOrdersByUserId(userId);
             if (result != null)
             {
                 return Ok(result);
             }
-            return NotFound();
+            return NotFound("No orders found for this user.");
         }
 
         [HttpGet("getAllOrder")]
         public async Task<IActionResult> GetAllOrder()
         {
             var result = await _orderRepository.GetAllOrder();
-            if (result != null && result.Any())
+            if ( result.Any())
             {
                 return Ok(result);
             }
-            return NotFound();
+            return NotFound("No orders found.");
         }
     }
 }
