@@ -81,5 +81,17 @@ namespace HamroShoppingApp.RepoPattern.Order
                 TotalPrice = orderDetail.TotalPrice
             }) ?? Enumerable.Empty<OrderGetDto>();
         }
+
+        public async Task<string> GetOrderStatusFromDatabase(int orderId)
+        {
+            var result = await _dbContext.OrderDetailTbl.FirstOrDefaultAsync(p => p.Id == orderId);
+
+            if (result == null)
+            {
+                return "Order not found";  // Or handle it in another way
+            }
+
+            return result.OrderStatus;
+        }
     }
 }

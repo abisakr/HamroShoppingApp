@@ -35,6 +35,7 @@ namespace HamroShoppingApp.RepoPattern.Cart
             }
 
             return await _dbContext.SaveChangesAsync() > 0 ? "Successfully Saved" : "Failed to save Cart";
+          //   return await _dbContext.SaveChangesAsync() > 0 ? true : false;
         }
 
         public async Task<string> DeleteCart(int id)
@@ -73,8 +74,6 @@ namespace HamroShoppingApp.RepoPattern.Cart
 
         public async Task<IEnumerable<CartGetDto>> GetCartsByUserId(string userId)
         {
-            if (userId == null) return null;
-
             var result = await _dbContext.CartTbl.Include(cart => cart.Product)
                 .Where(cart => cart.UserId == userId).ToListAsync();
 
@@ -89,7 +88,7 @@ namespace HamroShoppingApp.RepoPattern.Cart
                 TotalCarts = cart.TotalCarts,
                 Price = cart.Product.Price,
                 TotalPrice = cart.Product.Price * cart.Quantity
-            }) ?? null;
+            });
         }
 
         public async Task<string> DeleteCartByUserId(string userId)

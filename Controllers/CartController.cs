@@ -55,7 +55,7 @@ namespace HamroShoppingApp.Controllers
         public async Task<IActionResult> GetAllCarts()
         {
             var result = await _cartRepository.GetAllCarts();
-            if (result != null && result.Any())
+            if (result.Any())
             {
                 return Ok(result);
             }
@@ -65,14 +65,18 @@ namespace HamroShoppingApp.Controllers
         [HttpGet("getCartsByUserId")]
         public async Task<IActionResult> GetCartsByUserId()
         {
-            string userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            //string userId = Request.Headers["UserId"].FirstOrDefault();
-            var result = await _cartRepository.GetCartsByUserId(userId);
-            if (result != null)
+            string? userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+         if (string.IsNullOrEmpty(userId))
             {
-                return Ok(result);
+                return Unauthorized("User ID is null or not found in claims.");
             }
+
+            var result = await _cartRepository.GetCartsByUserId(userId);
+             if (!result.Any())
+            {
             return NotFound();
+            }
+                return Ok(result);
         }
     }
 }
