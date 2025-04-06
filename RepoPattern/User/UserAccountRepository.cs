@@ -14,9 +14,9 @@ namespace HamroShoppingApp.RepoPattern.User
         {
             _userManager = userManager;
             _tokenGenerator = tokenGenerator;
-        } 
+        }
 
-       public async Task<string> Login(LoginDto loginDto)
+        public async Task<string> Login(LoginDto loginDto)
         {
             try
             {
@@ -36,33 +36,33 @@ namespace HamroShoppingApp.RepoPattern.User
         }
 
 
-       
-       public async Task<bool> Register(RegisterDto registerDto)
-{
-    try
-    {
-        var user = new ApplicationUser
+
+        public async Task<bool> Register(RegisterDto registerDto)
         {
-            FullName = registerDto.FullName,
-            PhoneNumber = registerDto.PhoneNo,
-            Address = registerDto.Address,
-            UserName = registerDto.PhoneNo,
-            City = registerDto.City,
-            Country = registerDto.Country
-        };
+            try
+            {
+                var user = new ApplicationUser
+                {
+                    FullName = registerDto.FullName,
+                    PhoneNumber = registerDto.PhoneNo,
+                    Address = registerDto.Address,
+                    UserName = registerDto.PhoneNo,
+                    City = registerDto.City,
+                    Country = registerDto.Country
+                };
 
-        var result = await _userManager.CreateAsync(user, registerDto.Password);
+                var result = await _userManager.CreateAsync(user, registerDto.Password);
 
-        return result.Succeeded;
-    }
-    catch (Exception ex)
-    {
-        // Optionally, log the exception
-        Console.WriteLine($"Registration failed: {ex.Message}");
-        return false;
-    }
-}
+                return result.Succeeded;
+            }
+            catch (Exception ex)
+            {
+                // Optionally, log the exception
+                Console.WriteLine($"Registration failed: {ex.Message}");
+                return false;
+            }
+        }
 
     }
-    
+
 }

@@ -6,7 +6,7 @@ using System.Security.Claims;
 
 namespace HamroShoppingApp.Controllers
 {
-  [Authorize(AuthenticationSchemes = "Bearer")]
+    [Authorize(AuthenticationSchemes = "Bearer")]
     [Route("api/[controller]")]
     [ApiController]
     public class CartController : ControllerBase
@@ -30,23 +30,23 @@ namespace HamroShoppingApp.Controllers
             {
                 return Ok("Added to cart successfully");
             }
-           return StatusCode(500, "Failed to save cart");
+            return StatusCode(500, "Failed to save cart");
         }
 
         [HttpPut("editCart/{id}")]
         public async Task<IActionResult> EditCart(int id, [FromBody] CartEditDto cartEditDto)
         {
-           if (cartEditDto == null || id < 0)
+            if (cartEditDto == null || id < 0)
             {
                 return BadRequest("Invalid Id or Cart data is null");
             }
-           
+
             var result = await _cartRepository.EditCart(id, cartEditDto);
             if (result)
             {
                 return Ok("Cart updated successfully");
             }
-             return StatusCode(500, "Failed to update cart");
+            return StatusCode(500, "Failed to update cart");
         }
 
         [HttpDelete("deleteCart/{id}")]
@@ -81,12 +81,12 @@ namespace HamroShoppingApp.Controllers
                 return BadRequest("User ID is null or empty");
             }
             var result = await _cartRepository.GetCartsByUserId(userId);
-           if (result.Any())
+            if (result.Any())
             {
                 return Ok(result);
             }
-           return NotFound("No carts found for this user.");
+            return NotFound("No carts found for this user.");
         }
-        
+
     }
 }

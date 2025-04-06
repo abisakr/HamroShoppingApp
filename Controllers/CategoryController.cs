@@ -18,7 +18,7 @@ namespace HamroShoppingApp.Controllers
         [HttpPost("createCategory")]
         public async Task<IActionResult> CreateCategory([FromForm] CategoryStoreDto categoryDto)
         {
-            if (categoryDto == null ||categoryDto.Photo == null || categoryDto.Photo.Length == 0)
+            if (categoryDto == null || categoryDto.Photo == null || categoryDto.Photo.Length == 0)
             {
                 return BadRequest("Category data is null");
             }
@@ -38,7 +38,7 @@ namespace HamroShoppingApp.Controllers
             {
                 return BadRequest("Category data is null or invalid id");
             }
-            
+
             var result = await _categoryRepository.EditCategory(id, categoryDto);
 
             if (result)
@@ -62,7 +62,7 @@ namespace HamroShoppingApp.Controllers
                 return Ok("Category Deleted Successfully");
             }
             return NotFound("Category not found");
-           
+
         }
 
         [HttpGet("getAllCategory")]

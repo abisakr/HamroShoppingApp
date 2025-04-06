@@ -9,10 +9,10 @@ namespace HamroShoppingApp.RepoPattern.Product
     {
         private readonly ApplicationDbContext _dbContext;
 
-        public ProductRepository(ApplicationDbContext dbContext )
+        public ProductRepository(ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
-          
+
         }
 
         public async Task<bool> CreateProduct(ProductStoreDto productStoreDto)
@@ -41,7 +41,7 @@ namespace HamroShoppingApp.RepoPattern.Product
             }
             catch (Exception)
             {
-               
+
                 return false;
             }
         }
@@ -88,7 +88,7 @@ namespace HamroShoppingApp.RepoPattern.Product
                 _dbContext.ProductTbl.Remove(product);
                 return await _dbContext.SaveChangesAsync() > 0;
             }
-            catch (Exception )
+            catch (Exception)
             {
                 return false;
             }
@@ -102,7 +102,7 @@ namespace HamroShoppingApp.RepoPattern.Product
                 return products.Select(product => new ProductGetDto
                 {
                     Id = product.Id,
-                     CategoryId = product.CategoryId,
+                    CategoryId = product.CategoryId,
                     CategoryName = product.Category.CategoryName,
                     ProductName = product.ProductName,
                     Price = product.Price,
@@ -148,7 +148,7 @@ namespace HamroShoppingApp.RepoPattern.Product
                     PhotoPath = Convert.ToBase64String(product.PhotoPath)
                 };
             }
-            catch (Exception )
+            catch (Exception)
             {
                 return null;
             }
@@ -180,9 +180,9 @@ namespace HamroShoppingApp.RepoPattern.Product
                     PhotoPath = Convert.ToBase64String(product.PhotoPath)
                 });
             }
-            catch (Exception )
+            catch (Exception)
             {
-               
+
                 return Enumerable.Empty<ProductGetDto>();
             }
         }
@@ -213,9 +213,9 @@ namespace HamroShoppingApp.RepoPattern.Product
                     PhotoPath = Convert.ToBase64String(product.PhotoPath)
                 });
             }
-            catch (Exception )
+            catch (Exception)
             {
-               
+
                 return Enumerable.Empty<ProductGetDto>();
             }
         }
@@ -246,7 +246,7 @@ namespace HamroShoppingApp.RepoPattern.Product
                     PhotoPath = Convert.ToBase64String(product.PhotoPath)
                 });
             }
-            catch (Exception )
+            catch (Exception)
             {
                 return Enumerable.Empty<ProductGetDto>();
             }
@@ -287,9 +287,9 @@ namespace HamroShoppingApp.RepoPattern.Product
                     PhotoPath = Convert.ToBase64String(product.PhotoPath)
                 });
             }
-            catch (Exception )
+            catch (Exception)
             {
-               
+
                 return Enumerable.Empty<ProductGetDto>();
             }
         }

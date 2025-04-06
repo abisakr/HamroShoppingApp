@@ -38,7 +38,7 @@ namespace HamroShoppingApp.Controllers
             if (result)
             {
                 var deleteResult = await _cartRepository.DeleteCartByUserId(userId);
-                if (deleteResult )
+                if (deleteResult)
                 {
                     return Ok(result);
                 }
@@ -53,7 +53,7 @@ namespace HamroShoppingApp.Controllers
         [HttpPost("createDirectOrder")]
         public async Task<IActionResult> PlaceDirectOrder([FromBody] IEnumerable<OrderPlaceDto> orderPlaceDto)
         {
-           string? userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            string? userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (string.IsNullOrEmpty(userId))
             {
                 return BadRequest("Invalid user ID.");
@@ -74,7 +74,7 @@ namespace HamroShoppingApp.Controllers
         [HttpGet("getOrdersByUserId")]
         public async Task<IActionResult> GetOrdersByUserId(HttpContext httpContext)
         {
-            string userId = "8c23792b-3f0b-42af-97a5-ba96604bd33c"; 
+            string userId = "8c23792b-3f0b-42af-97a5-ba96604bd33c";
             // Use a dynamic way to get userId
             // string? userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             // if (string.IsNullOrEmpty(userId))
@@ -93,7 +93,7 @@ namespace HamroShoppingApp.Controllers
         public async Task<IActionResult> GetAllOrder()
         {
             var result = await _orderRepository.GetAllOrder();
-            if ( result.Any())
+            if (result.Any())
             {
                 return Ok(result);
             }

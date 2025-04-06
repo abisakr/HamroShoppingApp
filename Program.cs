@@ -15,6 +15,7 @@ using Microsoft.IdentityModel.Tokens;
 using NotificationApp.Hubs;
 using System.Text;
 
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Load configuration from appsettings.json
@@ -32,7 +33,7 @@ builder.Services.Configure<IdentityOptions>(options =>
     options.Password.RequiredUniqueChars = 0;
 });
 
-// Configure JWT authentication
+// ✅ Configure JWT authentication with cookie support
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -41,6 +42,24 @@ builder.Services.AddAuthentication(options =>
 })
 .AddJwtBearer(o =>
 {
+    o.Events = new JwtBearerEvents
+    {
+        OnMessageReceived = context =>
+        {
+            // ✅ Read JWT from cookie instead of Authorization header
+            var token = context.Request.Cookies["jwt"];
+            if (!string.IsNullOrEmpty(token))
+            {
+                context.Token = token;
+            }
+            else
+            {
+                Console.WriteLine("No token found in cookie.");
+            }
+            return Task.CompletedTask;
+        }
+    };
+
     o.TokenValidationParameters = new TokenValidationParameters
     {
         ValidIssuer = builder.Configuration["Jwt:Issuer"],
@@ -48,7 +67,7 @@ builder.Services.AddAuthentication(options =>
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"])),
         ValidateIssuer = true,
         ValidateAudience = true,
-        ValidateLifetime = true, // Ensure the token's lifetime is validated
+        ValidateLifetime = true,
         ValidateIssuerSigningKey = true
     };
 })
@@ -108,7 +127,13 @@ if (app.Environment.IsDevelopment())
 app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+app.Use(async (context, next) =>
+{
+    Console.WriteLine($"Request Path: {context.Request.Path}");
+    await next.Invoke();
+});
 app.UseRouting(); // Ensure UseRouting is called before UseAuthentication, UseAuthorization, and UseEndpoints
+
 app.UseCors("AllowSpecificOrigin");
 app.UseAuthentication();
 app.UseAuthorization();

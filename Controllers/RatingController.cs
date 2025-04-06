@@ -22,11 +22,11 @@ namespace HamroShoppingApp.Controllers
         [HttpPost("createRating")]
         public async Task<IActionResult> CreateRating([FromBody] RatingStoreDto ratingStoreDto)
         {
-              if (!ModelState.IsValid)  // Check if the ModelState is valid
-    {
-        return BadRequest(ModelState);  // Return the validation errors if invalid
-    }
-            
+            if (!ModelState.IsValid)  // Check if the ModelState is valid
+            {
+                return BadRequest(ModelState);  // Return the validation errors if invalid
+            }
+
             string? userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (string.IsNullOrEmpty(userId))
             {
@@ -46,11 +46,11 @@ namespace HamroShoppingApp.Controllers
         [HttpPut("editRating/{id}")]
         public async Task<IActionResult> EditRating(int id, [FromBody] RatingStoreDto ratingStoreDto)
         {
-             if (!ModelState.IsValid)  // Check if the ModelState is valid
-    {
-        return BadRequest(ModelState);  // Return the validation errors if invalid
-    }
-            else if ( id <= 0)
+            if (!ModelState.IsValid)  // Check if the ModelState is valid
+            {
+                return BadRequest(ModelState);  // Return the validation errors if invalid
+            }
+            else if (id <= 0)
             {
                 return BadRequest("Invalid ID.");
             }

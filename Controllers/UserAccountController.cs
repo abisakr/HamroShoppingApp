@@ -3,6 +3,7 @@ using HamroShoppingApp.Helper;
 using HamroShoppingApp.Models.User;
 using HamroShoppingApp.RepoPattern.User;
 using HamroShoppingApp.RepoPattern.User.DTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -69,42 +70,57 @@ namespace HamroShoppingApp.Controllers
             });
         }
 
-      [HttpPost("login")]
-public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
-{
-    if (!ModelState.IsValid)
-        return BadRequest(ModelState);
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
 
-    var result = await _userAccountRepository.Login(loginDto);
-    if (string.IsNullOrEmpty(result))
-    {
-        return BadRequest("Invalid username or password.");
-    }
+            var token = await _userAccountRepository.Login(loginDto);
+            if (string.IsNullOrEmpty(token))
+            {
+                return BadRequest("Invalid username or password.");
+            }
 
-    return Ok(new { Token = result });
-}
+            Response.Cookies.Append("jwt", token, new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.Strict,
+                Expires = DateTime.UtcNow.AddDays(7)
+            });
+
+            return Ok("Logged in successfully");
+        }
 
 
-       [HttpPost("register")]
-public async Task<IActionResult> Register([FromBody] RegisterDto registerDto)
-{
-    // Validate the model
-    if (!ModelState.IsValid)
-    {
-        return BadRequest(ModelState); // Return validation errors
-    }
+        [HttpPost("register")]
+        public async Task<IActionResult> Register([FromBody] RegisterDto registerDto)
+        {
+            // Validate the model
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState); // Return validation errors
+            }
 
-    var result = await _userAccountRepository.Register(registerDto);
+            var result = await _userAccountRepository.Register(registerDto);
 
-    if (result)
-    {
-        return Ok(new { Message = "User Created Successfully" });
-    }
-    else
-    {
-        return BadRequest("User Creation Failed");
-    }
-}
+            if (result)
+            {
+                return Ok(new { Message = "User Created Successfully" });
+            }
+            else
+            {
+                return BadRequest("User Creation Failed");
+            }
+        }
+
+        [HttpPost("logout")]
+        public IActionResult Logout()
+        {
+            Response.Cookies.Delete("jwt");
+            return Ok("Logged out successfully");
+        }
 
     }
 }
