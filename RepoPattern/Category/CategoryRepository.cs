@@ -14,65 +14,90 @@ namespace HamroShoppingApp.RepoPattern.Category
             _dbContext = dbContext;
         }
 
-        public async Task<string> CreateCategory(CategoryStoreDto categoryDto)
+        public async Task<bool> CreateCategory(CategoryStoreDto categoryDto)
         {
-            if (categoryDto.Photo == null || categoryDto.Photo.Length == 0)
+            try
             {
-                return "No image file uploaded";
-            }
-
-            using (var stream = categoryDto.Photo.OpenReadStream())
-            using (var memoryStream = new MemoryStream())
-            {
-                await stream.CopyToAsync(memoryStream);
-                var category = new AppCategory
+                using (var stream = categoryDto.Photo.OpenReadStream())
+                using (var memoryStream = new MemoryStream())
                 {
-                    CategoryName = categoryDto.CategoryName,
-                    PhotoPath = memoryStream.ToArray()
-                };
-                await _dbContext.CategoryTbl.AddAsync(category);
+                    await stream.CopyToAsync(memoryStream);
+                    var category = new AppCategory
+                    {
+                        CategoryName = categoryDto.CategoryName,
+                        PhotoPath = memoryStream.ToArray()
+                    };
+                    await _dbContext.CategoryTbl.AddAsync(category);
+                }
+
+                return await _dbContext.SaveChangesAsync() > 0;
             }
-
-            return await _dbContext.SaveChangesAsync() > 0 ? "Successfully Saved" : "Failed to save category";
-        }
-
-        public async Task<string> DeleteCategory(int id)
-        {
-            if (id <= 0) return "Invalid Id";
-
-            var category = await _dbContext.CategoryTbl.FindAsync(id);
-            if (category == null) return "Category Not Found";
-
-            _dbContext.CategoryTbl.Remove(category);
-            return await _dbContext.SaveChangesAsync() > 0 ? "Category Deleted Successfully" : "Failed To Delete Category";
-        }
-
-        public async Task<string> EditCategory(int id, CategoryStoreDto categoryDto)
-        {
-            var category = await _dbContext.CategoryTbl.FindAsync(id);
-            if (category == null) return "Category Not Found";
-
-            using (var stream = categoryDto.Photo.OpenReadStream())
-            using (var memoryStream = new MemoryStream())
+            catch (Exception ex)
             {
-                await stream.CopyToAsync(memoryStream);
-                category.CategoryName = categoryDto.CategoryName;
-                category.PhotoPath = memoryStream.ToArray();
-                _dbContext.CategoryTbl.Update(category);
+                Console.WriteLine($"Error creating category: {ex.Message}");
+                return false;
             }
+        }
 
-            return await _dbContext.SaveChangesAsync() > 0 ? "Category Edited Successfully" : "Failed To Edit Category";
+        public async Task<bool> DeleteCategory(int id)
+        {
+            try
+            {
+                var category = await _dbContext.CategoryTbl.FindAsync(id);
+                if (category == null) return false;
+
+                _dbContext.CategoryTbl.Remove(category);
+                return await _dbContext.SaveChangesAsync() > 0;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error deleting category: {ex.Message}");
+                return false;
+            }
+        }
+
+        public async Task<bool> EditCategory(int id, CategoryStoreDto categoryDto)
+        {
+            try
+            {
+                var category = await _dbContext.CategoryTbl.FindAsync(id);
+                if (category == null) return false;
+
+                using (var stream = categoryDto.Photo.OpenReadStream())
+                using (var memoryStream = new MemoryStream())
+                {
+                    await stream.CopyToAsync(memoryStream);
+                    category.CategoryName = categoryDto.CategoryName;
+                    category.PhotoPath = memoryStream.ToArray();
+                    _dbContext.CategoryTbl.Update(category);
+                }
+
+                return await _dbContext.SaveChangesAsync() > 0;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error editing category: {ex.Message}");
+                return false;
+            }
         }
 
         public async Task<IEnumerable<CategoryGetDto>> GetAllCategory()
         {
-            var result = await _dbContext.CategoryTbl.ToListAsync();
-            return result.Select(category => new CategoryGetDto
+            try
             {
-                Id = category.Id,
-                CategoryName = category.CategoryName,
-                PhotoPath = Convert.ToBase64String(category.PhotoPath)
-            }) ?? Enumerable.Empty<CategoryGetDto>();
+                var result = await _dbContext.CategoryTbl.ToListAsync();
+                return result.Select(category => new CategoryGetDto
+                {
+                    Id = category.Id,
+                    CategoryName = category.CategoryName,
+                    PhotoPath = Convert.ToBase64String(category.PhotoPath)
+                }) ?? Enumerable.Empty<CategoryGetDto>();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error fetching categories: {ex.Message}");
+                return Enumerable.Empty<CategoryGetDto>();
+            }
         }
     }
 }

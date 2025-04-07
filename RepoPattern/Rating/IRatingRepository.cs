@@ -4,9 +4,9 @@ namespace HamroShoppingApp.RepoPattern.Rating
 {
     public interface IRatingRepository
     {
-        public Task<string> CreateRating(RatingStoreDto ratingStoreDto);
-        public Task<string> EditRating(int id, RatingStoreDto ratingStoreDto);
-        public Task<string> DeleteRating(int id);
+        public Task<bool> CreateRating(RatingStoreDto ratingStoreDto ,string userId);
+        public Task<bool> EditRating(int id, RatingStoreDto ratingStoreDto);
+        public Task<bool> DeleteRating(int id);
         public Task<RatingGetDto> GetRatingByUserIdProductId(string userId, int productId);
         public Task<IEnumerable<RatingGetDto>> GetRatingsByProductId(int id);
     }

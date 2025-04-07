@@ -1,4 +1,5 @@
-﻿using HamroShoppingApp.DataContext;
+﻿using System.Data.Common;
+using HamroShoppingApp.DataContext;
 using HamroShoppingApp.Models.Cart;
 using HamroShoppingApp.RepoPattern.Cart.DTO;
 using Microsoft.EntityFrameworkCore;
@@ -14,95 +15,130 @@ namespace HamroShoppingApp.RepoPattern.Cart
             _dbContext = dbContext;
         }
 
-        public async Task<string> CreateCart(CartStoreDto cartStoreDto)
+        public async Task<bool> CreateCart(CartStoreDto cartStoreDto)
         {
-            var existingCart = await _dbContext.CartTbl
-                .FirstOrDefaultAsync(a => a.UserId == cartStoreDto.UserId && a.ProductId == cartStoreDto.ProductId);
+            try
+            {
+                var existingCart = await _dbContext.CartTbl
+                    .FirstOrDefaultAsync(a => a.UserId == cartStoreDto.UserId && a.ProductId == cartStoreDto.ProductId);
 
-            if (existingCart != null)
-            {
-                existingCart.Quantity++;
-            }
-            else
-            {
-                var cart = new AppCart
+                if (existingCart != null)
                 {
-                    UserId = cartStoreDto.UserId,
-                    ProductId = cartStoreDto.ProductId,
-                    Quantity = 1
-                };
-                await _dbContext.CartTbl.AddAsync(cart);
+                    existingCart.Quantity++;
+                }
+                else
+                {
+                    var cart = new AppCart
+                    {
+                        UserId = cartStoreDto.UserId,
+                        ProductId = cartStoreDto.ProductId,
+                        Quantity = 1
+                    };
+                    await _dbContext.CartTbl.AddAsync(cart);
+                }
+
+                return await _dbContext.SaveChangesAsync() > 0;
             }
 
-            return await _dbContext.SaveChangesAsync() > 0 ? "Successfully Saved" : "Failed to save Cart";
+            catch (DbUpdateException)
+            {
+                return false; // Return false in case of an error
+            }
+        }
+        public async Task<bool> DeleteCart(int id)
+        {
+            try
+            {
+                var cart = await _dbContext.CartTbl.FindAsync(id);
+                if (cart == null) return false;
+                _dbContext.CartTbl.Remove(cart);
+                return await _dbContext.SaveChangesAsync() > 0;
+            }
+
+            catch (DbUpdateException)
+            {
+                return false; // Return false in case of an error
+            }
         }
 
-        public async Task<string> DeleteCart(int id)
+        public async Task<bool> EditCart(int id, CartEditDto cartEditDto)
         {
-            if (id <= 0) return "Invalid Id";
-
-            var cart = await _dbContext.CartTbl.FindAsync(id);
-            if (cart == null) return "Cart Not Found";
-
-            _dbContext.CartTbl.Remove(cart);
-            return await _dbContext.SaveChangesAsync() > 0 ? "Cart Deleted Successfully" : "Failed To Delete Cart";
-        }
-
-        public async Task<string> EditCart(int id, CartEditDto cartEditDto)
-        {
-            var cart = await _dbContext.CartTbl.FindAsync(id);
-            if (cart == null) return "Cart Not Found";
-
-            cart.Quantity = cartEditDto.Quantity;
-            _dbContext.CartTbl.Update(cart);
-            return await _dbContext.SaveChangesAsync() > 0 ? "Cart Edited Successfully" : "Failed To Edit Cart";
+            try
+            {
+                var cart = await _dbContext.CartTbl.FindAsync(id);
+                if (cart == null) return false;
+                cart.Quantity = cartEditDto.Quantity;
+                _dbContext.CartTbl.Update(cart);
+                return await _dbContext.SaveChangesAsync() > 0;
+            }
+            catch (DbUpdateException)
+            {
+                return false; // Return false in case of an error
+            }
         }
 
         public async Task<IEnumerable<CartGetDto>> GetAllCarts()
         {
-            var result = await _dbContext.CartTbl.ToListAsync();
-            return result.Select(cart => new CartGetDto
+            try
             {
-                Id = cart.Id,
-                UserId = cart.UserId,
-                ProductName = cart.Product.ProductName,
-                Quantity = cart.Quantity,
-                TotalCarts = cart.TotalCarts
-            }) ?? Enumerable.Empty<CartGetDto>();
-        }
+                var result = await _dbContext.CartTbl.Include(c => c.Product).ToListAsync();
+                return result.Select(cart => new CartGetDto
+                {
+                    Id = cart.Id,
+                    UserId = cart.UserId,
+                    ProductName = cart.Product.ProductName,
+                    Quantity = cart.Quantity,
+                    TotalCarts = cart.TotalCarts
+                });
 
+            }
+            catch (Exception)
+            {
+                return Enumerable.Empty<CartGetDto>(); // Return an empty list in case of an error
+            }
+        }
         public async Task<IEnumerable<CartGetDto>> GetCartsByUserId(string userId)
         {
-            if (userId == null) return null;
-
-            var result = await _dbContext.CartTbl.Include(cart => cart.Product)
-                .Where(cart => cart.UserId == userId).ToListAsync();
-
-            return result.Select(cart => new CartGetDto
+            try
             {
-                Id = cart.Id,
-                UserId = cart.UserId,
-                ProductId = cart.ProductId,
-                ProductName = cart.Product.ProductName,
-                ProductPhoto = Convert.ToBase64String(cart.Product.PhotoPath),
-                Quantity = cart.Quantity,
-                TotalCarts = cart.TotalCarts,
-                Price = cart.Product.Price,
-                TotalPrice = cart.Product.Price * cart.Quantity
-            }) ?? null;
+                var result = await _dbContext.CartTbl.Include(cart => cart.Product)
+                    .Where(cart => cart.UserId == userId).ToListAsync();
+
+                return result.Select(cart => new CartGetDto
+                {
+                    Id = cart.Id,
+                    UserId = cart.UserId,
+                    ProductId = cart.ProductId,
+                    ProductName = cart.Product.ProductName,
+                    ProductPhoto = Convert.ToBase64String(cart.Product.PhotoPath),
+                    Quantity = cart.Quantity,
+                    TotalCarts = cart.TotalCarts,
+                    Price = cart.Product.Price,
+                    TotalPrice = cart.Product.Price * cart.Quantity
+                });
+            }
+            catch (Exception)
+            {
+                return Enumerable.Empty<CartGetDto>(); // Return an empty list in case of an error
+            }
         }
 
-        public async Task<string> DeleteCartByUserId(string userId)
+        //used in order controller to delete cart after placing order
+        public async Task<bool> DeleteCartByUserId(string userId)
         {
-            if (string.IsNullOrEmpty(userId)) return "Invalid user ID.";
+            try
+            {
+                var cartItems = await _dbContext.CartTbl
+                    .Where(cart => cart.UserId == userId).ToListAsync();
+                if (!cartItems.Any()) return false;
+                _dbContext.CartTbl.RemoveRange(cartItems);
+                return await _dbContext.SaveChangesAsync() > 0;
+            }
+            catch (DbUpdateException)
+            {
 
-            var cartItems = await _dbContext.CartTbl
-                .Where(cart => cart.UserId == userId).ToListAsync();
-
-            if (cartItems == null || !cartItems.Any()) return "No cart items found for this user.";
-
-            _dbContext.CartTbl.RemoveRange(cartItems);
-            return await _dbContext.SaveChangesAsync() > 0 ? "Cart deleted successfully." : "Failed to delete cart.";
+                return false; // Return false in case of an error
+            }
         }
     }
 }

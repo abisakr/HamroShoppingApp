@@ -4,9 +4,10 @@ namespace HamroShoppingApp.RepoPattern.User.DTO
 {
     public class LoginDto
     {
-        [Required]
+        [Required (ErrorMessage = "Phone number is required.")]
+        [RegularExpression(@"^\d{10}$", ErrorMessage = "Phone number must be 10 digits.")]
         public string PhoneNoAsUser { get; set; }
-        [Required]
+        [Required (ErrorMessage = "Password is required.")]
         public string Password { get; set; }
     }
 }

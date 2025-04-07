@@ -18,11 +18,15 @@ namespace HamroShoppingApp.Controllers
         [HttpPost("createCategory")]
         public async Task<IActionResult> CreateCategory([FromForm] CategoryStoreDto categoryDto)
         {
+            if (categoryDto == null || categoryDto.Photo == null || categoryDto.Photo.Length == 0)
+            {
+                return BadRequest("Category data is null");
+            }
             var result = await _categoryRepository.CreateCategory(categoryDto);
 
-            if (result == "Successfully Saved")
+            if (result)
             {
-                return Ok(result);
+                return Ok("Category Created Successfully");
             }
             return BadRequest("Failed to save category");
         }
@@ -30,36 +34,46 @@ namespace HamroShoppingApp.Controllers
         [HttpPut("editCategory/{id}")]
         public async Task<IActionResult> EditCategory(int id, [FromForm] CategoryStoreDto categoryDto)
         {
+            if (categoryDto == null || id <= 0)
+            {
+                return BadRequest("Category data is null or invalid id");
+            }
+
             var result = await _categoryRepository.EditCategory(id, categoryDto);
 
-            if (result == "Category Edited Successfully")
+            if (result)
             {
-                return Ok(result);
+                return Ok("Category Updated Successfully");
             }
-            return NotFound(result);
+            return NotFound("Category not found");
         }
 
         [HttpDelete("deleteCategory/{id}")]
         public async Task<IActionResult> DeleteCategory(int id)
         {
+            if (id <= 0)
+            {
+                return BadRequest("Invalid category id");
+            }
             var result = await _categoryRepository.DeleteCategory(id);
 
-            if (result == "Category Deleted Successfully")
+            if (result)
             {
-                return Ok(result);
+                return Ok("Category Deleted Successfully");
             }
-            return NotFound(result);
+            return NotFound("Category not found");
+
         }
 
         [HttpGet("getAllCategory")]
         public async Task<IActionResult> GetAllCategory()
         {
             var result = await _categoryRepository.GetAllCategory();
-            if (result != null && result.Any())
+            if (result.Any())
             {
                 return Ok(result);
             }
-            return NotFound();
+            return NotFound("No categories found");
         }
     }
 }

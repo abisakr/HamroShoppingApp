@@ -3,6 +3,8 @@ using HamroShoppingApp.Helper;
 using HamroShoppingApp.Models.User;
 using HamroShoppingApp.RepoPattern.User;
 using HamroShoppingApp.RepoPattern.User.DTO;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -70,34 +72,58 @@ namespace HamroShoppingApp.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login(LoginDto loginDto)
+        public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
         {
-            if (loginDto != null)
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var token = await _userAccountRepository.Login(loginDto);
+            if (string.IsNullOrEmpty(token))
             {
-                var result = await _userAccountRepository.Login(loginDto);
-                if (string.IsNullOrEmpty(result))
-                {
-                    return BadRequest("Invalid username or password.");
-                }
-                return Ok(new { Token = result });
+                return BadRequest("Invalid username or password.");
             }
-            return BadRequest("Please Enter The Data");
+
+            HttpContext.Response.Cookies.Append("accessToken", token, new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                IsEssential = true,
+                SameSite = SameSiteMode.None,
+                Expires = DateTime.UtcNow.AddDays(7)
+            });
+
+            return Ok("Logged in successfully");
         }
+
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register(RegisterDto registerDto)
+        public async Task<IActionResult> Register([FromBody] RegisterDto registerDto)
         {
-            if (registerDto != null)
+            // Validate the model
+            if (!ModelState.IsValid)
             {
-                var result = await _userAccountRepository.Register(registerDto);
-                if (string.IsNullOrEmpty(result))
-                {
-                    return BadRequest("Registration Failed.");
-                }
-
-                return Ok(new { Message = result });
+                return BadRequest(ModelState); // Return validation errors
             }
-            return BadRequest("Please Enter The Data");
+
+            var result = await _userAccountRepository.Register(registerDto);
+
+            if (result)
+            {
+                return Ok(new { Message = "User Created Successfully" });
+            }
+            else
+            {
+                return BadRequest("User Creation Failed");
+            }
         }
+        
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpPost("logout")]
+        public IActionResult Logout()
+        {
+            Response.Cookies.Delete("accessToken");
+            return Ok("Logged out successfully");
+        }
+
     }
 }

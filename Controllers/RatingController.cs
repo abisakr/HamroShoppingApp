@@ -1,10 +1,13 @@
-﻿using HamroShoppingApp.RepoPattern.Rating;
+﻿using System.Security.Claims;
+using HamroShoppingApp.RepoPattern.Rating;
 using HamroShoppingApp.RepoPattern.Rating.DTO;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HamroShoppingApp.Controllers
 {
+     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
     [ApiController]
     public class RatingController : ControllerBase
@@ -16,67 +19,106 @@ namespace HamroShoppingApp.Controllers
             _ratingRepository = ratingRepository;
         }
 
-        // [Authorize(AuthenticationSchemes = "Bearer")]
+        
+         
         [HttpPost("createRating")]
         public async Task<IActionResult> CreateRating([FromBody] RatingStoreDto ratingStoreDto)
         {
-            var result = await _ratingRepository.CreateRating(ratingStoreDto);
-
-            if (result == "Successfully Saved")
+            if (!ModelState.IsValid)  // Check if the ModelState is valid
             {
-                return Ok(result);
+                return BadRequest(ModelState);  // Return the validation errors if invalid
             }
-            return BadRequest("Failed to save Rating");
+
+            string? userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userId))
+            {
+                return BadRequest("User ID is null or empty");
+            }
+
+            var result = await _ratingRepository.CreateRating(ratingStoreDto, userId);
+
+            if (result)
+            {
+                return Ok("Rating created successfully.");
+            }
+            return BadRequest("Failed to create rating.");
         }
 
-        [Authorize(AuthenticationSchemes = "Bearer")]
+       
         [HttpPut("editRating/{id}")]
         public async Task<IActionResult> EditRating(int id, [FromBody] RatingStoreDto ratingStoreDto)
         {
+            if (!ModelState.IsValid)  // Check if the ModelState is valid
+            {
+                return BadRequest(ModelState);  // Return the validation errors if invalid
+            }
+            else if (id <= 0)
+            {
+                return BadRequest("Invalid ID.");
+            }
+
             var result = await _ratingRepository.EditRating(id, ratingStoreDto);
 
-            if (result == "Rating Edited SuccessFully")
+            if (result)
             {
-                return Ok(result);
+                return Ok("Rating updated successfully.");
             }
-            return NotFound(result);
+            return NotFound("Rating not found.");
         }
 
-        [Authorize(AuthenticationSchemes = "Bearer")]
+      
         [HttpDelete("deleteRating/{id}")]
         public async Task<IActionResult> DeleteRating(int id)
         {
+            if (id <= 0)
+            {
+                return BadRequest("Invalid rating ID.");
+            }
+
             var result = await _ratingRepository.DeleteRating(id);
 
-            if (result == "Rating Deleted SuccessFully")
+            if (result)
             {
-                return Ok(result);
+                return Ok("Rating deleted successfully.");
             }
-            return NotFound(result);
+            return NotFound("Rating not found.");
         }
 
-        [HttpGet("getRatingsByProductId{id}")]
+        [AllowAnonymous]
+        [HttpGet("getRatingsByProductId/{id}")]
         public async Task<IActionResult> GetRatingsByProductId(int id)
         {
+            if (id <= 0)
+            {
+                return BadRequest("Invalid product ID.");
+            }
+
             var result = await _ratingRepository.GetRatingsByProductId(id);
-            if (result != null)
+            if (result != null && result.Any())
             {
                 return Ok(result);
             }
-            return NotFound();
+
+            return NotFound("Ratings not found for this product.");
         }
 
-        [Authorize(AuthenticationSchemes = "Bearer")]
-        [HttpGet("getRatingByUserIdProductId{id}")]
-        public async Task<IActionResult> GetRatingByUserIdProductId(HttpContext httpContext, int id)
+     
+        [HttpGet("getRatingByUserIdProductId/{id}")]
+        public async Task<IActionResult> GetRatingByUserIdProductId(int id)
         {
-            string userId = "8c23792b-3f0b-42af-97a5-ba96604bd33c"; // Get userId from request header
+            string? userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userId))
+            {
+                return BadRequest("User ID is null or empty");
+            }
+
             var result = await _ratingRepository.GetRatingByUserIdProductId(userId, id);
             if (result != null)
             {
                 return Ok(result);
             }
-            return NotFound();
+
+            return NotFound("Rating not found for this user and product.");
         }
     }
 }
