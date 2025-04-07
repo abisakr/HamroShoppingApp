@@ -86,18 +86,32 @@ const Home = () => {
   const [loading, setLoading] = useState(false);
 
   const fetchCategoryProduct = async () => {
-    setLoading(true);
+    setLoading(true); // Set loading state
+  
     try {
       const response = await fetch("https://localhost:7223/api/Category/getAllCategory");
+  
+      // Check if the response was successful (status code 200-299)
+      if (!response.ok) {
+        throw new Error(`Failed to fetch categories: ${response.statusText}`);
+      }
+  
       const dataResponse = await response.json();
-      setCategoryProduct(dataResponse);
+  
+      // If the dataResponse is an array and not empty, set it to categoryProduct
+      if (Array.isArray(dataResponse) && dataResponse.length > 0) {
+        setCategoryProduct(dataResponse);
+      } else {
+        console.warn("No categories found or unexpected data format.");
+        setCategoryProduct([]);
+      }
     } catch (error) {
       console.error('Error fetching data:', error.message);
     } finally {
-      setLoading(false);
+      setLoading(false); // Set loading to false once the fetch is completed
     }
   };
-
+  
   useEffect(() => {
     fetchCategoryProduct();
   }, []);

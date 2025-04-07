@@ -9,40 +9,50 @@ const SearchProduct = () => {
 
     const fetchProduct = async () => {
         setLoading(true);
-        
+      
         try {
-            // Remove the extra '?' and 'q=' from query.search
-            const searchTerm = query.search.replace('?q=', '');
-
-            const response = await fetch(`https://localhost:7223/api/Product/getAllSearchedProducts?name=${searchTerm}`);
-            const dataResponse = await response.json();
-
+          // Remove the extra '?' and 'q=' from query.search
+          const searchTerm = query.search ? query.search.replace('?q=', '') : '';
+      
+          if (!searchTerm) {
             setLoading(false);
-
-            if (response.ok) {
-                console.log("API response:", dataResponse); // Log the API response for debugging
-
-                // Ensure dataResponse.data is initialized as an array
-                const responseData = Array.isArray(dataResponse) ? dataResponse : (dataResponse.data || []);
-                setData(responseData);
-                
-            } else {
-                console.error("API request failed:", dataResponse);
-            }
+            console.error("Search term is empty.");
+            return;
+          }
+      
+          const response = await fetch(`https://localhost:7223/api/Product/getAllSearchedProducts?name=${searchTerm}`);
+      
+          // Check for success before parsing response
+          if (!response.ok) {
+            setLoading(false);
+            console.error("API request failed:", response.statusText);
+            return;
+          }
+      
+          const dataResponse = await response.json();
+          setLoading(false);
+      
+          console.log("API response:", dataResponse); // Log the API response for debugging
+      
+          // Ensure dataResponse is always an array
+          const responseData = Array.isArray(dataResponse) ? dataResponse : (dataResponse.data || []);
+          setData(responseData);
+      
         } catch (error) {
-            setLoading(false);
-            console.error("Error fetching product details:", error);
+          setLoading(false);
+          console.error("Error fetching product details:", error);
         }
-    };
-
-    useEffect(() => {
+      };
+      
+      useEffect(() => {
         fetchProduct();
-    }, [query]);
-
-    // Ensure data has a fallback value in case it's still undefined
-    const searchResultsCount = data.length || 0;
-
-    console.log("data length:", data.length); // Log data length to debug
+      }, [query]);
+      
+      // Ensure data has a fallback value in case it's still undefined
+      const searchResultsCount = data.length || 0;
+      
+      console.log("data length:", data.length); // Log data length to debug
+      
 
     return (
         <div className='container mx-auto p-4'>

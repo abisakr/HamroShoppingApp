@@ -22,7 +22,7 @@ const AdminEditProduct = ({
         deliveryStatus: productData?.deliveryStatus || '',
         stockQuantity: productData?.stockQuantity || '',
         stockSold: productData?.stockSold || '',
-    });
+    }); 
 
     const [loading, setLoading] = useState(false);
     const [openFullScreenImage, setOpenFullScreenImage] = useState(false);
@@ -56,23 +56,39 @@ const AdminEditProduct = ({
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        const response = await fetch(`https://localhost:7223/api/Product/editProduct/${productData.id}`, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data)
-        });
-
-        const responseData = await response.json();
-
-        if (response.ok) {
-            toast.success(responseData?.message);
-            onClose();
-            fetchdata();
-        } else {
-            toast.error(responseData?.message);
+    
+        try {
+            const response = await fetch(`https://localhost:7223/api/Product/editProduct/${productData.id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'include', // 🔥 IMPORTANT: includes JWT cookie
+                body: JSON.stringify(data)
+            });
+    
+            if (response.ok) {
+                const message = await response.text(); // backend returns plain text
+                toast.success(message || "Product updated successfully.");
+                onClose();
+                fetchdata();
+            } else if (response.status === 400) {
+                const result = await response.json();
+                if (result?.errors) {
+                    Object.values(result.errors).forEach(errArr => {
+                        toast.error(errArr[0]);
+                    });
+                } else {
+                    toast.error(result?.message || "Invalid data");
+                }
+            } else {
+                const errorText = await response.text();
+                toast.error(errorText || "Failed to update product");
+            }
+        } catch (error) {
+            console.error('Update error:', error);
+            toast.error("Something went wrong");
         }
     };
+    
 
     const fetchCategoryProduct = async () => {
         setLoading(true);

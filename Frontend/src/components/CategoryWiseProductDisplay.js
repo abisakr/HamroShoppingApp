@@ -32,7 +32,7 @@ const CategroyWiseProductDisplay = ({ heading, categoryId }) => {
             setLoading(false); // Set loading to false on error as well
         }
     };
-
+ 
     useEffect(() => {
         fetchData(categoryId); // Fetch data on component mount and when categoryId changes
     }, [categoryId]);

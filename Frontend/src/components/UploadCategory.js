@@ -46,7 +46,8 @@ const UploadCategory = ({
         }));
     };
 
-    // Function to handle form submission
+
+
     const handleSubmit = async (e) => {
         e.preventDefault();
     
@@ -57,37 +58,40 @@ const UploadCategory = ({
         }
     
         try {
+            // Prepare the FormData to send to the backend
             const formData = new FormData();
             formData.append("categoryName", data.categoryName);
             formData.append("photo", data.photo);
-          
     
+            // Make the POST request to create the category
             const response = await fetch("https://localhost:7223/api/Category/createCategory", {
                 method: 'POST',
-                body: formData
+                body: formData,
+                credentials: 'include', // Ensures cookies are sent with the request
             });
     
             const responseData = await response.text(); // Since backend returns a string
-            console.log("Response Data:", responseData); // Log the response data
+            console.log("Response Data:", responseData);
     
             if (response.ok) {
                 // Check the exact response text for success
-                if (responseData === "Successfully Saved") {
-                    toast.success("Product Created.");
+                if (responseData === "Category Created Successfully") {
+                    toast.success("Category Created.");
                     onClose(); // Close the modal
-                    fetchData(); // Refresh the product data
+                    fetchData(); // Refresh the category data
                 } else {
-                    toast.error("Failed to create product.");
+                    toast.error("Failed to create category.");
                 }
             } else {
                 // Handle HTTP error responses
-                toast.error("Failed to create product.");
+                toast.error("Failed to create category.");
             }
         } catch (error) {
             console.error('Error:', error);
-            toast.error("Failed to create product.");
+            toast.error("Failed to create category.");
         }
     };
+    
     
     // Function to fetch categories
     
