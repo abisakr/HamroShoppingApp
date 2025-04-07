@@ -1,11 +1,13 @@
 ﻿using System.Security.Claims;
 using HamroShoppingApp.RepoPattern.Rating;
 using HamroShoppingApp.RepoPattern.Rating.DTO;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HamroShoppingApp.Controllers
 {
+     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
     [ApiController]
     public class RatingController : ControllerBase
@@ -17,8 +19,8 @@ namespace HamroShoppingApp.Controllers
             _ratingRepository = ratingRepository;
         }
 
-        // Adding [Authorize] for consistency, as ratings are user-specific
-        [Authorize(AuthenticationSchemes = "Bearer")]
+        
+         
         [HttpPost("createRating")]
         public async Task<IActionResult> CreateRating([FromBody] RatingStoreDto ratingStoreDto)
         {
@@ -42,7 +44,7 @@ namespace HamroShoppingApp.Controllers
             return BadRequest("Failed to create rating.");
         }
 
-        [Authorize(AuthenticationSchemes = "Bearer")]
+       
         [HttpPut("editRating/{id}")]
         public async Task<IActionResult> EditRating(int id, [FromBody] RatingStoreDto ratingStoreDto)
         {
@@ -64,7 +66,7 @@ namespace HamroShoppingApp.Controllers
             return NotFound("Rating not found.");
         }
 
-        [Authorize(AuthenticationSchemes = "Bearer")]
+      
         [HttpDelete("deleteRating/{id}")]
         public async Task<IActionResult> DeleteRating(int id)
         {
@@ -82,6 +84,7 @@ namespace HamroShoppingApp.Controllers
             return NotFound("Rating not found.");
         }
 
+        [AllowAnonymous]
         [HttpGet("getRatingsByProductId/{id}")]
         public async Task<IActionResult> GetRatingsByProductId(int id)
         {
@@ -99,7 +102,7 @@ namespace HamroShoppingApp.Controllers
             return NotFound("Ratings not found for this product.");
         }
 
-        [Authorize(AuthenticationSchemes = "Bearer")]
+     
         [HttpGet("getRatingByUserIdProductId/{id}")]
         public async Task<IActionResult> GetRatingByUserIdProductId(int id)
         {

@@ -3,6 +3,7 @@ using HamroShoppingApp.Helper;
 using HamroShoppingApp.Models.User;
 using HamroShoppingApp.RepoPattern.User;
 using HamroShoppingApp.RepoPattern.User.DTO;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -82,11 +83,12 @@ namespace HamroShoppingApp.Controllers
                 return BadRequest("Invalid username or password.");
             }
 
-            Response.Cookies.Append("jwt", token, new CookieOptions
+            HttpContext.Response.Cookies.Append("accessToken", token, new CookieOptions
             {
                 HttpOnly = true,
                 Secure = true,
-                SameSite = SameSiteMode.Strict,
+                IsEssential = true,
+                SameSite = SameSiteMode.None,
                 Expires = DateTime.UtcNow.AddDays(7)
             });
 
@@ -114,11 +116,12 @@ namespace HamroShoppingApp.Controllers
                 return BadRequest("User Creation Failed");
             }
         }
-
+        
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpPost("logout")]
         public IActionResult Logout()
         {
-            Response.Cookies.Delete("jwt");
+            Response.Cookies.Delete("accessToken");
             return Ok("Logged out successfully");
         }
 

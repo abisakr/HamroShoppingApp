@@ -2,12 +2,13 @@
 using HamroShoppingApp.RepoPattern.Cart;
 using HamroShoppingApp.RepoPattern.Order;
 using HamroShoppingApp.RepoPattern.Order.DTO;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HamroShoppingApp.Controllers
 {
-    [Authorize(AuthenticationSchemes = "Bearer")]
+     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
     [ApiController]
     public class OrderController : ControllerBase
@@ -72,15 +73,14 @@ namespace HamroShoppingApp.Controllers
         }
 
         [HttpGet("getOrdersByUserId")]
-        public async Task<IActionResult> GetOrdersByUserId(HttpContext httpContext)
+        public async Task<IActionResult> GetOrdersByUserId()
         {
-            string userId = "8c23792b-3f0b-42af-97a5-ba96604bd33c";
-            // Use a dynamic way to get userId
-            // string? userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            // if (string.IsNullOrEmpty(userId))
-            // {
-            //     return BadRequest("Invalid user ID.");
-            // }
+           
+            string? userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userId))
+            {
+                return BadRequest("Invalid user ID.");
+            }
             var result = await _orderRepository.GetOrdersByUserId(userId);
             if (result != null)
             {

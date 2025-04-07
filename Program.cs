@@ -33,50 +33,45 @@ builder.Services.Configure<IdentityOptions>(options =>
     options.Password.RequiredUniqueChars = 0;
 });
 
-// ✅ Configure JWT authentication with cookie support
+//Configure JWT authentication with cookie support
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-})
-.AddJwtBearer(o =>
+}).AddJwtBearer(options =>
 {
-    o.Events = new JwtBearerEvents
+    options.RequireHttpsMetadata = false;
+    options.SaveToken = true;
+    options.TokenValidationParameters = new TokenValidationParameters
     {
-        OnMessageReceived = context =>
-        {
-            // ✅ Read JWT from cookie instead of Authorization header
-            var token = context.Request.Cookies["jwt"];
-            if (!string.IsNullOrEmpty(token))
-            {
-                context.Token = token;
-            }
-            else
-            {
-                Console.WriteLine("No token found in cookie.");
-            }
-            return Task.CompletedTask;
-        }
-    };
-
-    o.TokenValidationParameters = new TokenValidationParameters
-    {
-        ValidIssuer = builder.Configuration["Jwt:Issuer"],
-        ValidAudience = builder.Configuration["Jwt:Audience"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"])),
+        ValidIssuer = builder.Configuration["JwtConfig:Issuer"],
+        ValidAudience = builder.Configuration["JwtConfig:Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtConfig:Key"]!)),
         ValidateIssuer = true,
         ValidateAudience = true,
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true
     };
-})
-.AddGoogle(googleOptions =>
+    //for cookie support
+    options.Events = new JwtBearerEvents
 {
-    googleOptions.ClientId = builder.Configuration["Authentication:Google:ClientId"];
-    googleOptions.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
-});
+    OnMessageReceived = ctx =>
+    {
+        ctx.Request.Cookies.TryGetValue("accessToken", out var accessToken);
+        if (!string.IsNullOrEmpty(accessToken))
+        {
+            ctx.Token = accessToken;
+        }
+        return Task.CompletedTask;
+    }
+};
 
+}).AddGoogle(googleOptions =>
+ {
+     googleOptions.ClientId = builder.Configuration["Authentication:Google:ClientId"];
+     googleOptions.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
+});
 builder.Services.AddAuthorization();
 
 // Register services for dependency injection
@@ -127,11 +122,6 @@ if (app.Environment.IsDevelopment())
 app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-app.Use(async (context, next) =>
-{
-    Console.WriteLine($"Request Path: {context.Request.Path}");
-    await next.Invoke();
-});
 app.UseRouting(); // Ensure UseRouting is called before UseAuthentication, UseAuthorization, and UseEndpoints
 
 app.UseCors("AllowSpecificOrigin");
