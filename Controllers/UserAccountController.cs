@@ -71,7 +71,7 @@ namespace HamroShoppingApp.Controllers
             });
         }
 
-        [HttpPost("login")]
+        [HttpPost("login/user")]
         public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
         {
             if (!ModelState.IsValid)
@@ -95,6 +95,36 @@ namespace HamroShoppingApp.Controllers
             return Ok("Logged in successfully");
         }
 
+        [HttpPost("login/admin")]
+        public async Task<IActionResult> AdminLogin([FromBody] LoginDto loginDto)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var token = await _userAccountRepository.AdminLogin(loginDto);
+            if (string.IsNullOrEmpty(token))
+                return Unauthorized("Invalid username or password.");
+
+            if (token == "FORBIDDEN")
+                return Forbid("You are not authorized as an admin.");
+
+            HttpContext.Response.Cookies.Append("accessToken", token, new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.None,
+                IsEssential = true,
+                Expires = DateTime.UtcNow.AddDays(7)
+            });
+
+            return Ok(new
+            {
+                message = "Admin logged in successfully",
+                token = token,
+                expires = DateTime.UtcNow.AddDays(7)
+            });
+        }
+
 
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterDto registerDto)
@@ -116,8 +146,8 @@ namespace HamroShoppingApp.Controllers
                 return BadRequest("User Creation Failed");
             }
         }
-        
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin,User")]
         [HttpPost("logout")]
         public IActionResult Logout()
         {

@@ -16,59 +16,36 @@ namespace HamroShoppingApp.Helper
 
 
 
-        public string GenerateToken(string Id, string FullName)
+        public string GenerateToken(string userId, string fullName, IList<string>? roles = null)
         {
-            // var issuer = _config["Jwt:Issuer"];
-            // var audience = _config["Jwt:Audience"];
-            // var key = Encoding.UTF8.GetBytes(_config["Jwt:Key"]);
-            // var signingCredentials = new SigningCredentials(
-            //                         new SymmetricSecurityKey(key),
-            //                         SecurityAlgorithms.HmacSha512Signature
-            //                     );
+            var claims = new List<Claim>
+    {
+        new Claim(ClaimTypes.NameIdentifier, userId),
+        new Claim(ClaimTypes.Name, fullName)
+    };
 
-            // var subject = new ClaimsIdentity(new[]
-            // {
-            //     new Claim(ClaimTypes.NameIdentifier,Id),
-            //     new Claim(ClaimTypes.Name,FullName)
-            //    });
-            // var expires = DateTime.UtcNow.AddHours(3);
-            // var tokenDescriptor = new SecurityTokenDescriptor
-            // {
-            //     Subject = subject,
-            //     Expires = expires,
-            //     Issuer = issuer,
-            //     Audience = audience,
-            //     SigningCredentials = signingCredentials
-            // };
-            // var tokenHandler = new JwtSecurityTokenHandler();
-            // var token = tokenHandler.CreateToken(tokenDescriptor);
-            // var jwtToken = tokenHandler.WriteToken(token);
-            // return jwtToken;
-            var issuer = _config["JwtConfig:Issuer"];
-            var audience = _config["JwtConfig:Audience"];
-            var key = _config["JwtConfig:Key"];
-            var tokenValidityMins = _config.GetValue<int>("JwtConfig:TokenValidityMins");
-            var tokenExpiryTimeStamp = DateTime.UtcNow.AddMinutes(tokenValidityMins);
-
-            var tokenDescriptor = new SecurityTokenDescriptor
+            if (roles != null)
             {
-                Subject = new ClaimsIdentity(new[]
-                        {
-                new Claim(ClaimTypes.NameIdentifier,Id),
-                 new Claim(ClaimTypes.Name,FullName)
-               }),
-                Expires = tokenExpiryTimeStamp,
-                Issuer = issuer,
-                Audience = audience,
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.ASCII.GetBytes(key)),
-                    SecurityAlgorithms.HmacSha512Signature),
-            };
+                foreach (var role in roles)
+                {
+                    claims.Add(new Claim(ClaimTypes.Role, role));
+                }
+            }
 
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var securityToken = tokenHandler.CreateToken(tokenDescriptor);
-            var jwtToken = tokenHandler.WriteToken(securityToken);
-            return jwtToken;
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["JwtConfig:Key"]!));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+            var token = new JwtSecurityToken(
+                issuer: _config["JwtConfig:Issuer"],
+                audience: _config["JwtConfig:Audience"],
+                claims: claims,
+                expires: DateTime.UtcNow.AddDays(7),
+                signingCredentials: creds
+            );
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
         }
+
 
     }
 }

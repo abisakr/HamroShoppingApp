@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HamroShoppingApp.Controllers
 {
-     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
     [Route("api/[controller]")]
     [ApiController]
     public class RatingController : ControllerBase
@@ -19,8 +19,8 @@ namespace HamroShoppingApp.Controllers
             _ratingRepository = ratingRepository;
         }
 
-        
-         
+
+
         [HttpPost("createRating")]
         public async Task<IActionResult> CreateRating([FromBody] RatingStoreDto ratingStoreDto)
         {
@@ -44,7 +44,7 @@ namespace HamroShoppingApp.Controllers
             return BadRequest("Failed to create rating.");
         }
 
-       
+
         [HttpPut("editRating/{id}")]
         public async Task<IActionResult> EditRating(int id, [FromBody] RatingStoreDto ratingStoreDto)
         {
@@ -66,7 +66,7 @@ namespace HamroShoppingApp.Controllers
             return NotFound("Rating not found.");
         }
 
-      
+
         [HttpDelete("deleteRating/{id}")]
         public async Task<IActionResult> DeleteRating(int id)
         {
@@ -102,7 +102,7 @@ namespace HamroShoppingApp.Controllers
             return NotFound("Ratings not found for this product.");
         }
 
-     
+
         [HttpGet("getRatingByUserIdProductId/{id}")]
         public async Task<IActionResult> GetRatingByUserIdProductId(int id)
         {

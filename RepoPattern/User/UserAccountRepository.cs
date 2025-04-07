@@ -26,7 +26,8 @@ namespace HamroShoppingApp.RepoPattern.User
                     return string.Empty;
                 }
 
-                return _tokenGenerator.GenerateToken(user.Id, user.FullName);
+                var roles = await _userManager.GetRolesAsync(user);
+                return _tokenGenerator.GenerateToken(user.Id, user.FullName, roles);
             }
             catch (Exception ex)
             {
@@ -34,7 +35,28 @@ namespace HamroShoppingApp.RepoPattern.User
                 return string.Empty;
             }
         }
+        public async Task<string> AdminLogin(LoginDto loginDto)
+        {
+            try
+            {
+                var user = await _userManager.FindByNameAsync(loginDto.PhoneNoAsUser);
+                if (user == null || !await _userManager.CheckPasswordAsync(user, loginDto.Password))
+                    return string.Empty; // Invalid user or password
 
+                var isAdmin = await _userManager.IsInRoleAsync(user, "Admin");
+                if (!isAdmin)
+                    return "FORBIDDEN"; // User is not an admin
+
+                var roles = await _userManager.GetRolesAsync(user);
+                return _tokenGenerator.GenerateToken(user.Id, user.FullName, roles); // Generate and return token
+            }
+            catch (Exception ex)
+            {
+                // Optionally, you can log the exception or print it if needed.
+                Console.WriteLine($"AdminLogin failed: {ex.Message}");
+                return string.Empty; // Return empty string on failure
+            }
+        }
 
 
         public async Task<bool> Register(RegisterDto registerDto)
@@ -53,15 +75,20 @@ namespace HamroShoppingApp.RepoPattern.User
 
                 var result = await _userManager.CreateAsync(user, registerDto.Password);
 
+                if (result.Succeeded)
+                {
+                    await _userManager.AddToRoleAsync(user, "User");
+                }
+
                 return result.Succeeded;
             }
             catch (Exception ex)
             {
-                // Optionally, log the exception
                 Console.WriteLine($"Registration failed: {ex.Message}");
                 return false;
             }
         }
+
 
     }
 

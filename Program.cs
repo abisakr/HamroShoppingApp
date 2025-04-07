@@ -55,23 +55,23 @@ builder.Services.AddAuthentication(options =>
     };
     //for cookie support
     options.Events = new JwtBearerEvents
-{
-    OnMessageReceived = ctx =>
     {
-        ctx.Request.Cookies.TryGetValue("accessToken", out var accessToken);
-        if (!string.IsNullOrEmpty(accessToken))
+        OnMessageReceived = ctx =>
         {
-            ctx.Token = accessToken;
+            ctx.Request.Cookies.TryGetValue("accessToken", out var accessToken);
+            if (!string.IsNullOrEmpty(accessToken))
+            {
+                ctx.Token = accessToken;
+            }
+            return Task.CompletedTask;
         }
-        return Task.CompletedTask;
-    }
-};
+    };
 
 }).AddGoogle(googleOptions =>
  {
      googleOptions.ClientId = builder.Configuration["Authentication:Google:ClientId"];
      googleOptions.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
-});
+ });
 builder.Services.AddAuthorization();
 
 // Register services for dependency injection
@@ -87,6 +87,7 @@ builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 // Configure the database context
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
 
 // Configure Identity with Entity Framework stores
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
@@ -113,6 +114,46 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+// creating  roles
+using (var scope = app.Services.CreateScope())
+{
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+
+    string[] roles = { "Admin", "User" };
+
+    foreach (var role in roles)
+    {
+        if (!await roleManager.RoleExistsAsync(role))
+        {
+            await roleManager.CreateAsync(new IdentityRole(role));
+        }
+    }
+
+    // Create a default Admin user (optional)
+    var adminUser = await userManager.FindByNameAsync("admin");
+
+    if (adminUser == null)
+    {
+        var user = new ApplicationUser
+        {
+            UserName = "1234567890",
+            Email = "admin@shop.com",
+            FullName = "Super Admin",
+            PhoneNumber = "123456790",
+            Address = "HQ",
+            City = "Capital",
+            Country = "Nowhere"
+        };
+
+        var result = await userManager.CreateAsync(user, "Admin@123");
+
+        if (result.Succeeded)
+        {
+            await userManager.AddToRoleAsync(user, "Admin");
+        }
+    }
+}
 // Configure the HTTP request pipeline
 if (app.Environment.IsDevelopment())
 {

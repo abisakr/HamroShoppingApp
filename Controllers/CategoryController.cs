@@ -1,9 +1,12 @@
 ﻿using HamroShoppingApp.RepoPattern.Category;
 using HamroShoppingApp.RepoPattern.Category.DTO;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HamroShoppingApp.Controllers
 {
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
     [Route("api/[controller]")]
     [ApiController]
     public class CategoryController : ControllerBase
@@ -64,7 +67,7 @@ namespace HamroShoppingApp.Controllers
             return NotFound("Category not found");
 
         }
-
+        [AllowAnonymous]
         [HttpGet("getAllCategory")]
         public async Task<IActionResult> GetAllCategory()
         {
