@@ -6,5 +6,6 @@ namespace HamroShoppingApp.RepoPattern.User
     {
         public Task<bool> Register(RegisterDto registerDto);
         public Task<string> Login(LoginDto loginDto);
+        public Task<string> AdminLogin(LoginDto loginDto);
     }
 }

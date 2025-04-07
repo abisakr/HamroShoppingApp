@@ -1,9 +1,12 @@
 ﻿using HamroShoppingApp.RepoPattern.Product;
 using HamroShoppingApp.RepoPattern.Product.DTO;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HamroShoppingApp.Controllers
 {
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
     [Route("api/[controller]")]
     [ApiController]
     public class ProductController : ControllerBase
@@ -65,7 +68,7 @@ namespace HamroShoppingApp.Controllers
             }
             return NotFound("Product not found or failed to delete.");
         }
-
+        [AllowAnonymous]
         [HttpGet("getAllProducts")]
         public async Task<IActionResult> GetAllProducts()
         {
@@ -76,6 +79,7 @@ namespace HamroShoppingApp.Controllers
             }
             return NotFound("No products found.");
         }
+        [AllowAnonymous]
 
         [HttpGet("getAllPopularProducts")]
         public async Task<IActionResult> GetAllPopularProducts()
@@ -87,6 +91,7 @@ namespace HamroShoppingApp.Controllers
             }
             return NotFound("No popular products found.");
         }
+        [AllowAnonymous]
 
         [HttpGet("getProductById/{id}")]
         public async Task<IActionResult> GetProductById(int id)
@@ -103,6 +108,7 @@ namespace HamroShoppingApp.Controllers
             }
             return NotFound("Product not found.");
         }
+        [AllowAnonymous]
 
         [HttpGet("getProductByCategoryId/{categoryId}")]
         public async Task<IActionResult> GetProductByCategoryId(int categoryId)
@@ -119,6 +125,7 @@ namespace HamroShoppingApp.Controllers
             }
             return NotFound("Products not found for the given category.");
         }
+        [AllowAnonymous]
 
         [HttpGet("getAllSearchedProducts")]
         public async Task<IActionResult> Search(string name)
@@ -135,6 +142,7 @@ namespace HamroShoppingApp.Controllers
             }
             return NotFound("No products found matching the search term.");
         }
+        [AllowAnonymous]
 
         [HttpGet("getShortedFilteredProduct")]
         public async Task<IActionResult> GetShortedFilteredProduct(string? categoryName, string? order)
