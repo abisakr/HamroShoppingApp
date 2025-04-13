@@ -15,12 +15,12 @@ namespace HamroShoppingApp.RepoPattern.Cart
             _dbContext = dbContext;
         }
 
-        public async Task<bool> CreateCart(CartStoreDto cartStoreDto)
+        public async Task<bool> CreateCart(CartStoreDto cartStoreDto, string userId)
         {
             try
             {
                 var existingCart = await _dbContext.CartTbl
-                    .FirstOrDefaultAsync(a => a.UserId == cartStoreDto.UserId && a.ProductId == cartStoreDto.ProductId);
+                    .FirstOrDefaultAsync(a => a.UserId == userId && a.ProductId == cartStoreDto.ProductId);
 
                 if (existingCart != null)
                 {
@@ -30,7 +30,7 @@ namespace HamroShoppingApp.RepoPattern.Cart
                 {
                     var cart = new AppCart
                     {
-                        UserId = cartStoreDto.UserId,
+                        UserId = userId,
                         ProductId = cartStoreDto.ProductId,
                         Quantity = 1
                     };

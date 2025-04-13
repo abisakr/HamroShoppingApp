@@ -9,7 +9,7 @@ const addToCart = async (e, id) => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-      },
+      }, 
       credentials: 'include', // 🔥 this sends the JWT cookie
       body: JSON.stringify({ productId: id })
     });
