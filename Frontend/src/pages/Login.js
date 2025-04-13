@@ -1,5 +1,5 @@
-import React, { useContext, useState } from 'react'
-import loginIcons from '../assest/signin.gif'
+import React, { useContext, useState } from 'react';
+import loginIcons from '../assest/signin.gif';
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
 import { Link, useNavigate } from 'react-router-dom';
@@ -7,58 +7,58 @@ import { toast } from 'react-toastify';
 import Context from '../context';
 
 const Login = () => {
-    const [showPassword,setShowPassword] = useState(false)
-    const [data,setData] = useState({
-        phone : "",
-        password : ""
-    })
-    const navigate = useNavigate()
-    const { fetchUserDetails, fetchUserAddToCart } = useContext(Context)
+    const [showPassword, setShowPassword] = useState(false);
+    const [data, setData] = useState({
+        phone: "",
+        password: ""
+    });
+    const navigate = useNavigate();
+    const { fetchUserDetails, fetchUserAddToCart } = useContext(Context);
 
-    const handleOnChange = (e) =>{
-        const { name , value } = e.target
+    const handleOnChange = (e) => {
+        const { name, value } = e.target;
 
-        setData((preve)=>{
-            return{
-                ...preve,
-                [name] : value
+        setData((prev) => {
+            return {
+                ...prev,
+                [name]: value
+            };
+        });
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        try {
+            const dataResponse = await fetch("https://localhost:7223/api/UserAccount/login/user", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ PhoneNoAsUser: data.phone, password: data.password }),
+                credentials: 'include' // This ensures the cookie is sent with the request
+            });
+
+            const dataApi = await dataResponse.json();
+            
+            if (dataResponse.ok) {
+                toast.success("Welcome!!");
+                navigate('/'); // Redirect after login
+                fetchUserDetails(); // Fetch user details after login
+                fetchUserAddToCart(); // Fetch user cart details
+            } else {
+                toast.error(dataApi.message || "Login failed");
             }
-        })
-    }
-
-
-    const handleSubmit = async(e) =>{
-        e.preventDefault()
-        const dataResponse= await fetch("https://localhost:7223/api/UserAccount/login",{
-            method:'POST',
-            headers:{'Content-Type':'application/json'},
-            body: JSON.stringify({ PhoneNoAsUser: data.phone, password: data.password })
-        })
-        const dataApi= await dataResponse.text();
-        console.log("toks",dataApi.token)
-        if(dataResponse.ok){
-            toast.success("Welcome!!")
-            localStorage.setItem('token', dataApi);
-            navigate('/')
-            fetchUserDetails()
-            fetchUserAddToCart()
+        } catch (error) {
+            console.error("Login error:", error);
+            toast.error("Something went wrong, please try again.");
         }
+    };
 
-        if(dataApi.error){
-            alert(dataApi.message)
-
-            toast.error(dataApi.message)
-        }
-
-    }
-
-    console.log("data login",data)
-    
-  return (
-    <section id='login'>
-        <div className='mx-auto container p-4'>
-
-            <div className='bg-white p-5 w-full max-w-sm mx-auto'>
+    return (
+        <section id='login'>
+            <div className='mx-auto container p-4'>
+                <div className='bg-white p-5 w-full max-w-sm mx-auto'>
                     <div className='w-20 h-20 mx-auto'>
                         <img src={loginIcons} alt='login icons'/>
                     </div>
@@ -67,9 +67,9 @@ const Login = () => {
                         <div className='grid'>
                             <label>Phone : </label>
                             <div className='bg-slate-100 p-2'>
-                                <input 
-                                    type='phone' 
-                                    placeholder='Enter your phone no' 
+                                <input
+                                    type='phone'
+                                    placeholder='Enter your phone no'
                                     name='phone'
                                     value={data.phone}
                                     onChange={handleOnChange}
@@ -80,24 +80,16 @@ const Login = () => {
                         <div>
                             <label>Password : </label>
                             <div className='bg-slate-100 p-2 flex'>
-                                <input 
-                                    type={showPassword ? "text" : "password"} 
+                                <input
+                                    type={showPassword ? "text" : "password"}
                                     placeholder='Enter your password'
                                     value={data.password}
-                                    name='password' 
+                                    name='password'
                                     onChange={handleOnChange}
                                     className='w-full h-full outline-none bg-transparent'/>
-                                <div className='cursor-pointer text-xl' onClick={()=>setShowPassword((preve)=>!preve)}>
+                                <div className='cursor-pointer text-xl' onClick={() => setShowPassword((prev) => !prev)}>
                                     <span>
-                                        {
-                                            showPassword ? (
-                                                <FaEyeSlash/>
-                                            )
-                                            :
-                                            (
-                                                <FaEye/>
-                                            )
-                                        }
+                                        {showPassword ? <FaEyeSlash /> : <FaEye />}
                                     </span>
                                 </div>
                             </div>
@@ -106,17 +98,16 @@ const Login = () => {
                             </Link>
                         </div>
 
-                        <button className='bg-red-600 hover:bg-red-700 text-white px-6 py-2 w-full max-w-[150px] rounded-full hover:scale-110 transition-all mx-auto block mt-6'>Login</button>
-
+                        <button className='bg-red-600 hover:bg-red-700 text-white px-6 py-2 w-full max-w-[150px] rounded-full hover:scale-110 transition-all mx-auto block mt-6'>
+                            Login
+                        </button>
                     </form>
 
-                    <p className='my-5'>Don't have account ? <Link to={"/sign-up"} className=' text-red-600 hover:text-red-700 hover:underline'>Sign up</Link></p>
+                    <p className='my-5'>Don't have an account? <Link to={"/sign-up"} className='text-red-600 hover:text-red-700 hover:underline'>Sign up</Link></p>
+                </div>
             </div>
+        </section>
+    );
+};
 
-
-        </div>
-    </section>
-  )
-}
-
-export default Login
+export default Login;

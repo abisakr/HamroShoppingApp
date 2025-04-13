@@ -51,40 +51,41 @@ const AdminEditCategory = ({
         try {
             const formData = new FormData();
             formData.append('categoryName', data.categoryName);
-            
-            // Only append photoPath if it is not empty (i.e., a new image was uploaded)
+    
             if (data.photo) {
-                formData.append('photo', data.photo);
+                formData.append('photo', data.photo); // Only if a new image was uploaded
             }
     
             const response = await fetch(`https://localhost:7223/api/Category/editCategory/${productData.id}`, {
                 method: 'PUT',
-                body: formData
+                body: formData,
+                credentials: 'include', // 🔥 Ensures JWT from cookie is sent
             });
     
-            const responseData = await response.json();
-    
             if (response.ok) {
-                toast.success(responseData?.message || "Category updated successfully.");
+                const message = await response.text();
+                toast.success(message || "Category updated successfully.");
                 onClose();
                 fetchdata();
-            } else {
-                if (response.status === 400) {
-                    // Handle validation errors
-                    const validationErrors = await response.json();
+            } else if (response.status === 400) {
+                const validationErrors = await response.json();
+                if (validationErrors?.errors) {
                     Object.keys(validationErrors.errors).forEach((key) => {
                         toast.error(validationErrors.errors[key][0]);
                     });
                 } else {
-                    // Handle other errors
-                    toast.error(responseData?.message || "Failed to update category.");
+                    toast.error(validationErrors?.message || "Bad Request");
                 }
+            } else {
+                const errorMessage = await response.text();
+                toast.error(errorMessage || "Failed to update category.");
             }
         } catch (error) {
             console.error('Error:', error);
-            toast.error("Failed to update category.");
+            toast.error("Something went wrong while updating category.");
         }
     };
+    
     
     return (
         <div className='fixed w-full h-full bg-slate-200 bg-opacity-35 top-0 left-0 right-0 bottom-0 flex justify-center items-center'>

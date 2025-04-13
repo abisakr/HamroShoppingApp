@@ -10,13 +10,18 @@ const AllProducts = () => {
   const fetchAllProduct = async () => {
     try {
       const response = await fetch("https://localhost:7223/api/Product/getAllProducts");
-      const dataResponse = await response.json();
-      setAllProduct(dataResponse);
+  
+      if (response.ok) {
+        const dataResponse = await response.json();
+        setAllProduct(dataResponse);
+      } else {
+        console.error("Failed to fetch products:", response.statusText);
+      }
     } catch (error) {
       console.error('Error fetching data:', error.message);
-    } 
+    }
   };
-
+  
 
   useEffect(()=>{
     fetchAllProduct()

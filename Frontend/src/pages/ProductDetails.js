@@ -28,16 +28,21 @@ const ProductDetails = () => {
 
   const fetchProductDetails = async () => {
     setLoading(true);
-
+  
     try {
       const response = await fetch(`https://localhost:7223/api/Product/getProductById/${id}`);
+  
+      if (!response.ok) {
+        throw new Error(`Error: ${response.statusText}`);
+      }
+  
       const dataResponse = await response.json();
-
       setLoading(false);
+  
       if (dataResponse && dataResponse.id) {
-        // Convert the photoPath (base64) to an image URL
-        const imageUrl = `data:image/jpeg;base64,${dataResponse.photoPath}`;
-        dataResponse.images = [imageUrl]; // Assuming a single image, you may adjust based on actual response
+        // Check if photoPath exists and is not null
+        const imageUrl = dataResponse.photoPath ? `data:image/jpeg;base64,${dataResponse.photoPath}` : '';
+        dataResponse.images = imageUrl ? [imageUrl] : []; // Assuming a single image
         setData(dataResponse);
         setActiveImage(imageUrl);
       } else {
@@ -48,7 +53,7 @@ const ProductDetails = () => {
       console.error("Error fetching product details:", error);
     }
   };
-
+  
   useEffect(() => {
     fetchProductDetails();
   }, [id]);

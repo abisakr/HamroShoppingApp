@@ -1,8 +1,6 @@
-
 import React, { useContext, useEffect, useState } from 'react';
 import { MdDelete } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
-import {jwtDecode} from "jwt-decode";
 import Context from '../context';
 import displayINRCurrency from '../helpers/displayCurrency';
 import { toast } from 'react-toastify';
@@ -14,138 +12,100 @@ const Cart = () => {
   const [cartData, setCartData] = useState([]);
   const [loading, setLoading] = useState(false);
   const context = useContext(Context);
-  const loadingCart = new Array(4).fill(null);
   const navigate = useNavigate();
-  const { sendNotification, notifications } = useSignalR();
+  const { sendNotification } = useSignalR();
 
-  const token = localStorage.getItem('token');
-  const parsedToken = token ? JSON.parse(token) : null;
-  const jwtToken = parsedToken ? parsedToken.token : null;
-
-  // Decode the JWT token to get the user ID
-  const decodedToken = jwtToken ? jwtDecode(jwtToken) : null;
-  const userId = decodedToken ? decodedToken.nameid : null;
-  
   useEffect(() => {
     setLoading(true);
     fetchCartData();
 
-    // Check for the toast flag in localStorage
-    const showToast = localStorage.getItem('showToast');
-    if (showToast === 'true') {
+    if (localStorage.getItem('showToast') === 'true') {
       toast.success("Order Placed.");
       localStorage.removeItem('showToast');
     }
   }, []);
-  // Function to fetch cart data
-  const fetchCartData = async () => {
-    if (!jwtToken || !userId) {
-      console.error('Missing JWT token or user ID');
-      return;
-    }
 
+  const fetchCartData = async () => {
     try {
       const response = await fetch(`https://localhost:7223/api/Cart/getCartsByUserId`, {
         method: 'GET',
+        credentials: 'include', // 👈 send cookies
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${jwtToken}`
+          'Content-Type': 'application/json'
         }
       });
 
-      if (!response.ok) {
-        throw new Error('Failed to fetch cart data');
-      }
+      if (!response.ok) throw new Error('Failed to fetch cart data');
 
-      const responseData = await response.json();
-      console.log('API response:', responseData); // Log the entire response
-      setCartData(responseData);
+      const data = await response.json();
+      setCartData(data);
     } catch (error) {
-      console.error('Failed to fetch cart data:', error);
+      console.error(error);
     } finally {
-      setLoading(false); // Set loading to false after fetching data
+      setLoading(false);
     }
   };
 
-  // Initial fetch of cart data on component mount
-  useEffect(() => {
-    setLoading(true);
-    fetchCartData();
-  }, []);
-
-  // Function to increase quantity of a product in cart
   const increaseQty = async (id, qty) => {
     try {
       const response = await fetch(`https://localhost:7223/api/Cart/editCart/${id}`, {
         method: 'PUT',
+        credentials: 'include',
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${jwtToken}`
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify({ quantity: qty + 1 })
       });
 
-      const responseData = await response.json();
-      if (!responseData.ok) {
-        throw new Error('Failed to update quantity');
-      }
-      fetchCartData(); // Refresh cart data after successful update
+      if (!response.ok) throw new Error('Failed to update quantity');
+      fetchCartData();
     } catch (error) {
-      console.error('Failed to update quantity:', error);
+      console.error(error);
     }
   };
 
-  // Function to decrease quantity of a product in cart
   const decreaseQty = async (id, qty) => {
     if (qty >= 2) {
       try {
         const response = await fetch(`https://localhost:7223/api/Cart/editCart/${id}`, {
           method: 'PUT',
+          credentials: 'include',
           headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${jwtToken}`
+            'Content-Type': 'application/json'
           },
           body: JSON.stringify({ quantity: qty - 1 })
         });
 
-        const responseData = await response.json();
-        if (!responseData.ok) {
-          throw new Error('Failed to update quantity');
-        } else {
-          fetchCartData(); // Refresh cart data after successful update
-        }
+        if (!response.ok) throw new Error('Failed to update quantity');
+        fetchCartData();
       } catch (error) {
-        console.error('Failed to update quantity:', error);
+        console.error(error);
       }
     }
   };
 
-  // Function to delete a product from cart
   const deleteCartProduct = async (id) => {
     try {
       const response = await fetch(`https://localhost:7223/api/Cart/deleteCart/${id}`, {
         method: 'DELETE',
+        credentials: 'include',
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${jwtToken}`
+          'Content-Type': 'application/json'
         }
       });
 
-      const responseData = await response.text();
-      if (!response.ok) {
-        alert(responseData);
-      } else {
-        toast.success(responseData);
-        fetchCartData(); // Refresh cart data after successful deletion
-        context.fetchUserAddToCart(); // Update user's cart in global context if necessary
-      }
+      const message = await response.text();
+      if (!response.ok) return toast.error(message);
+
+      toast.success(message);
+      fetchCartData();
+      context.fetchUserAddToCart();
     } catch (error) {
-      console.error('Failed to delete product from cart:', error);
+      console.error(error);
     }
   };
 
-  // Function to handle placing an order and redirect to eSewa
-       const handlePlaceOrder = async () => {
+  const handlePlaceOrder = async () => {
     try {
       const products = cartData.map(cart => ({
         productId: cart.productId,
@@ -155,70 +115,64 @@ const Cart = () => {
 
       const response = await fetch(`https://localhost:7223/api/Order/createCartOrder`, {
         method: 'POST',
+        credentials: 'include',
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${jwtToken}`,
-          'UserId': userId
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify(products)
       });
 
-      const responseData = await response.text();
-      if (!response.ok) {
-        toast.error(responseData);
-      } else {
-        sendNotification("Costumer", " Order Alert !! ");
-        setCartData([]); // Clear cart data after successful order placement
-        navigate('/cart');
+      const message = await response.text();
+      if (!response.ok) return toast.error(message);
 
-        // Generate signature for eSewa
-        const totalAmount = totalPrice + 10; // Assuming a fixed tax amount of 10 for this example
-        const transactionUuid = uuidv4();// Generate this based on your logic
-        const message = `total_amount=${totalAmount},transaction_uuid=${transactionUuid},product_code=EPAYTEST`;
-        const secret = '8gBm/:&EnhH.1/q';
-        const hash = CryptoJS.HmacSHA256(message, secret);
-        const signature = CryptoJS.enc.Base64.stringify(hash);
+      sendNotification("Customer", "Order Alert !!");
+      setCartData([]);
+      navigate('/cart');
 
-        // Redirect to eSewa
-        const form = document.createElement('form');
-        form.action = 'https://rc-epay.esewa.com.np/api/epay/main/v2/form';
-        form.method = 'POST';
+      // Prepare for eSewa
+      const totalAmount = totalPrice + 10;
+      const transactionUuid = uuidv4();
+      const messageToSign = `total_amount=${totalAmount},transaction_uuid=${transactionUuid},product_code=EPAYTEST`;
+      const secret = '8gBm/:&EnhH.1/q';
+      const hash = CryptoJS.HmacSHA256(messageToSign, secret);
+      const signature = CryptoJS.enc.Base64.stringify(hash);
 
-        const inputs = [
-          { name: 'amount', value: totalPrice },
-          { name: 'tax_amount', value: 10 },
-          { name: 'total_amount', value: totalAmount },
-          { name: 'transaction_uuid', value: transactionUuid },
-          { name: 'product_code', value: 'EPAYTEST' },
-          { name: 'product_service_charge', value: 0 },
-          { name: 'product_delivery_charge', value: 0 },
-          { name: 'success_url', value: 'http://localhost:3000/cart' },
-          { name: 'failure_url', value: 'http://localhost:3000/cart' },
-          { name: 'signed_field_names', value: 'total_amount,transaction_uuid,product_code' },
-          { name: 'signature', value: signature }
-        ];
+      const form = document.createElement('form');
+      form.action = 'https://rc-epay.esewa.com.np/api/epay/main/v2/form';
+      form.method = 'POST';
 
-        inputs.forEach(inputData => {
-          const input = document.createElement('input');
-          input.type = 'hidden';
-          input.name = inputData.name;
-          input.value = inputData.value;
-          form.appendChild(input);
-        });
-        localStorage.setItem('showToast', 'true');
-        document.body.appendChild(form);
-        form.submit();
-       // toast.success("Order Placed.");
+      const inputs = [
+        { name: 'amount', value: totalPrice },
+        { name: 'tax_amount', value: 10 },
+        { name: 'total_amount', value: totalAmount },
+        { name: 'transaction_uuid', value: transactionUuid },
+        { name: 'product_code', value: 'EPAYTEST' },
+        { name: 'product_service_charge', value: 0 },
+        { name: 'product_delivery_charge', value: 0 },
+        { name: 'success_url', value: 'http://localhost:3000/cart' },
+        { name: 'failure_url', value: 'http://localhost:3000/cart' },
+        { name: 'signed_field_names', value: 'total_amount,transaction_uuid,product_code' },
+        { name: 'signature', value: signature }
+      ];
 
-      }
+      inputs.forEach(({ name, value }) => {
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = name;
+        input.value = value;
+        form.appendChild(input);
+      });
+
+      localStorage.setItem('showToast', 'true');
+      document.body.appendChild(form);
+      form.submit();
     } catch (error) {
-      console.error('Failed to place order:', error);
+      console.error(error);
     }
   };
 
-  // Calculate total quantity and total price of items in cart
-  const totalQty = cartData.reduce((previousValue, currentValue) => previousValue + currentValue.quantity, 0);
-  const totalPrice = cartData.reduce((previousValue, currentValue) => previousValue + (currentValue.quantity * currentValue.price), 0);
+  const totalQty = cartData.reduce((sum, item) => sum + item.quantity, 0);
+  const totalPrice = cartData.reduce((sum, item) => sum + item.quantity * item.price, 0);
 
   return (
     <div className='container mx-auto'>
@@ -232,7 +186,7 @@ const Cart = () => {
         {/*** View products ***/}
         <div className='w-full max-w-3xl'>
           {loading ? (
-            loadingCart?.map((el, index) => (
+            loading?.map((el, index) => (
               <div key={`loading-${index}`} className='w-full bg-slate-200 h-32 my-2 border border-slate-300 animate-pulse rounded'></div>
             ))
           ) : (

@@ -4,7 +4,7 @@ namespace HamroShoppingApp.RepoPattern.Cart
 {
     public interface ICartRepository
     {
-        public Task<bool> CreateCart(CartStoreDto cartStoreDto);
+        public Task<bool> CreateCart(CartStoreDto cartStoreDto,string userId);
         public Task<bool> EditCart(int id, CartEditDto cartEditDto);
         public Task<bool> DeleteCart(int id);
         public Task<IEnumerable<CartGetDto>> GetCartsByUserId(string userId);

@@ -22,11 +22,16 @@ namespace HamroShoppingApp.Controllers
         [HttpPost("createCart")]
         public async Task<IActionResult> CreateCart([FromBody] CartStoreDto cartStoreDto)
         {
+            string? userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userId))
+            {
+                return BadRequest("User ID is null or empty");
+            }
             if (cartStoreDto == null)
             {
                 return BadRequest("Cart data is null");
             }
-            var result = await _cartRepository.CreateCart(cartStoreDto);
+            var result = await _cartRepository.CreateCart(cartStoreDto, userId);
             if (result)
             {
                 return Ok("Added to cart successfully");
