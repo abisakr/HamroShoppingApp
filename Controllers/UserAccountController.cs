@@ -172,7 +172,7 @@ namespace HamroShoppingApp.Controllers
             var resetLink = $"http://127.0.0.1:5500/reset-password.html?token={Uri.EscapeDataString(token)}&email={Uri.EscapeDataString(user.Email)}";
 
             // Send Email
-            string fromMail = "abiskar.ag@gmail.com";
+            string fromMail = "abiskarag.axg@gmail.com";
             string fromPassword = "wjvcviyevaqiqqtn";
 
             MailMessage message = new MailMessage();
