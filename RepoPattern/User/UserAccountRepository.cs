@@ -66,6 +66,7 @@ namespace HamroShoppingApp.RepoPattern.User
                 var user = new ApplicationUser
                 {
                     FullName = registerDto.FullName,
+                    Email= registerDto.Email,
                     PhoneNumber = registerDto.PhoneNo,
                     Address = registerDto.Address,
                     UserName = registerDto.PhoneNo,

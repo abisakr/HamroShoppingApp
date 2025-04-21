@@ -1,4 +1,6 @@
-﻿using Google.Apis.Auth;
+﻿using System.Net;
+using System.Net.Mail;
+using Google.Apis.Auth;
 using HamroShoppingApp.Helper;
 using HamroShoppingApp.Models.User;
 using HamroShoppingApp.RepoPattern.User;
@@ -153,6 +155,64 @@ namespace HamroShoppingApp.Controllers
         {
             Response.Cookies.Delete("accessToken");
             return Ok("Logged out successfully");
+        }
+
+        [HttpPost("forgot-password")]
+        public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordDto model)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest("Invalid request");
+
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            if (user == null)
+                return BadRequest("User not found");
+
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+
+            var resetLink = $"http://127.0.0.1:5500/reset-password.html?token={Uri.EscapeDataString(token)}&email={Uri.EscapeDataString(user.Email)}";
+
+            // Send Email
+            string fromMail = "abiskar.ag@gmail.com";
+            string fromPassword = "wjvcviyevaqiqqtn";
+
+            MailMessage message = new MailMessage();
+            message.From = new MailAddress(fromMail);
+            message.Subject = "Reset Your Password";
+            message.To.Add(new MailAddress(user.Email));
+            message.Body = $"<html><body>Click <a href='{resetLink}'>here</a> to reset your password.</body></html>";
+            message.IsBodyHtml = true;
+
+            var smtpClient = new SmtpClient("smtp.gmail.com")
+            {
+                Port = 587,
+                Credentials = new NetworkCredential(fromMail, fromPassword),
+                EnableSsl = true,
+            };
+
+            await smtpClient.SendMailAsync(message);
+
+            return Ok("Password reset email sent.");
+        }
+        
+        [HttpPost("reset-password")]
+        public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordDto model)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest("Invalid request");
+
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            if (user == null)
+                return BadRequest("User not found");
+
+            var result = await _userManager.ResetPasswordAsync(user, model.Token, model.NewPassword);
+
+            if (!result.Succeeded)
+            {
+                var errors = result.Errors.Select(e => e.Description);
+                return BadRequest(new { Errors = errors });
+            }
+
+            return Ok("Password has been reset successfully.");
         }
 
     }
