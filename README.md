@@ -94,4 +94,10 @@ npm start
 ```
 
 ---
+👨‍💻 Author
+
+Developed by Abiskar Gyawali
+
+Contributions & suggestions are welcome!
+---
 
