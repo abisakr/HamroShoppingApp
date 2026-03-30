@@ -71,12 +71,12 @@ jobs:
         run: docker push $IMAGE_NAME:${{ github.sha }}
 
   deploy:
-  runs-on: ubuntu-latest
-  needs: test
-  if: github.ref == 'refs/heads/master'
-  environment: production
+   runs-on: ubuntu-latest
+   needs: test
+   if: github.ref == 'refs/heads/master'
+   environment: production
 
-  steps:
+   steps:
     # If docker not used then uncomment this code
     # - name: Download artifact
     #   uses: actions/download-artifact@v4
