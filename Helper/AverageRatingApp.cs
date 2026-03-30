@@ -11,6 +11,7 @@ namespace HamroShoppingApp.Helper
         {
             _dbContext = dbContext;
         }
+
         public async Task<bool> UpdateTotalRating(int productId)
         {
             var reviews = await _dbContext.RatingTbl
@@ -30,14 +31,12 @@ namespace HamroShoppingApp.Helper
                     if (result > 0)
                     {
                         return true;
-
                     }
                     else
                         return false;
                 }
             }
             return false;
-
         }
     }
 }
