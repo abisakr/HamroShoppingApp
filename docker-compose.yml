@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  api:
+    build: .
+    container_name: hamroshoppingapp-api
+    ports:
+      - "5000:8080"
+    depends_on:
+      - db
+      - redis
+    environment:
+      - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
+      - ConnectionStrings__DefaultConnection=Server=db,1433;Database=HamroShoppingAppDb;User=sa;Password=${SA_PASSWORD};Encrypt=False;TrustServerCertificate=True;
+      - Redis__Connection=redis:6379
+
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: hamroshoppingapp-db
+    environment:
+      SA_PASSWORD: ${SA_PASSWORD}
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
+    volumes:
+      - db_data:/var/opt/mssql   # persistent data
+
+  redis:
+    image: redis:latest
+    container_name: hamroshoppingapp-redis
+    ports:
+      - "6379:6379"
+
+volumes:
+  db_data:
