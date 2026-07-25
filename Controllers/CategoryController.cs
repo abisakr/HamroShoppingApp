@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HamroShoppingApp.Controllers
 {
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
+    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
     [Route("api/[controller]")]
     [ApiController]
     public class CategoryController : ControllerBase

@@ -1,4 +1,5 @@
 ﻿using HamroShoppingApp.DataContext;
+using HamroShoppingApp.Helper;
 using HamroShoppingApp.Models.Product;
 using HamroShoppingApp.RepoPattern.Product.DTO;
 using Microsoft.EntityFrameworkCore;
@@ -8,20 +9,19 @@ namespace HamroShoppingApp.RepoPattern.Product
     public class ProductRepository : IProductRepository
     {
         private readonly ApplicationDbContext _dbContext;
+        private readonly UploadImageHelper _uploadImage;
 
-        public ProductRepository(ApplicationDbContext dbContext)
+        public ProductRepository(ApplicationDbContext dbContext, UploadImageHelper uploadImage)
         {
+            _uploadImage = uploadImage;
             _dbContext = dbContext;
-
         }
 
         public async Task<bool> CreateProduct(ProductStoreDto productStoreDto)
         {
             try
             {
-                using var stream = productStoreDto.Photo.OpenReadStream();
-                using var memoryStream = new MemoryStream();
-                await stream.CopyToAsync(memoryStream);
+                var photopath = await _uploadImage.UploadImageAsync(productStoreDto.Photo, "products");
 
                 var product = new AppProduct
                 {
@@ -33,7 +33,7 @@ namespace HamroShoppingApp.RepoPattern.Product
                     StockSold = 0,
                     Description = productStoreDto.Description,
                     DeliveryStatus = productStoreDto.DeliveryStatus,
-                    PhotoPath = memoryStream.ToArray()
+                    PhotoPath = photopath
                 };
 
                 await _dbContext.ProductTbl.AddAsync(product);
@@ -41,7 +41,6 @@ namespace HamroShoppingApp.RepoPattern.Product
             }
             catch (Exception)
             {
-
                 return false;
             }
         }
@@ -64,10 +63,9 @@ namespace HamroShoppingApp.RepoPattern.Product
 
                 if (productStoreDto.Photo != null && productStoreDto.Photo.Length > 0)
                 {
-                    using var stream = productStoreDto.Photo.OpenReadStream();
-                    using var memoryStream = new MemoryStream();
-                    await stream.CopyToAsync(memoryStream);
-                    product.PhotoPath = memoryStream.ToArray();
+                    var photopath = await _uploadImage.UploadImageAsync(productStoreDto.Photo, "products");
+
+                    product.PhotoPath = photopath;
                 }
 
                 return await _dbContext.SaveChangesAsync() > 0;
@@ -113,7 +111,7 @@ namespace HamroShoppingApp.RepoPattern.Product
                     TotalProductRated = product.TotalProductRated,
                     ProductRating = product.ProductRating,
                     DeliveryStatus = product.DeliveryStatus,
-                    PhotoPath = Convert.ToBase64String(product.PhotoPath)
+                    PhotoPath = product.PhotoPath
                 });
             }
             catch (Exception)
@@ -145,7 +143,7 @@ namespace HamroShoppingApp.RepoPattern.Product
                     TotalProductRated = product.TotalProductRated,
                     ProductRating = product.ProductRating,
                     DeliveryStatus = product.DeliveryStatus,
-                    PhotoPath = Convert.ToBase64String(product.PhotoPath)
+                    PhotoPath = product.PhotoPath
                 };
             }
             catch (Exception)
@@ -177,12 +175,11 @@ namespace HamroShoppingApp.RepoPattern.Product
                     TotalProductRated = product.TotalProductRated,
                     ProductRating = product.ProductRating,
                     DeliveryStatus = product.DeliveryStatus,
-                    PhotoPath = Convert.ToBase64String(product.PhotoPath)
+                    PhotoPath = product.PhotoPath
                 });
             }
             catch (Exception)
             {
-
                 return Enumerable.Empty<ProductGetDto>();
             }
         }
@@ -210,12 +207,11 @@ namespace HamroShoppingApp.RepoPattern.Product
                     TotalProductRated = product.TotalProductRated,
                     ProductRating = product.ProductRating,
                     DeliveryStatus = product.DeliveryStatus,
-                    PhotoPath = Convert.ToBase64String(product.PhotoPath)
+                    PhotoPath = product.PhotoPath
                 });
             }
             catch (Exception)
             {
-
                 return Enumerable.Empty<ProductGetDto>();
             }
         }
@@ -226,7 +222,7 @@ namespace HamroShoppingApp.RepoPattern.Product
             {
                 var products = await _dbContext.ProductTbl
                     .Include(p => p.Category)
-                    .Where(p => p.StockSold >= 4)
+                    .Where(p => p.StockSold >= 4 || p.ProductRating>=4)
                     .ToListAsync();
 
                 return products.Select(product => new ProductGetDto
@@ -243,7 +239,7 @@ namespace HamroShoppingApp.RepoPattern.Product
                     TotalProductRated = product.TotalProductRated,
                     ProductRating = product.ProductRating,
                     DeliveryStatus = product.DeliveryStatus,
-                    PhotoPath = Convert.ToBase64String(product.PhotoPath)
+                    PhotoPath = product.PhotoPath
                 });
             }
             catch (Exception)
@@ -284,12 +280,11 @@ namespace HamroShoppingApp.RepoPattern.Product
                     TotalProductRated = product.TotalProductRated,
                     ProductRating = product.ProductRating,
                     DeliveryStatus = product.DeliveryStatus,
-                    PhotoPath = Convert.ToBase64String(product.PhotoPath)
+                    PhotoPath = product.PhotoPath
                 });
             }
             catch (Exception)
             {
-
                 return Enumerable.Empty<ProductGetDto>();
             }
         }

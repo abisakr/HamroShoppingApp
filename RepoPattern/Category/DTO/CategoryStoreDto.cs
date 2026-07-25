@@ -3,6 +3,6 @@
     public class CategoryStoreDto
     {
         public string CategoryName { get; set; }
-        public IFormFile Photo { get; set; }
+        public IFormFile? Photo { get; set; }
     }
 }

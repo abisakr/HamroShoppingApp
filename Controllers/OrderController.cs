@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HamroShoppingApp.Controllers
 {
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User,Admin")]
     [Route("api/[controller]")]
     [ApiController]
     public class OrderController : ControllerBase
@@ -70,6 +70,20 @@ namespace HamroShoppingApp.Controllers
                 return Ok("Order placed");
             }
             return BadRequest("Failed to place order.");
+        }
+
+        [HttpPost("editOrderStatus")]
+        public async Task<IActionResult> EditOrderStatus([FromBody] EditOrderStatusDto dto)
+        {
+            
+           
+            var result = await _orderRepository.EditOrderStatus(dto);
+
+            if (result)
+            {
+                return Ok("Status Updated");
+            }
+            return BadRequest("Failed to update order status.");
         }
 
         [HttpGet("getOrdersByUserId")]

@@ -15,7 +15,6 @@ using Microsoft.IdentityModel.Tokens;
 using NotificationApp.Hubs;
 using System.Text;
 
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Load configuration from appsettings.json
@@ -66,7 +65,6 @@ builder.Services.AddAuthentication(options =>
             return Task.CompletedTask;
         }
     };
-
 }).AddGoogle(googleOptions =>
  {
      googleOptions.ClientId = builder.Configuration["Authentication:Google:ClientId"];
@@ -83,11 +81,11 @@ builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<ICartRepository, CartRepository>();
 builder.Services.AddScoped<IRatingRepository, RatingRepository>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+builder.Services.AddScoped<UploadImageHelper>();
 
 // Configure the database context
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
 
 // Configure Identity with Entity Framework stores
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
@@ -99,7 +97,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowSpecificOrigin", builder =>
     {
-        builder.WithOrigins("http://localhost:3000","http://127.0.0.1:5500") // Specify the allowed origin
+        builder.WithOrigins("http://localhost:3000", "http://127.0.0.1:5500", "http://localhost:5173") // Specify the allowed origin
                .AllowAnyMethod()
                .AllowAnyHeader()
                .AllowCredentials(); // Allow credentials

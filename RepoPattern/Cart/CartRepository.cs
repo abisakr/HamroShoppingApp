@@ -39,12 +39,12 @@ namespace HamroShoppingApp.RepoPattern.Cart
 
                 return await _dbContext.SaveChangesAsync() > 0;
             }
-
             catch (DbUpdateException)
             {
                 return false; // Return false in case of an error
             }
         }
+
         public async Task<bool> DeleteCart(int id)
         {
             try
@@ -54,7 +54,6 @@ namespace HamroShoppingApp.RepoPattern.Cart
                 _dbContext.CartTbl.Remove(cart);
                 return await _dbContext.SaveChangesAsync() > 0;
             }
-
             catch (DbUpdateException)
             {
                 return false; // Return false in case of an error
@@ -90,13 +89,13 @@ namespace HamroShoppingApp.RepoPattern.Cart
                     Quantity = cart.Quantity,
                     TotalCarts = cart.TotalCarts
                 });
-
             }
             catch (Exception)
             {
                 return Enumerable.Empty<CartGetDto>(); // Return an empty list in case of an error
             }
         }
+
         public async Task<IEnumerable<CartGetDto>> GetCartsByUserId(string userId)
         {
             try
@@ -110,7 +109,7 @@ namespace HamroShoppingApp.RepoPattern.Cart
                     UserId = cart.UserId,
                     ProductId = cart.ProductId,
                     ProductName = cart.Product.ProductName,
-                    ProductPhoto = Convert.ToBase64String(cart.Product.PhotoPath),
+                    ProductPhoto = cart.Product.PhotoPath,
                     Quantity = cart.Quantity,
                     TotalCarts = cart.TotalCarts,
                     Price = cart.Product.Price,
@@ -136,7 +135,6 @@ namespace HamroShoppingApp.RepoPattern.Cart
             }
             catch (DbUpdateException)
             {
-
                 return false; // Return false in case of an error
             }
         }

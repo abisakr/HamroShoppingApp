@@ -1,6 +1,4 @@
-﻿using System.Net;
-using System.Net.Mail;
-using Google.Apis.Auth;
+﻿using Google.Apis.Auth;
 using HamroShoppingApp.Helper;
 using HamroShoppingApp.Models.User;
 using HamroShoppingApp.RepoPattern.User;
@@ -9,6 +7,9 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
+using System.Net.Mail;
+using System.Security.Claims;
 
 namespace HamroShoppingApp.Controllers
 {
@@ -93,8 +94,12 @@ namespace HamroShoppingApp.Controllers
                 SameSite = SameSiteMode.None,
                 Expires = DateTime.UtcNow.AddDays(7)
             });
-
-            return Ok("Logged in successfully");
+            return Ok(new
+            {
+                message = "Logged in successfully",
+                token = token,
+                expires = DateTime.UtcNow.AddDays(7)
+            });
         }
 
         [HttpPost("login/admin")]
@@ -126,7 +131,6 @@ namespace HamroShoppingApp.Controllers
                 expires = DateTime.UtcNow.AddDays(7)
             });
         }
-
 
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterDto registerDto)
@@ -193,7 +197,7 @@ namespace HamroShoppingApp.Controllers
 
             return Ok("Password reset email sent.");
         }
-        
+
         [HttpPost("reset-password")]
         public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordDto model)
         {
@@ -215,5 +219,67 @@ namespace HamroShoppingApp.Controllers
             return Ok("Password has been reset successfully.");
         }
 
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin,User")]
+        [HttpPost("profile")]
+        public async Task<IActionResult> Profile()
+        {
+            string userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+                return BadRequest("User not found");
+            return Ok(new
+            {
+                userId = user.Id,
+                name = user.FullName,
+                email = user.Email,
+                address = user.Address,
+                phonNumber = user.PhoneNumber,
+                city = user.City,
+                country = user.Country
+            });
+        }
+
+        [Authorize(
+          AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme,
+          Roles = "Admin,User"
+      )]
+        [HttpPost("editProfile")]
+        public async Task<IActionResult> EditProfile([FromBody] ProfileEditDto dto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (userId == null)
+            {
+                return Unauthorized();
+            }
+
+            var user = await _userManager.FindByIdAsync(userId);
+
+            if (user == null)
+            {
+                return NotFound("User not found");
+            }
+
+            user.FullName = dto.FullName;
+            user.PhoneNumber = dto.PhoneNo;
+            user.Address = dto.Address;
+            user.Country = dto.Country;
+            user.City = dto.City;
+
+            var result = await _userManager.UpdateAsync(user);
+
+            if (!result.Succeeded)
+            {
+                return BadRequest(result.Errors);
+            }
+
+            return Ok("Successfully Edited Profile");
+        }
     }
 }

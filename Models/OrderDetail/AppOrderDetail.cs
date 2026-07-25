@@ -8,16 +8,17 @@ namespace HamroShoppingApp.Models.OrderDetail
     {
         [Key]
         public int Id { get; set; }
+
         public int OrderId { get; set; }
         public int ProductId { get; set; }
         public int Quantity { get; set; }
         public double UnitPrice { get; set; }
         public double TotalPrice => UnitPrice * Quantity;
         public string OrderStatus { get; set; }
-
+        public string? DeliveryStatus { get; set; }
+        public string OrderAddress { get; set; }
 
         public AppOrder Order { get; set; }
         public AppProduct Product { get; set; }
-
     }
 }

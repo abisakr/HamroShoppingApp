@@ -9,6 +9,7 @@ namespace HamroShoppingApp.Models.Product
     {
         [Key]
         public int Id { get; set; }
+
         public int CategoryId { get; set; }
         public string ProductName { get; set; }
         public double Price { get; set; }
@@ -19,11 +20,10 @@ namespace HamroShoppingApp.Models.Product
         public string DeliveryStatus { get; set; }
         public double? ProductRating { get; set; }
         public int? TotalProductRated { get; set; }
-        public byte[] PhotoPath { get; set; }
+        public string PhotoPath { get; set; }
 
         public AppCategory Category { get; set; }
         public ICollection<AppRating> Ratings { get; set; }
         public ICollection<AppCart> Carts { get; set; }
-
     }
 }

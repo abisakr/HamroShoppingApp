@@ -11,12 +11,13 @@ namespace HamroShoppingApp.Models.User
         public string Address { get; set; }
         public string City { get; set; }
         public string Country { get; set; }
+        public string? ProfilePictureUrl { get; set; }
 
         public ICollection<AppRating> Ratings { get; set; }
         public ICollection<AppCart> Carts { get; set; }
         public ICollection<AppOrder> Orders { get; set; }
 
-        //later to added 
+        //later to added
         //public string? RefreshToken { get; set; }
         //public DateTime? RefreshTokenExpiryTime { get; set; }
         //public bool? IsRefreshTokenRevoked { get; set; }
