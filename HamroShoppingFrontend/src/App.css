@@ -27,9 +27,9 @@ html {
 }
 
 body {
-  @apply bg-background text-foreground;
+  background-color: var(--color-background);
+  color: var(--color-foreground);
 }
-
 /* Custom Shadow */
 .customShadow {
   @apply shadow-lg shadow-black/10;
