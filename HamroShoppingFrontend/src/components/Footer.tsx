@@ -67,7 +67,7 @@ const Footer = () => {
           </p>
           <div className="flex gap-4">
             <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" alt="paypal" className="h-4 opacity-50" />
-            <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" alt="visa" className="h-4 opacity-50" />
+            {/* <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" alt="visa" className="h-4 opacity-50" /> */}
           </div>
         </div>
       </div>
