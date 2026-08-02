@@ -103,7 +103,7 @@ const Home = () => {
             <input
               type="text"
               placeholder="Search products..."
-              className="w-full pl-16 pr-6 py-5 rounded-2xl text-black font-bold shadow-2xl outline-none focus:ring-4 focus:ring-blue-300 transition-all"
+              className="w-full bg-white pl-16 pr-6 py-5 rounded-2xl text-black font-bold shadow-2xl outline-none focus:ring-4 focus:ring-blue-300 transition-all"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />

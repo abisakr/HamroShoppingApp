@@ -138,7 +138,7 @@ const SignUp: React.FC = () => {
         <div className="bg-white rounded-2xl customShadow-md p-8 space-y-6">
           {/* Header */}
           <div className="text-center space-y-2">
-            <h1 className="font-display text-3xl font-bold text-foreground">Create Account</h1>
+            <h1 className="font-display text-3xl font-bold text-gray-800">Create Account</h1>
             <p className="text-gray-600">Join us and start shopping today</p>
           </div>
 
@@ -247,10 +247,10 @@ const SignUp: React.FC = () => {
                       className={`flex-1 rounded-full transition ${
                         i < strengthScore
                           ? strengthScore < 2
-                            ? 'bg-error'
+                            ? 'bg-red-500'
                             : strengthScore < 4
-                              ? 'bg-warning'
-                              : 'bg-success'
+                              ? 'bg-amber-500'
+                              : 'bg-green-500'
                           : 'bg-gray-200'
                       }`}
                     />
@@ -259,13 +259,13 @@ const SignUp: React.FC = () => {
                 <div className="text-xs space-y-1">
                   <div className="flex items-center gap-1">
                     {passwordStrength.hasLength ? (
-                      <FaCheck className="text-success" />
+                      <FaCheck className="text-green-500" />
                     ) : (
                       <FaTimes className="text-gray-300" />
                     )}
                     <span
                       className={
-                        passwordStrength.hasLength ? 'text-success' : 'text-gray-400'
+                        passwordStrength.hasLength ? 'text-green-500' : 'text-gray-400'
                       }
                     >
                       At least 8 characters
@@ -273,13 +273,13 @@ const SignUp: React.FC = () => {
                   </div>
                   <div className="flex items-center gap-1">
                     {passwordStrength.hasUppercase ? (
-                      <FaCheck className="text-success" />
+                      <FaCheck className="text-green-500" />
                     ) : (
                       <FaTimes className="text-gray-300" />
                     )}
                     <span
                       className={
-                        passwordStrength.hasUppercase ? 'text-success' : 'text-gray-400'
+                        passwordStrength.hasUppercase ? 'text-green-500' : 'text-gray-400'
                       }
                     >
                       One uppercase letter
@@ -287,13 +287,13 @@ const SignUp: React.FC = () => {
                   </div>
                   <div className="flex items-center gap-1">
                     {passwordStrength.hasLowercase ? (
-                      <FaCheck className="text-success" />
+                      <FaCheck className="text-green-500" />
                     ) : (
                       <FaTimes className="text-gray-300" />
                     )}
                     <span
                       className={
-                        passwordStrength.hasLowercase ? 'text-success' : 'text-gray-400'
+                        passwordStrength.hasLowercase ? 'text-green-500' : 'text-gray-400'
                       }
                     >
                       One lowercase letter
@@ -301,11 +301,11 @@ const SignUp: React.FC = () => {
                   </div>
                   <div className="flex items-center gap-1">
                     {passwordStrength.hasNumber ? (
-                      <FaCheck className="text-success" />
+                      <FaCheck className="text-green-500" />
                     ) : (
                       <FaTimes className="text-gray-300" />
                     )}
-                    <span className={passwordStrength.hasNumber ? 'text-success' : 'text-gray-400'}>
+                    <span className={passwordStrength.hasNumber ? 'text-green-500' : 'text-gray-400'}>
                       One number
                     </span>
                   </div>
@@ -334,12 +334,12 @@ const SignUp: React.FC = () => {
               }
             />
 
-            {error && <div className="p-3 bg-error/10 border border-error text-error rounded-lg text-sm">{error}</div>}
+            {error && <div className="p-3 bg-red-500/10 border border-red-500 text-red-500 rounded-lg text-sm">{error}</div>}
 
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full px-6 py-3 bg-gradient-to-r from-primary to-secondary hover:from-secondary hover:to-primary text-white font-semibold rounded-lg btn-transition disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-700 hover:from-indigo-700 hover:to-blue-600 text-white font-semibold rounded-lg btn-transition disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isLoading ? 'Creating Account...' : 'Create Account'}
             </button>
@@ -358,7 +358,7 @@ const SignUp: React.FC = () => {
           {/* Sign In Link */}
           <Link
             to="/login"
-            className="w-full px-6 py-3 border-2 border-primary text-primary hover:bg-primary hover:text-white font-semibold rounded-lg btn-transition text-center block"
+            className="w-full px-6 py-3 border-2 border-blue-600 text-primary hover:bg-blue-600 hover:text-white font-semibold rounded-lg btn-transition text-center block"
           >
             Sign In Instead
           </Link>

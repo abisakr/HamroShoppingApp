@@ -16,9 +16,9 @@ const FormInput = React.forwardRef<HTMLInputElement, FormInputProps>(
     return (
       <div className="w-full space-y-2">
         {label && (
-          <label className="block text-sm font-medium text-foreground">
+          <label className="block text-sm font-medium text-gray-800">
             {label}
-            {required && <span className="text-error ml-1">*</span>}
+            {required && <span className="text-red-500 ml-1">*</span>}
           </label>
         )}
 
@@ -36,17 +36,17 @@ const FormInput = React.forwardRef<HTMLInputElement, FormInputProps>(
               ${icon ? 'pl-10' : ''}
               ${
                 error
-                  ? 'border-error focus:ring-2 focus:ring-error/30'
-                  : 'border-gray-300 focus:ring-2 focus:ring-primary/30 focus:border-primary'
+                  ? 'border-red-500 focus:ring-2 focus:ring-red-500/30'
+                  : 'border-gray-300 focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500'
               }
-              disabled:bg-muted disabled:cursor-not-allowed
+              disabled:bg-gray-100 disabled:cursor-not-allowed
               ${className}
             `}
             {...props}
           />
         </div>
 
-        {error && <p className="text-sm text-error font-medium">{error}</p>}
+        {error && <p className="text-sm text-red-500 font-medium">{error}</p>}
         {helperText && !error && <p className="text-sm text-gray-600">{helperText}</p>}
       </div>
     )
@@ -70,9 +70,9 @@ export const FormTextarea = React.forwardRef<HTMLTextAreaElement, FormTextareaPr
     return (
       <div className="w-full space-y-2">
         {label && (
-          <label className="block text-sm font-medium text-foreground">
+          <label className="block text-sm font-medium text-gray-800">
             {label}
-            {required && <span className="text-error ml-1">*</span>}
+            {required && <span className="text-red-500 ml-1">*</span>}
           </label>
         )}
 
@@ -83,16 +83,16 @@ export const FormTextarea = React.forwardRef<HTMLTextAreaElement, FormTextareaPr
             w-full px-4 py-2 border rounded-lg outline-none transition resize-none
             ${
               error
-                ? 'border-error focus:ring-2 focus:ring-error/30'
-                : 'border-gray-300 focus:ring-2 focus:ring-primary/30 focus:border-primary'
+                ? 'border-red-500 focus:ring-2 focus:ring-red-500/30'
+                : 'border-gray-300 focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500'
             }
-            disabled:bg-muted disabled:cursor-not-allowed
+            disabled:bg-gray-100 disabled:cursor-not-allowed
             ${className}
           `}
           {...props}
         />
 
-        {error && <p className="text-sm text-error font-medium">{error}</p>}
+        {error && <p className="text-sm text-red-500 font-medium">{error}</p>}
         {helperText && !error && <p className="text-sm text-gray-600">{helperText}</p>}
       </div>
     )
@@ -114,9 +114,9 @@ export const FormSelect = React.forwardRef<HTMLSelectElement, FormSelectProps>(
     return (
       <div className="w-full space-y-2">
         {label && (
-          <label className="block text-sm font-medium text-foreground">
+          <label className="block text-sm font-medium text-gray-800">
             {label}
-            {required && <span className="text-error ml-1">*</span>}
+            {required && <span className="text-red-500 ml-1">*</span>}
           </label>
         )}
 
@@ -126,10 +126,10 @@ export const FormSelect = React.forwardRef<HTMLSelectElement, FormSelectProps>(
             w-full px-4 py-2 border rounded-lg outline-none transition appearance-none
             ${
               error
-                ? 'border-error focus:ring-2 focus:ring-error/30'
-                : 'border-gray-300 focus:ring-2 focus:ring-primary/30 focus:border-primary'
+                ? 'border-red-500 focus:ring-2 focus:ring-red-500/30'
+                : 'border-gray-300 focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500'
             }
-            disabled:bg-muted disabled:cursor-not-allowed
+            disabled:bg-gray-100 disabled:cursor-not-allowed
             ${className}
           `}
           {...props}
@@ -142,7 +142,7 @@ export const FormSelect = React.forwardRef<HTMLSelectElement, FormSelectProps>(
           ))}
         </select>
 
-        {error && <p className="text-sm text-error font-medium">{error}</p>}
+        {error && <p className="text-sm font-medium text-red-500">{error}</p>}
       </div>
     )
   }
