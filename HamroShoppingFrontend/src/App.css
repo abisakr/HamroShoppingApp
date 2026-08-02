@@ -27,14 +27,12 @@ html {
 }
 
 body {
-  background-color: var(--color-background);
-  color: var(--color-foreground);
+  @apply bg-background text-foreground;
 }
 /* Custom Shadow */
 .customShadow {
   @apply shadow-lg shadow-black/10;
 }
-
 .customShadow-md {
   @apply shadow-md shadow-black/5;
 }
