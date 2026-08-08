@@ -2,6 +2,7 @@ using HamroShoppingApp.DataContext;
 using HamroShoppingApp.Helper;
 using HamroShoppingApp.Middleware;
 using HamroShoppingApp.Models.User;
+using HamroShoppingApp.RepoPattern.AI;
 using HamroShoppingApp.RepoPattern.Cart;
 using HamroShoppingApp.RepoPattern.Category;
 using HamroShoppingApp.RepoPattern.Order;
@@ -81,6 +82,7 @@ builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<ICartRepository, CartRepository>();
 builder.Services.AddScoped<IRatingRepository, RatingRepository>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+builder.Services.AddHttpClient<IOpenAIRepository, OpenAIRepository>();
 builder.Services.AddScoped<UploadImageHelper>();
 
 // Configure the database context

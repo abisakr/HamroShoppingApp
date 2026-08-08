@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useParams, useNavigate, Link, useLocation } from 'react-router-dom'
-import { FaArrowLeft, FaShoppingCart, FaStar, FaCheck, FaTrash, FaEdit, FaTimes, FaPlus, FaMinus } from 'react-icons/fa'
+// Added FaRobot for the AI icon
+import { FaArrowLeft, FaShoppingCart, FaStar, FaCheck, FaTrash, FaEdit, FaTimes, FaPlus, FaMinus, FaRobot } from 'react-icons/fa'
 import { toast } from 'react-toastify'
 import { productService, cartService, ratingService } from '../services/api'
 import { formatters } from '../utils/helpers'
@@ -17,6 +18,10 @@ const ProductDetails: React.FC = () => {
   const [ratings, setRatings] = useState<any[]>([])
   const [userRating, setUserRating] = useState<any>(null)
   
+  // --- NEW AI STATE ---
+  const [aiSummary, setAiSummary] = useState<{ overallSentiment: string, summary: string } | null>(null)
+  const [isAiLoading, setIsAiLoading] = useState(false)
+
   // --- UI STATES ---
   const [isLoading, setIsLoading] = useState(true)
   const [isProcessing, setIsProcessing] = useState(false)
@@ -34,8 +39,29 @@ const ProductDetails: React.FC = () => {
     if (id) {
       loadProduct(id)
       loadRatings(id)
+      loadAiSummary(id) // Load AI summary on mount
     }
   }, [id])
+
+  // --- NEW AI LOAD FUNCTION ---
+  const loadAiSummary = async (productId: string) => {
+    setIsAiLoading(true)
+    try {
+      const response = await fetch(`${BASE_URL}/api/AI/aiReviewSummary`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'accept': '*/*' },
+        body: JSON.stringify(Number(productId))
+      })
+      if (response.ok) {
+        const data = await response.json()
+        setAiSummary(data)
+      }
+    } catch (err) {
+      console.error("AI Summary Error:", err)
+    } finally {
+      setIsAiLoading(false)
+    }
+  }
 
   // --- LOAD DATA FUNCTIONS ---
   const loadProduct = async (productId: string) => {
@@ -53,7 +79,6 @@ const ProductDetails: React.FC = () => {
   const loadRatings = async (productId: string) => {
     try {
       const allRatings = await ratingService.getByProduct(Number(productId))
-      // Handle .NET $values wrapper if it exists
       const cleanRatings = Array.isArray(allRatings) ? allRatings : (allRatings?.$values || [])
       setRatings(cleanRatings)
       
@@ -79,13 +104,10 @@ const ProductDetails: React.FC = () => {
 
     setIsProcessing(true)
     try {
-      // Loop to add multiple quantities based on user selection
       for (let i = 0; i < quantity; i++) {
         await cartService.addToCart(product.id)
       }
       toast.success(`${product.productName} item(s) added to cart!`)
-      
-      // Update Header cart count by triggering storage event
       window.dispatchEvent(new Event("storage"))
     } catch (error: any) {
       toast.error(error.message || "Failed to add to cart")
@@ -124,6 +146,7 @@ const ProductDetails: React.FC = () => {
       }
       setIsModalOpen(false)
       loadRatings(product.id.toString())
+      loadAiSummary(product.id.toString()) // Refresh AI summary
     } catch (err: any) {
       toast.error("Failed to save review")
     }
@@ -138,12 +161,12 @@ const ProductDetails: React.FC = () => {
       setReviewText("")
       setRatingValue(5)
       loadRatings(product.id.toString())
+      loadAiSummary(product.id.toString()) // Refresh AI summary
     } catch (err) {
       toast.error("Failed to delete review")
     }
   }
 
-  // --- RENDER HELPERS ---
   if (isLoading) {
     return (
       <div className="max-w-7xl mx-auto p-20">
@@ -163,6 +186,13 @@ const ProductDetails: React.FC = () => {
 
   const discountedPrice = product.price - (product.price * (Number(product.discount) || 0) / 100);
 
+  // Helper for AI sentiment color
+  const getSentimentColor = (sentiment: string) => {
+    if (sentiment === 'Positive') return 'text-green-600 bg-green-50'
+    if (sentiment === 'Negative') return 'text-red-600 bg-red-50'
+    return 'text-amber-600 bg-amber-50'
+  }
+
   return (
     <section className="min-h-screen bg-white py-12 px-4 relative">
       <div className="max-w-7xl mx-auto">
@@ -171,7 +201,6 @@ const ProductDetails: React.FC = () => {
         </button>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-20">
-          {/* LEFT: Product Image */}
           <div className="rounded-[2.5rem] overflow-hidden border border-gray-100 bg-gray-50 h-[500px] flex items-center justify-center shadow-inner">
             <img
               src={product.photoPath ? `${BASE_URL}${product.photoPath}` : 'https://via.placeholder.com/600'}
@@ -180,7 +209,6 @@ const ProductDetails: React.FC = () => {
             />
           </div>
 
-          {/* RIGHT: Product Info */}
           <div className="space-y-6">
             <div>
               <span className="text-blue-600 font-black text-sm uppercase tracking-widest">{product.categoryName}</span>
@@ -198,7 +226,6 @@ const ProductDetails: React.FC = () => {
               </div>
             </div>
 
-            {/* Price Card */}
             <div className="p-8 bg-blue-50/50 rounded-3xl border border-blue-100">
               <div className="flex items-center gap-4">
                 <span className="text-5xl font-black text-blue-700">
@@ -219,7 +246,6 @@ const ProductDetails: React.FC = () => {
 
             <p className="text-gray-500 text-lg leading-relaxed whitespace-pre-line" >{product.description}</p>
 
-            {/* Action Bar */}
             <div className="flex flex-col sm:flex-row items-center gap-4 pt-6">
               <div className="flex items-center border-2 border-gray-100 rounded-2xl bg-white p-1">
                 <button 
@@ -254,6 +280,36 @@ const ProductDetails: React.FC = () => {
           </div>
         </div>
 
+        {/* --- AI REVIEW ANALYSIS SECTION --- */}
+        {ratings.length > 0 && (
+          <div className="mb-12 p-8 rounded-[2rem] bg-gradient-to-br from-indigo-50 to-white border border-indigo-100 relative overflow-hidden">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="p-2 bg-indigo-600 rounded-lg text-white">
+                <FaRobot size={20} />
+              </div>
+              <h2 className="text-2xl font-black text-gray-900">AI Review Insight</h2>
+            </div>
+            
+            {isAiLoading ? (
+              <div className="flex gap-2 items-center text-indigo-400 font-bold animate-pulse">
+                <span>Analyzing reviews...</span>
+              </div>
+            ) : aiSummary ? (
+              <div className="space-y-4">
+                <div className="flex items-center gap-3">
+                  <span className="text-xs font-black uppercase tracking-tighter text-gray-400">Overall Sentiment:</span>
+                  <span className={`px-3 py-1 rounded-full text-xs font-bold ${getSentimentColor(aiSummary.overallSentiment)}`}>
+                    {aiSummary.overallSentiment}
+                  </span>
+                </div>
+                <p className="text-gray-700 text-xl font-medium leading-relaxed italic">
+                  "{aiSummary.summary}"
+                </p>
+              </div>
+            ) : null}
+          </div>
+        )}
+
         {/* --- REVIEWS DISPLAY SECTION --- */}
         <div className="border-t pt-16">
           <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mb-10">
@@ -287,7 +343,6 @@ const ProductDetails: React.FC = () => {
                       <div className="text-[10px] font-black text-gray-300 uppercase tracking-widest">Verified User • ID {rev.userId.substring(0,8)}</div>
                     </div>
                     
-                    {/* User's Own Review Actions */}
                     {userRating?.id === rev.id && (
                       <div className="flex gap-2">
                         <button 

@@ -26,4 +26,8 @@ export const ratingService = {
   deleteRating: async (id: number): Promise<void> => {
     await apiClient.delete(`/Rating/deleteRating/${id}`)
   },
+  getAiSummary: async (productId: number): Promise<{ overallSentiment: string, summary: string }> => {
+    // Note: The curl shows the body is just the ID (number), not an object
+    return apiClient.post('/AI/aiReviewSummary', productId);
+  }
 }

@@ -186,4 +186,16 @@ export const ratingService = {
   getUserRatingForProduct: (productId: number) => request(`/Rating/getRatingByUserIdProductId/${productId}`, { 
     method: "GET" 
   }),
+   getAiSummary: async (productId: number) => {
+    // Note: Since the API expects just a number in the body, we pass it directly
+    const response = await fetch(`https://localhost:7223/api/AI/aiReviewSummary`, {
+      method: 'POST',
+      headers: {
+        'accept': '*/*',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(productId)
+    });
+    return response.json();
+  }
 };
