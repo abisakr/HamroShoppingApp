@@ -66,11 +66,13 @@ builder.Services.AddAuthentication(options =>
             return Task.CompletedTask;
         }
     };
-}).AddGoogle(googleOptions =>
+})
+.AddGoogle(googleOptions =>
  {
      googleOptions.ClientId = builder.Configuration["Authentication:Google:ClientId"];
      googleOptions.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
- });
+ })
+;
 builder.Services.AddAuthorization();
 
 // Register services for dependency injection
@@ -160,7 +162,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
+//app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting(); // Ensure UseRouting is called before UseAuthentication, UseAuthorization, and UseEndpoints
