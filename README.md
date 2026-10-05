@@ -76,6 +76,8 @@ In `appsettings.json`, configure your SQL Server:
 "ConnectionStrings": {
   "DefaultConnection": "Server=YOUR_SERVER_NAME; Database=HamroShoppingAppDb; Trusted_Connection=True; TrustServerCertificate=True; Connection Timeout=30; MultipleActiveResultSets=True"
 }
+```
+
 ### 2. Apply Migrations
 
 Run the following to create the database:
