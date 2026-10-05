@@ -154,5 +154,19 @@ namespace HamroShoppingApp.Controllers
             }
             return NotFound("No products found matching the filter criteria.");
         }
+
+        [AllowAnonymous]
+        [HttpGet("recommendationByProductId/{productId}")]
+        public async Task<IActionResult> GetRecommendations(int productId)
+        {
+            var recommendations = await _productRepository.GetRecommendedProductsAsync(productId);
+
+            if (recommendations == null || !recommendations.Any())
+            {
+                return NotFound(new { message = "No recommendations found for this product." });
+            }
+
+            return Ok(recommendations);
+        }
     }
 }

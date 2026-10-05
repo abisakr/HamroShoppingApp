@@ -13,6 +13,6 @@ namespace HamroShoppingApp.RepoPattern.Product
         public Task<IEnumerable<ProductGetDto>> Search(string name);
         public Task<IEnumerable<ProductGetDto>> GetAllPopularProducts();
         public Task<IEnumerable<ProductGetDto>> GetShortedFilteredProduct(string categoryName, string order);
-
+        public Task<IEnumerable<ProductGetDto>> GetRecommendedProductsAsync(int productId);
     }
 }

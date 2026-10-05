@@ -32,17 +32,18 @@ const ProductDetails: React.FC = () => {
   const [ratingValue, setRatingValue] = useState(5)
   const [reviewText, setReviewText] = useState("")
   const [isEditing, setIsEditing] = useState(false)
-
+const [recommendations, setRecommendations] = useState<any[]>([])
   const BASE_URL = "https://localhost:7223"
 
-  useEffect(() => {
+ useEffect(() => {
     if (id) {
+      window.scrollTo(0, 0) 
       loadProduct(id)
       loadRatings(id)
-      loadAiSummary(id) // Load AI summary on mount
+      loadAiSummary(id) 
+      loadRecommendations(id) 
     }
   }, [id])
-
   // --- NEW AI LOAD FUNCTION ---
   const loadAiSummary = async (productId: string) => {
     setIsAiLoading(true)
@@ -62,7 +63,18 @@ const ProductDetails: React.FC = () => {
       setIsAiLoading(false)
     }
   }
-
+const loadRecommendations = async (productId: string) => {
+    try {
+      const response = await fetch(`${BASE_URL}/api/Product/recommendationByProductId/${productId}`)
+      if (response.ok) {
+        const data = await response.json()
+        setRecommendations(data)
+      }
+    } catch (err) {
+      console.error("Error loading recommendations:", err)
+    }
+  }
+  
   // --- LOAD DATA FUNCTIONS ---
   const loadProduct = async (productId: string) => {
     setIsLoading(true)
@@ -279,7 +291,58 @@ const ProductDetails: React.FC = () => {
             </div>
           </div>
         </div>
-
+{/* --- RECOMMENDED PRODUCTS SECTION --- */}
+        {recommendations.length > 0 && (
+          <div className="border-t pt-16 mb-16">
+            <h2 className="text-4xl font-black text-gray-900 mb-10">You Might Also Like</h2>
+            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6">
+              {recommendations.map((rec) => {
+                const recDiscountedPrice = rec.price - (rec.price * (Number(rec.discount) || 0) / 100);
+                
+                return (
+                  <Link
+                    to={`/product/${rec.id}`}
+                    key={rec.id}
+                    className="group block bg-white rounded-3xl border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden"
+                  >
+                    <div className="h-48 bg-gray-50 p-4 flex items-center justify-center relative">
+                      <img
+                        src={rec.photoPath ? `${BASE_URL}${rec.photoPath}` : 'https://via.placeholder.com/200'}
+                        alt={rec.productName}
+                        className="max-h-full object-contain group-hover:scale-110 transition-transform duration-500"
+                      />
+                      {Number(rec.discount) > 0 && (
+                        <span className="absolute top-3 right-3 bg-red-500 text-white text-[10px] font-black px-2 py-1 rounded-lg z-10 shadow-sm">
+                          -{rec.discount}%
+                        </span>
+                      )}
+                    </div>
+                    
+                    <div className="p-5">
+                      <p className="text-xs text-blue-600 font-bold uppercase tracking-wider mb-1 truncate">
+                        {rec.categoryName}
+                      </p>
+                      <h3 className="font-black text-gray-900 leading-tight mb-3 truncate" title={rec.productName}>
+                        {rec.productName}
+                      </h3>
+                      
+                      <div className="flex flex-col gap-1">
+                        <span className="font-black text-xl text-blue-700">
+                          {formatters.formatPrice(recDiscountedPrice)}
+                        </span>
+                        {Number(rec.discount) > 0 && (
+                          <span className="text-xs line-through text-gray-400 font-bold">
+                            {formatters.formatPrice(rec.price)}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
+        )}
         {/* --- AI REVIEW ANALYSIS SECTION --- */}
         {ratings.length > 0 && (
           <div className="mb-12 p-8 rounded-[2rem] bg-gradient-to-br from-indigo-50 to-white border border-indigo-100 relative overflow-hidden">

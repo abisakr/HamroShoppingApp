@@ -1,0 +1,347 @@
+﻿Id,CategoryName,ProductName,Price,Discount,StockQuantity,StockSold,Description,DeliveryStatus,ProductRating,TotalProductRated,PhotoPath
+6,Mobile,iPhone 15 Pro Max 256GB,185000,5,50,15,### iPhone 15 Pro Max  Experience the ultimate Apple flagship with titanium design.,Standard,10,45,/images/products/5aacbe96-test.png
+7,Mobile,Samsung Galaxy S24 Ultra,170000,8,30,10,### Samsung Galaxy S24 Ultra  AI-powered features and a brilliant flat display.,Standard,9,32,/images/products/5aacbe96-test.png
+8,Mobile,OnePlus 12 5G,110000,10,100,45,### OnePlus 12 5G  Smooth beyond belief with Snapdragon 8 Gen 3.,Standard,9,28,/images/products/5aacbe96-test.png
+48,Mobile,Google Pixel 8 Pro,145000,10,40,12,### Google Pixel 8 Pro  Incredible AI camera features and stock Android.,Standard,9,34,/images/products/5aacbe96-test.png
+49,Mobile,Nothing Phone (2),85000,5,25,8,### Nothing Phone (2)  Unique transparent design with Glyph interface.,Standard,8,15,/images/products/5aacbe96-test.png
+50,Mobile,Vivo X90 Pro,125000,12,15,4,### Vivo X90 Pro  Zeiss optics for professional-grade smartphone photography.,Standard,9,10,/images/products/5aacbe96-test.png
+51,Mobile,Oppo Reno 10 Pro,65000,8,50,22,### Oppo Reno 10 Pro  Sleek design with 100W fast charging capabilities.,Standard,8,45,/images/products/5aacbe96-test.png
+104,Mobile,Xiaomi 14 Ultra,140000,10,20,5,### Xiaomi 14 Ultra  Leica optics for unmatched mobile photography.,Standard,9,15,/images/products/5aacbe96-test.png
+105,Mobile,Motorola Edge 50 Pro,75000,15,45,12,### Moto Edge 50 Pro  Pantone validated colors and 125W TurboPower charging.,Standard,8,30,/images/products/5aacbe96-test.png
+106,Mobile,Sony Xperia 1 V,155000,5,15,2,### Sony Xperia 1 V  True 4K HDR OLED display and professional creator features.,Standard,9,8,/images/products/5aacbe96-test.png
+107,Mobile,Asus ROG Phone 8 Pro,165000,8,25,14,### ROG Phone 8 Pro  Ultimate gaming phone with AniMe Vision display.,Standard,10,45,/images/products/5aacbe96-test.png
+160,Mobile,Samsung Galaxy A54 5G,55000,5,80,35,"### Galaxy A54  Awesome camera, awesome screen, and awesome battery life.",Standard,8,145,/images/products/5aacbe96-test.png
+161,Mobile,Apple iPhone 13 128GB,95000,10,40,60,### iPhone 13  The most advanced dual-camera system ever on iPhone.,Standard,10,540,/images/products/5aacbe96-test.png
+162,Mobile,Google Pixel 7a,68000,12,30,25,"### Pixel 7a  Super fast, secure, and packed with Google AI photography features.",Standard,9,88,/images/products/5aacbe96-test.png
+163,Mobile,Poco X5 Pro 5G,35000,8,100,75,### Poco X5 Pro  Exceptional mid-range gaming performance with Snapdragon.,Standard,8,210,/images/products/5aacbe96-test.png
+3,Mobile,Xiaomi Redmi Note 14 Pro 5G,40000,12,699,1,"### Xiaomi Redmi Note 14 Pro 5G
+
+Experience powerful performance and modern design with the Xiaomi Redmi Note 14 Pro 5G. Built for everyday productivity, entertainment, photography, and gaming, this smartphone combines a vibrant display with reliable performance and long-lasting battery life.
+
+**Key Features:**
+
+* 6.67-inch AMOLED display
+* 120Hz refresh rate
+* 5G connectivity
+* 200MP AI-powered main camera
+* 16MP front camera
+* 8GB RAM with 256GB storage
+* High-performance octa-core processor
+* 5,000mAh long-lasting battery
+* Fast charging support
+* Dual SIM support
+* Face unlock and fingerprint sensor
+* Modern slim design
+
+**Description:**
+Enjoy smooth performance and an immersive viewing experience with the Xiaomi Redmi Note 14 Pro 5G. Its high-resolution camera captures detailed photos, while the powerful processor and generous storage make multitasking, gaming, and streaming effortless.
+
+*Note: This is a fictional/sample product description for demonstration purposes and may not match the specifications of an actual Xiaomi model.*
+",Standard,10,2,/images/products/5aacbe96-1fb3-4aaa-bb1b-4082a1b3619b.png
+2,Television,Samsung Television 4K,80000,12,2,1,"Experience stunning picture quality with the Samsung 4K Ultra HD Smart TV. Featuring a vibrant 4K display, smart connectivity, and immersive sound, this TV is designed for an exceptional home entertainment experience.
+
+Key Features:
+
+* 4K Ultra HD resolution
+* Crystal-clear and vibrant picture quality
+* Smart TV functionality
+* Built-in Wi-Fi
+* HDMI and USB connectivity
+* Powerful immersive audio
+* Slim, modern bezel design
+* Supports popular streaming applications
+* Easy-to-use smart remote
+
+Description:
+Enjoy your favorite movies, sports, shows, and games in sharp 4K resolution. The sleek design fits naturally into modern living spaces, while smart features make it easy to access your favorite entertainment. Ideal for bedrooms, living rooms, offices, or entertainment setups.
+
+Note: This is a fictional/sample description for demonstration purposes and does not represent a specific Samsung model.
+",Standard,10,2,/images/products/b1e62631-b473-4149-a5b6-5900e1866fb3.jpg
+164,Television,Sony Bravia 65-inch X90L,185000,10,15,6,### Sony X90L  Full Array LED with incredibly lifelike contrast.,Standard,9,32,/images/products/b1e62631-test.png
+165,Television,LG UR8000 55-inch 4K,65000,15,25,14,### LG UR8000  Vibrant colors and remarkable details in 4K resolution.,Standard,8,75,/images/products/b1e62631-test.png
+166,Television,Hisense 50-inch U7K Mini-LED,85000,5,20,10,### Hisense U7K  Packed with features for gamers and movie lovers alike.,Standard,9,45,/images/products/b1e62631-test.png
+167,Television,Samsung QN90C 43-inch Neo QLED,115000,8,12,4,### Samsung Neo QLED  Ultra-precise light control for deep blacks.,Standard,10,18,/images/products/b1e62631-test.png
+108,Television,Philips 65-inch Ambilight 4K,125000,12,10,4,### Philips Ambilight  Immersive LED glow matching the screen action.,Standard,9,22,/images/products/b1e62631-test.png
+109,Television,TCL 6-Series 75-inch Mini-LED,160000,15,8,1,### TCL 6-Series  Massive screen with precise Mini-LED backlight control.,Standard,9,11,/images/products/b1e62631-test.png
+110,Television,LG C2 42-inch OLED TV,110000,10,20,8,"### LG C2 42""  Perfect for gaming setups and smaller living spaces.",Standard,10,56,/images/products/b1e62631-test.png
+111,Television,Samsung 43-inch Crystal 4K,55000,5,40,25,### Samsung Crystal 4K  Crisp colors and slim design for everyday viewing.,Standard,8,120,/images/products/b1e62631-test.png
+52,Television,Samsung The Frame 55-inch,165000,15,12,3,### Samsung The Frame  Looks like a picture frame when turned off.,Standard,9,21,/images/products/b1e62631-test.png
+53,Television,Hisense 65-inch U8K Mini-LED,135000,20,18,5,### Hisense U8K  Stunning Mini-LED brightness and contrast.,Standard,9,38,/images/products/b1e62631-test.png
+54,Television,LG QNED 75-inch 4K,185000,10,8,2,### LG QNED 75  Quantum Dot meets NanoCell for brilliant color.,Standard,10,14,/images/products/b1e62631-test.png
+55,Television,Vizio V-Series 50-inch,45000,5,30,15,### Vizio V-Series  Budget-friendly smart TV with Dolby Vision.,Standard,8,62,/images/products/b1e62631-test.png
+9,Television,LG OLED 65-inch C3 Series,220000,15,10,2,### LG OLED C3  Perfect blacks and vibrant colors for a cinematic experience.,Standard,10,18,/images/products/b1e62631-test.png
+10,Television,Sony Bravia XR 55-inch,150000,12,15,5,### Sony Bravia XR  Cognitive Processor XR delivers real-life depth.,Standard,10,12,/images/products/b1e62631-test.png
+11,Television,TCL 50-inch 4K Smart TV,60000,20,40,20,### TCL 4K Smart TV  Affordable 4K entertainment with Google TV.,Standard,8,55,/images/products/b1e62631-test.png
+12,Clothes,Women's Floral Summer Dress,2500,5,120,40,### Summer Dress  Lightweight and breathable floral dress for summer days.,Standard,9,88,/images/products/d181dfd4-test.png
+13,Clothes,Men's Slim Fit Denim Jacket,4500,10,80,25,### Denim Jacket  Classic blue denim jacket with a modern slim fit.,Standard,10,34,/images/products/d181dfd4-test.png
+14,Clothes,Unisex Graphic Cotton T-Shirt,1200,0,200,110,### Graphic T-Shirt  100% pure cotton comfortable tee with aesthetic prints.,Standard,9,150,/images/products/d181dfd4-test.png
+56,Clothes,Men's Chino Trousers,3500,10,150,45,### Chino Trousers  Comfortable stretch cotton chinos for casual or office wear.,Standard,9,112,/images/products/d181dfd4-test.png
+57,Clothes,Winter Puffer Jacket,6500,15,80,60,### Puffer Jacket  Water-resistant and insulated for extreme cold.,Standard,9,85,/images/products/d181dfd4-test.png
+58,Clothes,Women's Silk Blouse,4200,0,45,12,### Silk Blouse  Elegant 100% pure silk blouse with a relaxed fit.,Standard,10,28,/images/products/d181dfd4-test.png
+59,Clothes,Unisex Wool Scarf,1500,5,200,85,"### Wool Scarf  Soft, warm, and available in multiple check patterns.",Standard,8,140,/images/products/d181dfd4-test.png
+112,Clothes,Men's Tailored Wool Suit,18000,20,15,3,### Tailored Suit  Premium wool blend 2-piece suit for formal occasions.,Standard,9,14,/images/products/d181dfd4-test.png
+113,Clothes,Women's High-Waist Yoga Leggings,2500,10,200,115,"### Yoga Leggings  Squat-proof, breathable fabric with side pockets.",Standard,10,320,/images/products/d181dfd4-test.png
+114,Clothes,Unisex Cashmere Blend Sweater,5500,15,60,28,### Cashmere Sweater  Ultra-soft knitwear for winter layering.,Standard,9,45,/images/products/d181dfd4-test.png
+115,Clothes,Genuine Leather Biker Jacket,12500,5,30,10,### Leather Jacket  Classic asymmetrical zip with premium hardware.,Standard,9,32,/images/products/d181dfd4-test.png
+168,Clothes,Men's Classic Oxford Button-Down,3200,0,150,45,### Oxford Shirt  A versatile wardrobe staple made from breathable cotton.,Standard,9,120,/images/products/d181dfd4-test.png
+169,Clothes,Women's Chunky Knit Cardigan,4500,10,80,35,"### Knit Cardigan  Cozy, oversized fit perfect for chilly evenings.",Standard,8,85,/images/products/d181dfd4-test.png
+170,Clothes,Unisex Utility Cargo Pants,3800,5,120,60,### Cargo Pants  Durable fabric with plenty of pockets for daily wear.,Standard,9,95,/images/products/d181dfd4-test.png
+171,Clothes,Women's Floral Maxi Dress,5500,15,50,20,### Maxi Dress  Flowy and elegant design suitable for spring and summer.,Standard,10,42,/images/products/d181dfd4-test.png
+4,Clothes,Classic Men's Casual Pants,3000,1,900,0,"### Classic Men's Casual Pants
+
+Upgrade your everyday wardrobe with these stylish and comfortable men's casual pants. Designed with a modern fit and soft, durable fabric, they are perfect for casual outings, office wear, travel, or everyday use.
+
+**Key Features:**
+
+* Premium soft-touch fabric
+* Comfortable regular fit
+* Modern and stylish design
+* Durable stitching
+* Two side pockets and two back pockets
+* Lightweight and breathable material
+* Suitable for casual and semi-formal occasions
+* Available in multiple sizes and colors
+
+**Description:**
+These versatile casual pants combine comfort and style for everyday wear. The clean design makes them easy to pair with T-shirts, shirts, hoodies, or jackets. Their comfortable fit allows easy movement throughout the day while maintaining a polished appearance.
+
+*Note: This is a fictional/sample product description for demonstration purposes.*
+",Standard,10,2,/images/products/d181dfd4-420f-49b2-bfd1-d976f57d4442.webp
+5,Electronics,Smart Frost-Free Double Door Refrigerator,60000,10,200,0,"### Smart Frost-Free Double Door Refrigerator
+
+Keep your food fresh and organized with this modern double-door refrigerator. Designed for efficient cooling, convenient storage, and everyday household use, it combines a spacious interior with a sleek, contemporary design.
+
+**Key Features:**
+
+* Frost-free cooling technology
+* Spacious double-door design
+* Adjustable temperature control
+* Energy-efficient operation
+* Multiple adjustable shelves
+* Large vegetable and fruit storage compartment
+* LED interior lighting
+* Dedicated bottle storage
+* Fast cooling function
+* Low-noise operation
+* Modern and durable exterior
+
+**Description:**
+Enjoy convenient food storage with reliable and consistent cooling. The spacious interior provides plenty of room for vegetables, fruits, beverages, frozen foods, and everyday groceries. Its sleek design makes it a great addition to modern kitchens.
+
+*Note: This is a fictional/sample product description for demonstration purposes and does not represent a specific refrigerator model.*
+",Standard,NULL,NULL,/images/products/f015edc4-6c4d-4ca5-a0dd-741a5eea645b.webp
+172,Electronics,Sony LinkBuds S Earbuds,22000,10,40,18,### LinkBuds S  Never off. Ultra-small and light with high-res audio.,Standard,9,65,/images/products/f015edc4-test.png
+173,Electronics,Anker Soundcore Motion+ Speaker,12500,15,60,45,### Motion+  Hi-Res Audio certification with extended treble and bass.,Standard,9,150,/images/products/f015edc4-test.png
+174,Electronics,Blue Yeti USB Microphone,18000,5,25,12,### Blue Yeti  The world's #1 USB mic for podcasting and streaming.,Standard,10,320,/images/products/f015edc4-test.png
+175,Electronics,Elgato Stream Deck MK.2,25000,0,15,8,### Stream Deck  15 customizable LCD keys to control your studio.,Standard,10,115,/images/products/f015edc4-test.png
+116,Electronics,DJI Mini 4 Pro Drone,115000,5,12,6,### DJI Mini 4 Pro  Sub-250g drone with omnidirectional obstacle sensing.,Standard,10,48,/images/products/f015edc4-test.png
+117,Electronics,Kindle Paperwhite Signature Edition,25000,10,45,20,"### Kindle Paperwhite  32GB storage, wireless charging, and auto-adjusting light.",Standard,10,150,/images/products/f015edc4-test.png
+118,Electronics,Sennheiser Momentum 4 Wireless,42000,15,20,8,### Momentum 4  Audiophile-inspired sound with 60-hour battery life.,Standard,9,35,/images/products/f015edc4-test.png
+119,Electronics,Samsung T7 2TB Portable SSD,22000,8,80,45,### Samsung T7 SSD  Lightning-fast external storage in a rugged metal casing.,Standard,10,210,/images/products/f015edc4-test.png
+60,Electronics,Apple AirPods Pro (2nd Gen),38000,5,80,45,### AirPods Pro 2  Next-level Active Noise Cancellation and spatial audio.,Standard,10,310,/images/products/f015edc4-test.png
+61,Electronics,Logitech MX Master 3S Mouse,16000,10,40,18,### MX Master 3S  Ergonomic wireless mouse for productivity.,Standard,10,145,/images/products/f015edc4-test.png
+62,Electronics,JBL Flip 6 Waterproof Speaker,14500,15,90,55,"### JBL Flip 6  Bold sound for every adventure, IP67 waterproof.",Standard,9,215,/images/products/f015edc4-test.png
+63,Electronics,GoPro HERO12 Black,62000,8,25,10,### GoPro HERO12  Incredible 5.3K video and HyperSmooth 6.0 stabilization.,Standard,9,78,/images/products/f015edc4-test.png
+15,Electronics,Sony WH-1000XM5 Headphones,45000,5,25,8,### Sony WH-1000XM5  Industry-leading noise cancellation overhead headphones.,Standard,10,60,/images/products/f015edc4-test.png
+16,Electronics,Bose SoundLink Flex Bluetooth Speaker,20000,8,45,15,### Bose SoundLink Flex  Waterproof and dustproof portable speaker.,Standard,9,42,/images/products/f015edc4-test.png
+17,Electronics,Anker 20000mAh Power Bank,4000,15,300,150,### Anker Power Bank  High-capacity portable charger with fast charging.,Standard,9,210,/images/products/f015edc4-test.png
+18,Laptops,Apple MacBook Air M3,165000,5,40,12,### MacBook Air M3  Incredibly thin and light laptop with M3 chip performance.,Standard,10,75,/images/products/placeholder-laptop.png
+19,Laptops,Dell XPS 15,210000,10,15,3,### Dell XPS 15  Stunning 4K OLED display and powerful Intel Core i9.,Standard,9,22,/images/products/placeholder-laptop.png
+20,Laptops,Lenovo IdeaPad 3,55000,12,100,45,### Lenovo IdeaPad 3  Reliable everyday laptop for students and professionals.,Standard,8,89,/images/products/placeholder-laptop.png
+64,Laptops,Asus ROG Zephyrus G14,195000,10,15,6,### ROG Zephyrus G14  Compact gaming powerhouse with AMD Ryzen 9.,Standard,10,42,/images/products/placeholder-laptop.png
+65,Laptops,HP Spectre x360,180000,12,20,8,### HP Spectre x360  Premium 2-in-1 convertible laptop with OLED touch screen.,Standard,9,35,/images/products/placeholder-laptop.png
+66,Laptops,Acer Swift 3,75000,15,45,22,### Acer Swift 3  Ultra-thin and lightweight laptop for everyday tasks.,Standard,8,95,/images/products/placeholder-laptop.png
+67,Laptops,Microsoft Surface Laptop 5,145000,5,25,11,### Surface Laptop 5  Sleek touchscreen laptop with snappy performance.,Standard,9,58,/images/products/placeholder-laptop.png
+120,Laptops,Apple MacBook Pro 16 M3 Max,450000,0,5,2,### MacBook Pro 16  The ultimate creator laptop with M3 Max silicon.,Standard,10,12,/images/products/placeholder-laptop.png
+121,Laptops,Lenovo ThinkPad X1 Carbon Gen 11,220000,10,15,7,### ThinkPad X1  Ultra-lightweight business laptop with legendary keyboard.,Standard,9,28,/images/products/placeholder-laptop.png
+122,Laptops,LG Gram 17,185000,15,12,4,### LG Gram 17  Massive 17-inch display in an insanely light chassis.,Standard,9,15,/images/products/placeholder-laptop.png
+123,Laptops,Razer Blade 15 Advanced,280000,5,8,3,### Razer Blade 15  Premium CNC aluminum gaming laptop with RTX 4070.,Standard,8,22,/images/products/placeholder-laptop.png
+176,Laptops,Asus Zenbook 14 OLED,135000,12,18,6,### Zenbook 14  Power meets elegance with a stunning 2.8K OLED screen.,Standard,9,45,/images/products/placeholder-laptop.png
+177,Laptops,Dell Inspiron 15 3000,65000,5,45,28,### Dell Inspiron 15  Dependable everyday performance for home and office.,Standard,8,120,/images/products/placeholder-laptop.png
+178,Laptops,HP Envy x360 2-in-1,125000,10,20,12,### HP Envy x360  Adapt to your creation needs with an intuitive touch display.,Standard,9,65,/images/products/placeholder-laptop.png
+179,Laptops,Apple MacBook Air M2 15-inch,185000,5,25,15,"### MacBook Air 15""  More room to work and play with the incredibly fast M2 chip.",Standard,10,88,/images/products/placeholder-laptop.png
+180,Smartwatches,Apple Watch SE (2nd Gen),45000,5,50,40,"### Apple Watch SE  Essential features for fitness, safety, and connectivity.",Standard,9,310,/images/products/placeholder-watch.png
+181,Smartwatches,Garmin Venu 3,68000,10,15,5,### Garmin Venu 3  Advanced health and fitness features with a bright AMOLED screen.,Standard,9,42,/images/products/placeholder-watch.png
+182,Smartwatches,Samsung Galaxy Watch 5 Pro,55000,15,25,18,### Galaxy Watch 5 Pro  Titanium durability crafted for the great outdoors.,Standard,9,125,/images/products/placeholder-watch.png
+183,Smartwatches,Amazfit T-Rex 2,25000,12,35,20,### Amazfit T-Rex 2  Rugged outdoor GPS smartwatch with military-grade toughness.,Standard,8,95,/images/products/placeholder-watch.png
+124,Smartwatches,Huawei Watch GT 4,28000,10,60,25,### Huawei GT 4  Fashion-forward design with up to 14 days battery life.,Standard,9,65,/images/products/placeholder-watch.png
+125,Smartwatches,Suunto 9 Peak Pro,65000,15,15,4,### Suunto 9 Peak Pro  Military-grade durability for extreme outdoor sports.,Standard,9,18,/images/products/placeholder-watch.png
+126,Smartwatches,Fossil Gen 6 Smartwatch,25000,20,40,12,### Fossil Gen 6  Classic watch styling paired with smart technology.,Standard,8,42,/images/products/placeholder-watch.png
+127,Smartwatches,Coros Pace 3,35000,5,30,18,### Coros Pace 3  Lightweight GPS sports watch for serious runners.,Standard,10,85,/images/products/placeholder-watch.png
+68,Smartwatches,Samsung Galaxy Watch 6,42000,10,50,30,### Galaxy Watch 6  Advanced sleep coaching and comprehensive health tracking.,Standard,9,125,/images/products/placeholder-watch.png
+69,Smartwatches,Fitbit Charge 6,22000,15,75,40,### Fitbit Charge 6  Premium fitness tracker with built-in GPS and heart rate.,Standard,8,180,/images/products/placeholder-watch.png
+70,Smartwatches,Garmin Fenix 7 Pro,125000,5,15,4,### Garmin Fenix 7 Pro  Ultimate multisport GPS watch with solar charging.,Standard,10,22,/images/products/placeholder-watch.png
+71,Smartwatches,TicWatch Pro 5,38000,20,30,12,### TicWatch Pro 5  Wear OS by Google with extreme 80-hour battery life.,Standard,9,45,/images/products/placeholder-watch.png
+21,Smartwatches,Apple Watch Series 9,65000,5,60,20,### Apple Watch S9  Advanced health features and double-tap gesture.,Standard,10,110,/images/products/placeholder-watch.png
+22,Smartwatches,Garmin Forerunner 965,85000,8,20,5,### Garmin Forerunner 965  Premium running smartwatch with AMOLED display.,Standard,10,30,/images/products/placeholder-watch.png
+23,Smartwatches,Amazfit GTS 4 Mini,12000,15,150,75,### Amazfit GTS 4 Mini  Compact fitness tracker with 15-day battery life.,Standard,8,140,/images/products/placeholder-watch.png
+24,Home Appliances,Dyson V15 Detect Vacuum,95000,5,15,4,### Dyson V15  Powerful cordless vacuum with laser illumination.,Standard,10,18,/images/products/placeholder-appliance.png
+25,Home Appliances,Philips Air Fryer XXL,25000,10,50,25,### Philips Air Fryer  Healthy frying with fat removal technology.,Standard,9,65,/images/products/placeholder-appliance.png
+26,Home Appliances,LG Front Load Washing Machine 8kg,65000,12,30,8,### LG Washing Machine  AI DD technology for optimized washing motions.,Standard,9,40,/images/products/placeholder-appliance.png
+72,Home Appliances,Ninja Nutri Blender Auto-iQ,15000,10,40,25,### Ninja Blender  Powerful extraction for smoothies and nutrient juices.,Standard,9,110,/images/products/placeholder-appliance.png
+73,Home Appliances,iRobot Roomba j7+,85000,15,10,3,### Roomba j7+  Self-emptying robot vacuum with obstacle avoidance.,Standard,9,34,/images/products/placeholder-appliance.png
+74,Home Appliances,Instant Pot Duo 7-in-1,18000,20,60,45,"### Instant Pot  Electric pressure cooker, slow cooker, and rice cooker.",Standard,10,420,/images/products/placeholder-appliance.png
+75,Home Appliances,Panasonic Microwave Oven,12000,5,80,32,### Panasonic Microwave  800W compact microwave with auto-defrost.,Standard,8,88,/images/products/placeholder-appliance.png
+128,Home Appliances,Nespresso Vertuo Plus Coffee Maker,22000,10,25,14,### Nespresso Vertuo  Barista-grade coffee and espresso at the touch of a button.,Standard,9,110,/images/products/placeholder-appliance.png
+129,Home Appliances,KitchenAid Artisan Stand Mixer,55000,5,10,3,### KitchenAid Mixer  Iconic 5-quart stand mixer for baking enthusiasts.,Standard,10,45,/images/products/placeholder-appliance.png
+130,Home Appliances,Breville Smart Oven Air Fryer,45000,12,15,6,### Breville Smart Oven  Versatile countertop oven with Element iQ system.,Standard,9,32,/images/products/placeholder-appliance.png
+131,Home Appliances,Shark Cordless Stick Vacuum,32000,15,20,8,### Shark Vacuum  Powerful suction with Anti-Hair Wrap technology.,Standard,8,55,/images/products/placeholder-appliance.png
+184,Home Appliances,Dyson Pure Cool Air Purifier,65000,5,12,4,"### Dyson Pure Cool  Automatically senses and captures pollutants, projecting clean air.",Standard,10,38,/images/products/placeholder-appliance.png
+185,Home Appliances,Cuisinart 14-Cup Coffee Maker,18000,10,30,15,### Cuisinart Maker  Fully programmable with hotter coffee technology.,Standard,9,110,/images/products/placeholder-appliance.png
+186,Home Appliances,Black+Decker 4-Slice Toaster,4500,15,80,45,### Black+Decker Toaster  Extra-wide slots for bagels and artisan breads.,Standard,8,215,/images/products/placeholder-appliance.png
+187,Home Appliances,Hamilton Beach Professional Blender,15000,10,25,10,### Hamilton Beach Blender  1500 watts of peak power to blend tough ingredients.,Standard,9,65,/images/products/placeholder-appliance.png
+188,Gaming Consoles,Retroid Pocket 3+,22000,5,20,15,### Retroid Pocket 3+  Powerful Android-based retro gaming handheld.,Standard,9,85,/images/products/placeholder-console.png
+189,Gaming Consoles,PlayStation 3 (Refurbished),15000,0,12,8,### PS3 Refurbished  Re-experience classic titles with this tested and cleaned console.,Standard,8,45,/images/products/placeholder-console.png
+190,Gaming Consoles,Xbox One X 1TB,28000,10,8,4,### Xbox One X  True 4K gaming from the previous generation powerhouse.,Standard,9,112,/images/products/placeholder-console.png
+191,Gaming Consoles,Atari Flashback Console,8500,15,30,22,### Atari Flashback  Plug and play mini console loaded with 100+ classic games.,Standard,7,35,/images/products/placeholder-console.png
+132,Gaming Consoles,Nintendo Switch Lite (Turquoise),28000,5,60,45,### Switch Lite  Dedicated handheld console for gaming on the go.,Standard,9,210,/images/products/placeholder-console.png
+133,Gaming Consoles,Xbox Series S 1TB (Black),48000,10,35,18,### Xbox Series S  All-digital next-gen console with expanded storage.,Standard,9,125,/images/products/placeholder-console.png
+134,Gaming Consoles,Analogue Pocket,45000,0,10,4,### Analogue Pocket  Premium retro handheld compatible with Game Boy cartridges.,Standard,10,15,/images/products/placeholder-console.png
+135,Gaming Consoles,PlayStation 4 Slim 500GB,35000,20,15,10,### PS4 Slim  Classic console with a massive library of incredible games.,Standard,8,450,/images/products/placeholder-console.png
+76,Gaming Consoles,Meta Quest 3 128GB,85000,5,25,14,### Meta Quest 3  Breakthrough mixed reality headset for immersive gaming.,Standard,9,95,/images/products/placeholder-console.png
+77,Gaming Consoles,Steam Deck OLED 512GB,95000,0,15,8,### Steam Deck OLED  Portable PC gaming with a gorgeous HDR OLED display.,Standard,10,65,/images/products/placeholder-console.png
+78,Gaming Consoles,ASUS ROG Ally,90000,8,20,10,### ROG Ally  Windows 11 handheld gaming console powered by AMD Z1 Extreme.,Standard,9,48,/images/products/placeholder-console.png
+79,Gaming Consoles,PlayStation VR2,78000,10,12,3,### PS VR2  Next-generation virtual reality for the PS5 console.,Standard,9,28,/images/products/placeholder-console.png
+27,Gaming Consoles,PlayStation 5 Disc Edition,75000,5,40,28,### PlayStation 5  Next-gen gaming with lightning-fast SSD and dualsense.,Standard,10,250,/images/products/placeholder-console.png
+28,Gaming Consoles,Xbox Series X,72000,8,30,15,"### Xbox Series X  The fastest, most powerful Xbox ever.",Standard,10,180,/images/products/placeholder-console.png
+29,Gaming Consoles,Nintendo Switch OLED,45000,10,80,50,### Nintendo Switch OLED  Vibrant 7-inch OLED screen for handheld gaming.,Standard,9,320,/images/products/placeholder-console.png
+30,Furniture,Ergonomic Office Chair,15000,15,60,35,### Ergonomic Chair  Lumbar support and adjustable height for home offices.,Standard,9,88,/images/products/placeholder-furniture.png
+31,Furniture,Modern 3-Seater Sofa,45000,20,10,2,### Modern Sofa  Premium velvet fabric with high-density foam cushions.,Standard,8,12,/images/products/placeholder-furniture.png
+32,Furniture,Minimalist Wooden Coffee Table,8500,10,45,12,### Coffee Table  Sleek pine wood design perfect for modern living rooms.,Standard,9,25,/images/products/placeholder-furniture.png
+80,Furniture,King Size Wooden Bed Frame,55000,15,8,2,### King Bed Frame  Solid teak wood bed frame with a slatted headboard.,Standard,9,14,/images/products/placeholder-furniture.png
+81,Furniture,5-Tier Industrial Bookshelf,12500,20,45,18,### Industrial Bookshelf  Metal frame and rustic wood shelves for display.,Standard,8,76,/images/products/placeholder-furniture.png
+82,Furniture,Modern TV Stand Cabinet,18000,10,25,12,### TV Stand  Accommodates up to 75-inch TVs with hidden storage compartments.,Standard,9,42,/images/products/placeholder-furniture.png
+83,Furniture,Dining Table Set for 4,35000,15,12,5,### Dining Set  Tempered glass top table with four upholstered chairs.,Standard,8,24,/images/products/placeholder-furniture.png
+136,Furniture,L-Shaped Sectional Sofa,75000,15,5,1,### Sectional Sofa  Spacious seating with a reversible chaise lounge.,Standard,9,12,/images/products/placeholder-furniture.png
+137,Furniture,Queen Size Memory Foam Mattress,35000,20,20,8,### Memory Foam Mattress  Cooling gel-infused foam for a perfect night's sleep.,Standard,9,85,/images/products/placeholder-furniture.png
+138,Furniture,Tempered Glass Coffee Table,14000,10,30,12,### Glass Coffee Table  Modern minimalist design with metallic legs.,Standard,8,34,/images/products/placeholder-furniture.png
+139,Furniture,Solid Wood Bedside Nightstand,8500,5,45,22,### Nightstand  Classic 2-drawer bedside table with brass handles.,Standard,9,65,/images/products/placeholder-furniture.png
+192,Furniture,Upholstered Dining Chair (Set of 2),18000,10,25,12,### Dining Chairs  Mid-century modern design with comfortable fabric seating.,Standard,9,45,/images/products/placeholder-furniture.png
+193,Furniture,Plush Fabric Recliner Armchair,45000,15,10,3,### Fabric Recliner  Overstuffed cushioning for ultimate living room relaxation.,Standard,9,28,/images/products/placeholder-furniture.png
+194,Furniture,Floating Wall Shelves (Set of 3),4500,5,60,35,### Floating Shelves  Minimalist wooden shelves for displaying books and plants.,Standard,8,115,/images/products/placeholder-furniture.png
+195,Furniture,Entryway Console Table,12500,10,15,6,### Console Table  Narrow profile perfect for hallways and behind sofas.,Standard,9,32,/images/products/placeholder-furniture.png
+196,Shoes & Footwear,Nike Air Max 270,18000,5,60,45,### Air Max 270  Lifestyle shoe featuring Nike's biggest heel Air unit yet.,Standard,10,320,/images/products/placeholder-shoes.png
+197,Shoes & Footwear,Brooks Ghost 15 Running Shoes,16500,10,40,25,"### Brooks Ghost 15  Smooth, balanced cushioning for everyday runners.",Standard,9,185,/images/products/placeholder-shoes.png
+198,Shoes & Footwear,Hoka Clifton 9,19000,5,35,20,### Hoka Clifton 9  Award-winning daily trainer with incredibly soft foam.,Standard,10,210,/images/products/placeholder-shoes.png
+199,Shoes & Footwear,Skechers GO WALK 6,8500,15,80,55,### Skechers GO WALK  Slip-on comfort for long days on your feet.,Standard,8,415,/images/products/placeholder-shoes.png
+140,Shoes & Footwear,Asics Gel-Kayano 30,20000,10,50,25,### Asics Gel-Kayano  Maximum stability and cushioning for marathon training.,Standard,10,88,/images/products/placeholder-shoes.png
+141,Shoes & Footwear,Vans Old Skool Skate Shoes,7500,5,120,75,### Vans Old Skool  The classic side-stripe canvas and suede shoe.,Standard,9,320,/images/products/placeholder-shoes.png
+142,Shoes & Footwear,Reebok Club C 85 Vintage,9000,15,80,40,"### Reebok Club C  Clean, minimalist tennis style from the 80s archives.",Standard,9,145,/images/products/placeholder-shoes.png
+143,Shoes & Footwear,Crocs Classic Clogs,4500,10,200,130,"### Crocs Classic  Lightweight, water-friendly, and incredibly comfortable.",Standard,8,550,/images/products/placeholder-shoes.png
+84,Shoes & Footwear,Puma Suede Classic XXI,8500,10,90,45,### Puma Suede  The iconic low-top suede sneaker in vintage colors.,Standard,9,135,/images/products/placeholder-shoes.png
+85,Shoes & Footwear,Converse Chuck Taylor All Star,7000,5,150,85,### Chuck Taylor All Star  The original canvas high-top sneakers.,Standard,10,520,/images/products/placeholder-shoes.png
+86,Shoes & Footwear,New Balance 574 Core,11000,15,75,30,### New Balance 574  Everyday comfort with classic retro running style.,Standard,9,180,/images/products/placeholder-shoes.png
+87,Shoes & Footwear,Timberland Premium 6-Inch Boot,24000,0,40,12,### Timberland 6-Inch  Waterproof leather boots built for durability and style.,Standard,10,95,/images/products/placeholder-shoes.png
+33,Shoes & Footwear,Nike Air Force 1 '07,12000,5,150,80,### Nike Air Force 1  The classic everyday white sneaker.,Standard,10,450,/images/products/placeholder-shoes.png
+34,Shoes & Footwear,Adidas Ultraboost Light,22000,15,60,20,### Adidas Ultraboost  Epic energy return with the lightest boost ever.,Standard,10,120,/images/products/placeholder-shoes.png
+35,Shoes & Footwear,Dr. Martens 1460 Boots,18000,0,40,15,### Dr. Martens Boots  Original 8-eye boot built to last.,Standard,9,65,/images/products/placeholder-shoes.png
+216,Shoes & Footwear,Nike Dunk Low Retro,15000,5,80,50,### Nike Dunk Low  Classic hardwood style returns for the streets.,Standard,10,520,/images/products/placeholder-shoes.png
+217,Shoes & Footwear,Adidas Stan Smith Sneakers,9500,10,120,75,### Stan Smith  Timeless white leather tennis shoes with perforated 3-Stripes.,Standard,9,340,/images/products/placeholder-shoes.png
+218,Shoes & Footwear,Puma RS-X3 Puzzle,11000,15,60,30,### Puma RS-X3  Chunky retro running silhouette with bold color blocking.,Standard,9,115,/images/products/placeholder-shoes.png
+219,Shoes & Footwear,New Balance 990v5 Core,22000,5,40,20,### New Balance 990v5  Premium suede and mesh upper with ENCAP midsole cushioning.,Standard,10,280,/images/products/placeholder-shoes.png
+220,Shoes & Footwear,Salomon XT-6 Advanced,25000,0,35,18,### Salomon XT-6  Iconic trail running shoe turned lifestyle staple.,Standard,10,145,/images/products/placeholder-shoes.png
+221,Shoes & Footwear,Vans Classic Slip-On Checkerboard,6500,10,150,95,### Vans Slip-On  The original skate shoe in the iconic checkerboard print.,Standard,9,450,/images/products/placeholder-shoes.png
+222,Shoes & Footwear,Clarks Originals Desert Boot,14000,15,45,12,### Clarks Desert Boot  Classic suede chukka boot with a signature crepe sole.,Standard,8,90,/images/products/placeholder-shoes.png
+223,Shoes & Footwear,Birkenstock Arizona Soft Footbed,12500,5,100,65,### Birkenstock Arizona  Two-strap sandal with legendary contoured cork footbed.,Standard,10,380,/images/products/placeholder-shoes.png
+224,Shoes & Footwear,Under Armour HOVR Phantom 3,16000,10,55,25,### UA HOVR Phantom 3  Responsive cushioning for high-intensity running.,Standard,9,130,/images/products/placeholder-shoes.png
+225,Shoes & Footwear,Timberland PRO Pit Boss Work Boot,18500,5,40,15,### Timberland PRO  Steel toe work boots engineered for comfort and safety.,Standard,9,210,/images/products/placeholder-shoes.png
+226,Beauty / Personal Care,Cetaphil Gentle Skin Cleanser,1800,5,250,180,"### Cetaphil Cleanser  Mild, non-irritating formula for sensitive skin.",Standard,10,850,/images/products/placeholder-beauty.png
+227,Beauty / Personal Care,Glossier Boy Brow Pomade,2200,0,120,95,"### Boy Brow  Fluff, thicken, and groom your brows into place.",Standard,9,620,/images/products/placeholder-beauty.png
+228,Beauty / Personal Care,Tarte Shape Tape Contour Concealer,3500,10,85,60,### Shape Tape  Full coverage concealer for a flawless matte finish.,Standard,9,480,/images/products/placeholder-beauty.png
+229,Beauty / Personal Care,Kiehl's Ultra Facial Cream,4500,5,60,35,### Kiehl's Facial Cream  24-hour daily moisturizer formulated with squalane.,Standard,10,310,/images/products/placeholder-beauty.png
+230,Beauty / Personal Care,Chanel No. 5 Eau de Parfum,22000,0,25,12,### Chanel No. 5  The iconic floral aldehydic fragrance for women.,Standard,10,150,/images/products/placeholder-beauty.png
+231,Beauty / Personal Care,Gillette Mach3 Men's Razor,950,15,300,220,"### Gillette Mach3  Classic 3-blade razor for a close, comfortable shave.",Standard,8,920,/images/products/placeholder-beauty.png
+232,Beauty / Personal Care,Dove Deep Moisture Body Wash,850,10,400,310,### Dove Body Wash  Sulfate-free cleanser that nourishes dry skin.,Standard,9,1100,/images/products/placeholder-beauty.png
+233,Beauty / Personal Care,Urban Decay All Nighter Setting Spray,3800,5,90,45,### All Nighter Spray  Keeps makeup looking fresh for up to 16 hours.,Standard,10,390,/images/products/placeholder-beauty.png
+234,Beauty / Personal Care,The Ordinary Hyaluronic Acid 2% + B5,1200,0,200,160,"### Hyaluronic Acid  A hydration support formula with ultra-pure, vegan hyaluronic acid.",Standard,9,750,/images/products/placeholder-beauty.png
+235,Beauty / Personal Care,Moroccanoil Treatment Original,4200,10,75,40,"### Moroccanoil Treatment  Argan-oil infused hair treatment for silky, shiny hair.",Standard,10,280,/images/products/placeholder-beauty.png
+36,Beauty / Personal Care,CeraVe Hydrating Facial Cleanser,2500,5,200,150,### CeraVe Cleanser  Gentle face wash with ceramides and hyaluronic acid.,Standard,10,800,/images/products/placeholder-beauty.png
+37,Beauty / Personal Care,MAC Matte Lipstick - Ruby Woo,3500,0,100,45,### MAC Lipstick  The iconic vivid blue-red matte lipstick.,Standard,9,340,/images/products/placeholder-beauty.png
+38,Beauty / Personal Care,Dyson Supersonic Hair Dryer,55000,10,20,5,### Dyson Supersonic  Fast drying with intelligent heat control.,Standard,10,85,/images/products/placeholder-beauty.png
+88,Beauty / Personal Care,The Ordinary Niacinamide 10% + Zinc 1%,1800,5,150,110,### Niacinamide Serum  Blemish formula to reduce the look of skin congestion.,Standard,9,650,/images/products/placeholder-beauty.png
+89,Beauty / Personal Care,Maybelline Sky High Mascara,1500,10,200,140,### Sky High Mascara  Limitless length and full volume eyelash makeup.,Standard,8,420,/images/products/placeholder-beauty.png
+90,Beauty / Personal Care,Laneige Lip Sleeping Mask,2800,15,120,85,### Lip Sleeping Mask  Leave-on lip mask for intense moisture while you sleep.,Standard,10,315,/images/products/placeholder-beauty.png
+91,Beauty / Personal Care,Neutrogena Hydro Boost Water Gel,2200,8,90,50,### Hydro Boost  Hyaluronic acid moisturizer for instantly plump skin.,Standard,9,280,/images/products/placeholder-beauty.png
+144,Beauty / Personal Care,Paula's Choice 2% BHA Liquid Exfoliant,3500,0,100,85,### BHA Exfoliant  Unclogs pores and smooths wrinkles for glowing skin.,Standard,10,850,/images/products/placeholder-beauty.png
+145,Beauty / Personal Care,Estee Lauder Advanced Night Repair,12000,10,30,15,### Night Repair Serum  Deep penetration for rapid cellular repair and hydration.,Standard,9,210,/images/products/placeholder-beauty.png
+146,Beauty / Personal Care,Dior Sauvage Eau de Parfum,16000,5,45,22,"### Dior Sauvage  Highly concentrated, fresh, and woody men's fragrance.",Standard,10,430,/images/products/placeholder-beauty.png
+147,Beauty / Personal Care,Fenty Beauty Pro Filt'r Foundation,5500,15,60,35,"### Fenty Foundation  Soft matte, longwear foundation available in 50 shades.",Standard,9,280,/images/products/placeholder-beauty.png
+200,Beauty / Personal Care,Olaplex No.7 Bonding Oil,4200,5,60,40,"### Olaplex No.7  Highly-concentrated, weightless styling oil for healthy hair.",Standard,10,380,/images/products/placeholder-beauty.png
+201,Beauty / Personal Care,Mario Badescu Facial Spray,1500,10,100,65,"### Facial Spray  Refreshing mist with aloe, cucumber, and green tea.",Standard,8,510,/images/products/placeholder-beauty.png
+202,Beauty / Personal Care,La Roche-Posay Anthelios Sunscreen,3200,0,80,55,### Anthelios Sunscreen  Broad spectrum SPF 60 for sensitive skin.,Standard,9,420,/images/products/placeholder-beauty.png
+203,Beauty / Personal Care,MAC Studio Fix Fluid Foundation,4500,10,45,22,### Studio Fix  24-hour non-poring liquid foundation with a matte finish.,Standard,9,290,/images/products/placeholder-beauty.png
+204,Watches / Accessories,Orient Bambino Version IV,22000,15,20,12,### Orient Bambino  Stunning automatic dress watch with a domed dial.,Standard,9,85,/images/products/placeholder-accessory.png
+205,Watches / Accessories,Casio F91W Digital Watch,1500,5,150,110,"### Casio F91W  The legendary, ultra-reliable everyday digital watch.",Standard,10,1500,/images/products/placeholder-accessory.png
+206,Watches / Accessories,Vintage Leather Briefcase,14000,10,15,6,### Leather Briefcase  Professional messenger bag crafted from premium cowhide.,Standard,9,42,/images/products/placeholder-accessory.png
+207,Watches / Accessories,Men's 100% Silk Tie,2500,20,50,25,### Silk Tie  Elegant woven silk tie suitable for weddings and business meetings.,Standard,8,65,/images/products/placeholder-accessory.png
+148,Watches / Accessories,Citizen Eco-Drive Promaster Diver,35000,10,20,8,### Citizen Promaster  Light-powered dive watch that never needs a battery.,Standard,9,75,/images/products/placeholder-accessory.png
+149,Watches / Accessories,Ray-Ban Clubmaster Classic,18000,15,45,25,### Ray-Ban Clubmaster  Retro and timeless sunglasses favored by intellectuals.,Standard,10,140,/images/products/placeholder-accessory.png
+150,Watches / Accessories,Samsonite Omni Hard-side Luggage,22000,20,30,12,### Samsonite Spinner  Scratch-resistant polycarbonate cabin suitcase.,Standard,9,185,/images/products/placeholder-accessory.png
+151,Watches / Accessories,Montblanc Reversible Leather Belt,28000,5,15,4,### Montblanc Belt  Elegant black and brown reversible leather dress belt.,Standard,10,42,/images/products/placeholder-accessory.png
+92,Watches / Accessories,Seiko 5 Sports Automatic,32000,10,25,12,### Seiko 5 Sports  Reliable mechanical movement with day-date display.,Standard,10,85,/images/products/placeholder-accessory.png
+93,Watches / Accessories,Tissot PRX Quartz,45000,5,15,6,### Tissot PRX  Retro-modern Swiss watch with integrated steel bracelet.,Standard,9,45,/images/products/placeholder-accessory.png
+94,Watches / Accessories,Herschel Little America Backpack,12000,15,60,28,### Herschel Backpack  Classic mountaineering style with a laptop sleeve.,Standard,9,160,/images/products/placeholder-accessory.png
+95,Watches / Accessories,Genuine Leather Crossbody Bag,5500,20,80,45,### Crossbody Bag  Compact everyday bag with adjustable strap and brass hardware.,Standard,8,95,/images/products/placeholder-accessory.png
+39,Watches / Accessories,Casio G-Shock GA-2100,14000,10,80,40,### Casio G-Shock  Carbon core guard structure with octagonal bezel.,Standard,10,150,/images/products/placeholder-accessory.png
+40,Watches / Accessories,Ray-Ban Classic Aviator Sunglasses,16000,15,50,25,### Ray-Ban Aviator  Timeless design originally created for US aviators.,Standard,9,110,/images/products/placeholder-accessory.png
+41,Watches / Accessories,Fossil Leather Bifold Wallet,4500,20,120,60,### Fossil Wallet  Genuine leather men's wallet with RFID blocking.,Standard,8,75,/images/products/placeholder-accessory.png
+236,Watches / Accessories,Rolex Submariner Date,1500000,0,2,1,### Rolex Submariner  The ultimate reference among divers' watches.,Standard,10,15,/images/products/placeholder-accessory.png
+237,Watches / Accessories,Omega Speedmaster Professional,850000,0,4,2,### Omega Speedmaster  The legendary Moonwatch worn on all six lunar missions.,Standard,10,25,/images/products/placeholder-accessory.png
+238,Watches / Accessories,Casio G-Shock DW5600E-1V,6500,10,120,85,"### G-Shock DW5600  The classic, shock-resistant square digital watch.",Standard,9,650,/images/products/placeholder-accessory.png
+239,Watches / Accessories,Oakley Holbrook Sunglasses,18500,15,45,20,### Oakley Holbrook  Timeless classic design fused with modern Oakley technology.,Standard,9,145,/images/products/placeholder-accessory.png
+240,Watches / Accessories,Herschel Novel Duffle Bag,12000,10,60,35,### Herschel Novel  Weekend duffle bag featuring a signature shoe compartment.,Standard,8,110,/images/products/placeholder-accessory.png
+241,Watches / Accessories,Bellroy Note Sleeve Wallet,9500,5,80,50,"### Bellroy Note Sleeve  Slim leather wallet that fits cash, coins, and up to 11 cards.",Standard,10,220,/images/products/placeholder-accessory.png
+242,Watches / Accessories,Gucci GG Marmont Leather Belt,65000,0,15,6,### Gucci GG Belt  Smooth black leather belt with signature Double G buckle.,Standard,9,85,/images/products/placeholder-accessory.png
+243,Watches / Accessories,Daniel Wellington Classic Sheffield,22000,15,30,14,### DW Classic Sheffield  Minimalist watch with a black leather strap and rose gold casing.,Standard,8,160,/images/products/placeholder-accessory.png
+244,Watches / Accessories,Pandora Moments Silver Bracelet,8500,10,90,45,### Pandora Bracelet  Sterling silver snake chain bracelet for your charms.,Standard,9,310,/images/products/placeholder-accessory.png
+245,Watches / Accessories,Ray-Ban Wayfarer Classic,16500,5,75,40,### Ray-Ban Wayfarer  The most recognizable style in the history of sunglasses.,Standard,10,420,/images/products/placeholder-accessory.png
+246,Sports / Outdoors,Babolat Pure Drive Tennis Racket,28000,10,25,12,### Babolat Pure Drive  Explosive power and feel for competitive tennis players.,Standard,10,85,/images/products/placeholder-sports.png
+247,Sports / Outdoors,Spalding TF-1000 Classic Basketball,7500,5,60,35,### Spalding TF-1000  Exclusive ZK microfiber composite leather indoor basketball.,Standard,9,140,/images/products/placeholder-sports.png
+248,Sports / Outdoors,Osprey Atmos AG 65 Backpack,35000,15,15,8,### Osprey Atmos 65  Anti-Gravity suspension for heavy loads during backpacking.,Standard,10,95,/images/products/placeholder-sports.png
+249,Sports / Outdoors,Black Diamond Spot 400 Headlamp,5500,10,80,45,### Spot 400 Headlamp  Waterproof headlamp with 400 lumens for night hiking.,Standard,9,180,/images/products/placeholder-sports.png
+250,Sports / Outdoors,Therm-a-Rest NeoAir XLite Sleeping Pad,22000,5,30,15,"### NeoAir XLite  Ultralight, warm, and compact backpacking sleeping pad.",Standard,10,110,/images/products/placeholder-sports.png
+251,Sports / Outdoors,Hydro Flask 32 oz Wide Mouth,5200,0,150,95,### Hydro Flask 32oz  TempShield insulation keeps beverages cold up to 24 hours.,Standard,9,450,/images/products/placeholder-sports.png
+252,Sports / Outdoors,Garmin Edge 530 Cycling Computer,38000,12,20,10,### Garmin Edge 530  Performance GPS cycling computer with mapping.,Standard,10,75,/images/products/placeholder-sports.png
+253,Sports / Outdoors,Shimano Ultegra R8100 Pedals,18500,5,40,22,### Shimano Ultegra Pedals  Pro-level performance carbon road pedals.,Standard,9,65,/images/products/placeholder-sports.png
+254,Sports / Outdoors,Patagonia Better Sweater Fleece,16000,10,50,30,"### Patagonia Fleece  Warm, bulk-free quarter-zip pullover made of recycled polyester.",Standard,9,210,/images/products/placeholder-sports.png
+255,Sports / Outdoors,Thule ProRide XT Roof Bike Rack,25000,15,12,5,"### Thule ProRide  Upright bike rack for the quickest, most convenient mounting.",Standard,8,42,/images/products/placeholder-sports.png
+42,Sports / Outdoors,Spalding NBA Official Basketball,5500,5,100,45,### Spalding Basketball  Premium composite leather for indoor/outdoor play.,Standard,9,210,/images/products/placeholder-sports.png
+43,Sports / Outdoors,Quechua 4-Person Camping Tent,12000,10,30,8,"### Quechua Tent  Easy assembly, waterproof family camping tent.",Standard,8,45,/images/products/placeholder-sports.png
+44,Sports / Outdoors,Yoga Mat with Alignment Lines,1800,15,200,110,### Eco-Friendly Yoga Mat  Non-slip surface perfect for yoga and pilates.,Standard,9,320,/images/products/placeholder-sports.png
+96,Sports / Outdoors,Wilson Pro Staff Tennis Racket,28000,10,15,5,### Wilson Pro Staff  Precision engineering for advanced tennis players.,Standard,9,35,/images/products/placeholder-sports.png
+97,Sports / Outdoors,Trek Marlin 5 Mountain Bike,65000,5,10,2,### Trek Marlin 5  Trail-worthy daily rider perfectly suited for everyday adventures.,Standard,10,18,/images/products/placeholder-sports.png
+98,Sports / Outdoors,Adjustable Dumbbell Set (20kg),12500,15,45,30,### Dumbbell Set  Cast iron adjustable weights for a complete home gym.,Standard,9,120,/images/products/placeholder-sports.png
+99,Sports / Outdoors,Speedo Fastskin Swim Goggles,3500,10,100,65,### Speedo Fastskin  Anti-fog racing goggles with maximum UV protection.,Standard,8,88,/images/products/placeholder-sports.png
+152,Sports / Outdoors,Callaway Strata Golf Club Set,45000,10,10,2,### Callaway Golf Set  12-piece men's complete set designed for maximum performance.,Standard,8,35,/images/products/placeholder-sports.png
+153,Sports / Outdoors,Yeti Rambler 36 oz Water Bottle,6500,0,80,55,### Yeti Rambler  Vacuum insulated stainless steel bottle with chug cap.,Standard,10,340,/images/products/placeholder-sports.png
+154,Sports / Outdoors,Yonex Astrox 99 Pro Badminton Racket,24000,15,25,12,### Yonex Astrox 99  Head-heavy racket for devastating smash power.,Standard,9,65,/images/products/placeholder-sports.png
+155,Sports / Outdoors,Petzl Corax Climbing Harness,8500,5,40,18,### Petzl Harness  Versatile and fully adjustable harness for rock climbing.,Standard,9,92,/images/products/placeholder-sports.png
+208,Sports / Outdoors,Coleman 0°F Mummy Sleeping Bag,9500,10,25,14,### Coleman Sleeping Bag  Keeps you warm in extreme winter camping conditions.,Standard,9,75,/images/products/placeholder-sports.png
+209,Sports / Outdoors,CamelBak M.U.L.E. Hydration Pack,14000,5,20,10,### CamelBak Hydration  Narrow-gauge pack optimized for mountain biking.,Standard,10,45,/images/products/placeholder-sports.png
+210,Sports / Outdoors,Titleist Pro V1 Golf Balls (Dozen),6500,0,40,28,"### Pro V1 Golf Balls  The #1 ball in golf, offering total performance.",Standard,9,210,/images/products/placeholder-sports.png
+211,Sports / Outdoors,Manduka PRO Yoga Mat,16000,10,30,18,"### Manduka PRO Mat  Unmatched density and cushioning, guaranteed for life.",Standard,10,95,/images/products/placeholder-sports.png
+212,Books / Stationery,"Thinking, Fast and Slow by Daniel Kahneman",1800,10,80,55,"### Thinking, Fast and Slow  A groundbreaking tour of the mind and decision making.",Standard,10,420,/images/products/placeholder-books.png
+213,Books / Stationery,The Alchemist by Paulo Coelho,1200,5,100,85,### The Alchemist  A magical fable about following your dream.,Standard,9,850,/images/products/placeholder-books.png
+214,Books / Stationery,Rhodia Webnotebook A5,2400,15,45,22,### Rhodia Webnotebook  Premium fountain-pen friendly ivory paper.,Standard,10,115,/images/products/placeholder-books.png
+215,Books / Stationery,Zebra Mildliner Highlighters (Pack of 5),800,0,150,95,"### Zebra Mildliners  Double-ended highlighters featuring soft, mild ink colors.",Standard,9,320,/images/products/placeholder-books.png
+156,Books / Stationery,Dune by Frank Herbert (Paperback),1400,5,120,85,### Dune  The sci-fi masterpiece that inspired the epic film franchise.,Standard,10,850,/images/products/placeholder-books.png
+157,Books / Stationery,Sapiens by Yuval Noah Harari,1600,10,150,110,### Sapiens  A brief history of humankind exploring our origins.,Standard,9,1200,/images/products/placeholder-books.png
+158,Books / Stationery,Parker Jotter Stainless Steel Ballpoint,1800,15,200,145,### Parker Jotter  The iconic everyday carry pen with a satisfying click.,Standard,9,410,/images/products/placeholder-books.png
+159,Books / Stationery,Post-it Notes 3x3 (12 Pad Pack),1200,5,300,210,### Post-it Notes  Classic canary yellow sticky notes for office and study.,Standard,8,650,/images/products/placeholder-books.png
+100,Books / Stationery,The Psychology of Money by Morgan Housel,1200,5,200,165,"### Psychology of Money  Timeless lessons on wealth, greed, and happiness.",Standard,10,1150,/images/products/placeholder-books.png
+101,Books / Stationery,Rich Dad Poor Dad by Robert Kiyosaki,1100,10,250,190,### Rich Dad Poor Dad  What the rich teach their kids about money.,Standard,9,1850,/images/products/placeholder-books.png
+102,Books / Stationery,Lamy Safari Fountain Pen,3200,0,50,25,### Lamy Safari  Ergonomic grip and sturdy steel nib for everyday writing.,Standard,10,110,/images/products/placeholder-books.png
+103,Books / Stationery,Faber-Castell Color Pencils (48 Pack),2500,15,80,45,"### Faber-Castell Pencils  Rich, break-resistant colors for artists and students.",Standard,9,95,/images/products/placeholder-books.png
+45,Books / Stationery,Atomic Habits by James Clear,1500,5,150,120,### Atomic Habits  An easy & proven way to build good habits.,Standard,10,950,/images/products/placeholder-books.png
+46,Books / Stationery,Moleskine Classic Hardcover Notebook,2800,0,80,35,### Moleskine Notebook  Premium ivory-colored pages for writing.,Standard,9,180,/images/products/placeholder-books.png
+47,Books / Stationery,Pilot G2 Premium Gel Pens (Pack of 4),800,10,300,210,"### Pilot G2 Pens  Smooth writing, long-lasting retractable gel pens.",Standard,9,410,/images/products/placeholder-books.png
+256,Books / Stationery,1984 by George Orwell,900,10,250,180,### 1984  A dystopian social science fiction novel and cautionary tale.,Standard,10,1200,/images/products/placeholder-books.png
+257,Books / Stationery,To Kill a Mockingbird by Harper Lee,1100,5,200,150,"### To Kill a Mockingbird  A gripping, heart-wrenching, and wholly remarkable tale.",Standard,10,950,/images/products/placeholder-books.png
+258,Books / Stationery,The Great Gatsby by F. Scott Fitzgerald,850,0,180,120,### The Great Gatsby  The quintessential novel of the Jazz Age.,Standard,9,800,/images/products/placeholder-books.png
+259,Books / Stationery,A5 Dotted Bullet Journal,1500,10,120,85,"### Dotted Journal  160gsm thick paper, perfect for bullet journaling without bleeding.",Standard,9,320,/images/products/placeholder-books.png
+260,Books / Stationery,Faber-Castell Pitt Artist Pens (Set of 4),1200,5,150,90,"### Pitt Artist Pens  Pigmented India ink pens for sketching, inking, and drawing.",Standard,10,215,/images/products/placeholder-books.png
+261,Books / Stationery,Pentel GraphGear 1000 Mechanical Pencil,1800,15,100,65,### GraphGear 1000  Superior drafting pencil for professionals and enthusiasts.,Standard,9,180,/images/products/placeholder-books.png
+262,Books / Stationery,Leuchtturm1917 Hardcover Notebook,2800,5,80,50,### Leuchtturm1917  Medium A5 notebook with numbered pages and a blank table of contents.,Standard,9,250,/images/products/placeholder-books.png
+263,Books / Stationery,Tombow Dual Brush Pens (10 Pack),3500,10,60,40,### Tombow Brush Pens  Flexible brush tip and fine tip in one marker.,Standard,10,310,/images/products/placeholder-books.png
+264,Books / Stationery,Epson EcoTank T522 Ink Bottle (Black),1250,0,200,145,### Epson T522 Ink  Ultra high-capacity replacement ink bottle for EcoTank printers.,Standard,8,125,/images/products/placeholder-books.png
+265,Books / Stationery,Project Hail Mary by Andy Weir,1600,5,110,80,### Project Hail Mary  A lone astronaut must save the earth from disaster.,Standard,10,540,/images/products/placeholder-books.png

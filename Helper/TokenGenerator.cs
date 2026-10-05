@@ -14,8 +14,6 @@ namespace HamroShoppingApp.Helper
             _config = config;
         }
 
-
-
         public string GenerateToken(string userId, string fullName, IList<string>? roles = null)
         {
             var claims = new List<Claim>
@@ -45,7 +43,5 @@ namespace HamroShoppingApp.Helper
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
-
-
     }
 }

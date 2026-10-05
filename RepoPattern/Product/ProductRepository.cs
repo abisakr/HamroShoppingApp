@@ -10,9 +10,11 @@ namespace HamroShoppingApp.RepoPattern.Product
     {
         private readonly ApplicationDbContext _dbContext;
         private readonly UploadImageHelper _uploadImage;
+        private readonly HttpClient _httpClient;
 
-        public ProductRepository(ApplicationDbContext dbContext, UploadImageHelper uploadImage)
+        public ProductRepository(ApplicationDbContext dbContext, HttpClient httpClient, UploadImageHelper uploadImage)
         {
+            _httpClient = httpClient;
             _uploadImage = uploadImage;
             _dbContext = dbContext;
         }
@@ -287,6 +289,51 @@ namespace HamroShoppingApp.RepoPattern.Product
             {
                 return Enumerable.Empty<ProductGetDto>();
             }
+        }
+
+        public async Task<IEnumerable<ProductGetDto>> GetRecommendedProductsAsync(int productId)
+        {
+            var response = await _httpClient.GetAsync($"http://localhost:5002/api/recommendations/{productId}");
+
+            if (!response.IsSuccessStatusCode)
+            {
+                return new List<ProductGetDto>();
+            }
+
+            var recommendedIds = await response.Content.ReadFromJsonAsync<List<int>>();
+
+            if (recommendedIds == null || !recommendedIds.Any())
+            {
+                return new List<ProductGetDto>();
+            }
+
+            var products = await _dbContext.ProductTbl
+                .Include(p => p.Category)
+                .Where(p => recommendedIds.Contains(p.Id))
+                .ToListAsync();
+
+            var orderedProducts = recommendedIds
+                .Select(id => products.FirstOrDefault(p => p.Id == id))
+                .Where(p => p != null)
+                .Select(product => new ProductGetDto
+                {
+                    Id = product.Id,
+                    CategoryId = product.CategoryId,
+                    CategoryName = product.Category.CategoryName,
+                    ProductName = product.ProductName,
+                    Price = product.Price,
+                    Discount = product.Discount,
+                    StockQuantity = product.StockQuantity,
+                    StockSold = product.StockSold,
+                    Description = product.Description,
+                    TotalProductRated = product.TotalProductRated,
+                    ProductRating = product.ProductRating,
+                    DeliveryStatus = product.DeliveryStatus,
+                    PhotoPath = product.PhotoPath
+                })
+                .ToList();
+
+            return orderedProducts;
         }
     }
 }
